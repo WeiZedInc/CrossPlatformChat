@@ -1,4 +1,6 @@
-﻿namespace CrossPlatformChat;
+﻿using CrossPlatformChat.MVVM.Views;
+
+namespace CrossPlatformChat;
 
 public partial class App : Application
 {
@@ -6,6 +8,6 @@ public partial class App : Application
 	{
 		InitializeComponent();
 
-		MainPage = new AppShell();
+		MainPage = new LoginView();
 	}
 }
