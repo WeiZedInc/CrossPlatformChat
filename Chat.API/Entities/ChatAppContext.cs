@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Chat.API.Entities
+﻿namespace Chat.API.Entities
 {
     public class ChatAppContext : DbContext
     {

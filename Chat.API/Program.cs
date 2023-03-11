@@ -1,3 +1,4 @@
+using Chat.API.Entities;
 
 namespace Chat.API
 {
@@ -13,6 +14,9 @@ namespace Chat.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<ChatAppContext>
+                (options => options.UseSqlServer(builder.Configuration["ConnectionString"]));
 
             var app = builder.Build();
 

@@ -1,5 +1,4 @@
-﻿using CoreText;
-using CrossPlatformChat.EmulatorHelper;
+﻿using CrossPlatformChat.EmulatorHelper;
 using Newtonsoft.Json;
 using System.Text;
 
