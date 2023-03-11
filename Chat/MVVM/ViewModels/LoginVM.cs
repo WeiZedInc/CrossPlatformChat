@@ -1,4 +1,6 @@
-﻿namespace CrossPlatformChat.MVVM.ViewModels
+﻿using CrossPlatformChat.MVVM.Views;
+
+namespace CrossPlatformChat.MVVM.ViewModels
 {
     internal class LoginVM : INotifyPropertyChanged
     {
@@ -33,22 +35,27 @@
                 var response = await ServiceProvider.Instance.Authenticate(request);
                 if (response.StatusCode == 200)
                 {
-                    await AppShell.Current.DisplayAlert("Info", $"Logined\n!Username: {response.UserName}\nToken:{response.Token}", "OK");
+                    Test = $"Logined\n!Username: {response.UserName}\nToken:{response.Token}";
                 }
                 else
-                    await AppShell.Current.DisplayAlert("ChatApp", response.StatusMessage, "OK");
+                    Test = response.StatusMessage;
             }
             catch (Exception ex)
             {
-                await AppShell.Current.DisplayAlert("ChatApp", ex.Message, "OK");
+                Test = ex.Message;
             }
 
         }
 
         private string _username;
         private string _password;
+        private string _test;
         private bool _isProcessing;
-
+        public string Test
+        {
+            get { return _test; }
+            set { _test = value; OnPropertyChanged(); }
+        }
         public string UserName
         {
             get { return _username; }

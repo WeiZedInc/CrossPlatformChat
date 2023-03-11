@@ -7,7 +7,7 @@ namespace CrossPlatformChat.Services
     internal class ServiceProvider
     {
         private static ServiceProvider _instance;
-        private string _serverRootURL = "https://10.0.2.2:7093";
+        private string _serverRootURL = "https://10.0.2.2:7233";
         public string _accessToken = "";
 
         static ServiceProvider() => _instance = new ServiceProvider();
@@ -16,13 +16,13 @@ namespace CrossPlatformChat.Services
 
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
-            var devSsl = new DevHttpsConnectionHelper(7093); // for emulators only with localdb
+            var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
             {
                 client.Timeout = TimeSpan.FromSeconds(5);
                 var httpRequestMsg = new HttpRequestMessage();
                 httpRequestMsg.Method = HttpMethod.Post;
-                httpRequestMsg.RequestUri = new Uri(devSsl.DevServerRootUrl + "/Authenticate/Authenticate");
+                httpRequestMsg.RequestUri = new Uri(devSsl.DevServerRootUrl + "/Authentication/Authenticate");
 
                 if (request != null)
                 {

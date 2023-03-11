@@ -1,5 +1,6 @@
 
 using Chat.API.Entities;
+using Chat.API.Functions.User;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
@@ -20,6 +21,8 @@ builder.Services.AddDbContext<ChatAppContext>(option =>
 
 builder.Services.AddTransient<MySqlConnection>(_ =>
 new MySqlConnection(ChatAppContext.connectionString));
+
+builder.Services.AddTransient<IUserFunction, UserFunction>();
 
 var app = builder.Build();
 
