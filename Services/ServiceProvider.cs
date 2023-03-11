@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using CoreText;
+using CrossPlatformChat.EmulatorHelper;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace CrossPlatformChat.Services
@@ -6,27 +8,22 @@ namespace CrossPlatformChat.Services
     internal class ServiceProvider
     {
         private static ServiceProvider _instance;
-        private string _serverRootURL = "https://10.0.2.2:7233";
+        private string _serverRootURL = "https://10.0.2.2:7093";
         public string _accessToken = "";
 
+        static ServiceProvider() => _instance = new ServiceProvider();
         private ServiceProvider() { }
-
-        public static ServiceProvider Instance
-        {
-            get
-            {
-                if (_instance == null) { _instance = new ServiceProvider(); }
-                return _instance;
-            }
-        }
+        public static ServiceProvider Instance { get => _instance; }
 
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request)
         {
-            using (HttpClient client = new HttpClient())
+            var devSsl = new DevHttpsConnectionHelper(7093); // for emulators only with localdb
+            using (HttpClient client = devSsl.HttpClient)
             {
+                client.Timeout = TimeSpan.FromSeconds(5);
                 var httpRequestMsg = new HttpRequestMessage();
                 httpRequestMsg.Method = HttpMethod.Post;
-                httpRequestMsg.RequestUri = new Uri(_serverRootURL + "/Authenticate/Authenticate");
+                httpRequestMsg.RequestUri = new Uri(devSsl.DevServerRootUrl + "/Authenticate/Authenticate");
 
                 if (request != null)
                 {
@@ -44,9 +41,7 @@ namespace CrossPlatformChat.Services
                     result.StatusCode = (int)response.StatusCode;
 
                     if (result.StatusCode == 200)
-                    {
                         _accessToken = result.Token;
-                    }
 
                     return result;
                 }
