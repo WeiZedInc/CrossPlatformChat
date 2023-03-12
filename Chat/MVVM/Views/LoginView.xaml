@@ -20,10 +20,10 @@
                    TextColor="Coral"/>
 
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="User Name" ReturnType="Go" TextColor="Black" Text="{Binding UserName}"/>
+                <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding UserModel.LoginInput}"/>
             </Frame>
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding Password}"/>
+                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding UserModel.PasswordInput}"/>
             </Frame>
 
             <Label Text="Forgot password" TextColor="DeepSkyBlue" Margin="100,10,0,10"/>
@@ -31,7 +31,7 @@
             <Button Margin="0,10" Text="Sign in" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
 
             <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
-                <Label Text="Don't have account?" TextColor="LightSkyBlue" />
+                <Label Text="Don't have an account?" TextColor="LightSkyBlue" />
                 <Label Text="Register now" TextColor="DeepSkyBlue" Margin="5,0,0,0">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding GoToRegisterViewCommand}"/>
@@ -39,7 +39,7 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Label Text="{Binding Test}" TextColor="Gray" />
+            <Label Text="{Binding UserModel.Test}" TextColor="Gray" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

@@ -3,19 +3,21 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class LoginVM : BaseUserInfo
+    internal class LoginVM
     {
+        public BaseUserModel UserModel { get; set; }
         public ICommand LoginCommand { get; set; }
         public ICommand GoToRegisterViewCommand { get; set; }
-        public LoginVM() : base()
+        public LoginVM()
         {
+            UserModel = new BaseUserModel();
             LoginCommand = new Command(() =>
             {
-                if (IsProcessing) return;
-                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return;
+                if (UserModel.IsProcessing) return;
+                if (string.IsNullOrWhiteSpace(UserModel.LoginInput) || string.IsNullOrWhiteSpace(UserModel.PasswordInput)) return;
 
-                IsProcessing = true;
-                TryLoginAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return login completion
+                UserModel.IsProcessing = true;
+                TryLoginAsync().GetAwaiter().OnCompleted(() => UserModel.IsProcessing = false);  // can return login completion
             });
             GoToRegisterViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new RegisterView()));
         }
@@ -26,24 +28,24 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 var request = new AuthenticationRequest
                 {
-                    Login = LoginInput,
-                    Password = PasswordInput
+                    Login = UserModel.LoginInput,
+                    Password = UserModel.PasswordInput
                 };
                 var response = await ServiceProvider.Instance.Authenticate(request);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
+                    UserModel.Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
                     return true;
                 }
                 else
                 {
-                    Test = response.StatusMessage;
+                    UserModel.Test = response.StatusMessage;
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Test = ex.Message;
+                UserModel.Test = ex.Message;
                 return false;
             }
         }

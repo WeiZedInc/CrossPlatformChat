@@ -20,13 +20,13 @@
                    TextColor="Coral"/>
 
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="User Name" ReturnType="Go" TextColor="Black" Text="{Binding UserName}"/>
+                <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding UserModel.LoginInput}"/>
             </Frame>
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding Password}"/>
+                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding UserModel.PasswordInput}"/>
             </Frame>
 
-            <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
+            <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding RegisterCommand}"/>
 
             <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
                 <Label Text="Already have an account?" TextColor="LightSkyBlue" />
@@ -37,7 +37,7 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Label Text="{Binding Test}" TextColor="Gray" />
+            <Label Text="{Binding UserModel.Test}" TextColor="Gray" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

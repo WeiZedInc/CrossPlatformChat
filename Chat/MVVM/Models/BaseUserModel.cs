@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CrossPlatformChat.MVVM.Models
+﻿namespace CrossPlatformChat.MVVM.Models
 {
-    internal class BaseUserInfo : INotifyPropertyChanged
+    internal class BaseUserModel : INotifyPropertyChanged
     {
         private string _loginInput;
         private string _passwordInput;
@@ -37,15 +31,10 @@ namespace CrossPlatformChat.MVVM.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public BaseUserInfo()
+        public BaseUserModel()
         {
-            #if DEBUG
-            LoginInput = "test";
-            PasswordInput = "12345";
-            #else
             LoginInput = string.Empty;
             PasswordInput = string.Empty;
-            #endif
             IsProcessing = false;
         }
     }
