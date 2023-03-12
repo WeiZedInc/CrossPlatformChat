@@ -1,6 +1,6 @@
-﻿namespace Chat.API.Controlls.Authenticate
+﻿namespace Chat.API.Controlls
 {
-    public class AuthenticateRequest
+    public class BaseRequest
     {
         public string Login { get; set; } = null!;
         public string Password { get; set; } = null!;

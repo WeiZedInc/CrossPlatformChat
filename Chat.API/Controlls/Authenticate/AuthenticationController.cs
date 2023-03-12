@@ -1,5 +1,4 @@
 ﻿using Chat.API.Functions.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.API.Controlls.Authenticate
@@ -8,13 +7,13 @@ namespace Chat.API.Controlls.Authenticate
     [Route("[controller]")]
     public class AuthenticationController : Controller
     {
-        private IUserFunction _userFunction;
-        public AuthenticationController(IUserFunction userFunction) => _userFunction = userFunction;
+        private IUserManager _userManager;
+        public AuthenticationController(IUserManager userManager) => _userManager = userManager;
 
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate(AuthenticateRequest request)
+        public IActionResult Authenticate(BaseRequest request)
         {
-            var response = _userFunction.Authenticate(request.Login, request.Password);
+            var response = _userManager.Authenticate(request.Login, request.Password);
             if (response == null)
                 return BadRequest(new { message = "Invalid username or password!" });
 
