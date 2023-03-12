@@ -1,10 +1,8 @@
-using CrossPlatformChat.MVVM.ViewModels;
-
 namespace CrossPlatformChat.MVVM.Views;
 
-public partial class LoginView : ContentPage
+public partial class RegisterView : ContentPage
 {
-	public LoginView()
+	public RegisterView()
 	{
 		InitializeComponent();
         App.Current.MainPage = this;

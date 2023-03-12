@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CrossPlatformChat.MVVM.Views.LoginView"
+             x:Class="CrossPlatformChat.MVVM.Views.RegisterView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
-             Title="LoginView"
-             Background="MidnightBlue">
+             Title="RegisterView"
+             Background="midnightblue">
     <ContentPage.BindingContext>
-        <vm:LoginVM/>
+        <vm:RegisterVM/>
     </ContentPage.BindingContext>
     <Grid>
         <VerticalStackLayout VerticalOptions="Center" Margin="40">
@@ -15,7 +15,7 @@
                    TextColor="White"
                    FontAttributes="Bold"/>
 
-            <Label Text="With SignalR" FontSize="20" Margin="0,5,0,40"
+            <Label Text="With SignalR&#10;Sign up" FontSize="20" Margin="0,5,0,40"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    TextColor="Coral"/>
 
@@ -26,15 +26,13 @@
                 <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding Password}"/>
             </Frame>
 
-            <Label Text="Forgot password" TextColor="DeepSkyBlue" Margin="100,10,0,10"/>
-
             <Button Margin="0,10" Text="Login" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
 
             <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
-                <Label Text="Don't have account?" TextColor="LightSkyBlue" />
-                <Label Text="Register now" TextColor="DeepSkyBlue" Margin="5,0,0,0">
+                <Label Text="Already have an account?" TextColor="LightSkyBlue" />
+                <Label Text="Sign in" TextColor="DeepSkyBlue" Margin="5,0,0,0">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToRegisterViewCommand}"/>
+                        <TapGestureRecognizer Command="{Binding GoToLoginViewCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
             </HorizontalStackLayout>

@@ -3,24 +3,26 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class LoginVM : BaseUserInfo
+    internal class RegisterVM : BaseUserInfo
     {
-        public ICommand LoginCommand { get; set; }
-        public ICommand GoToRegisterViewCommand { get; set; }
-        public LoginVM() : base()
+        public ICommand RegisterCommand { get; set; }
+        public ICommand GoToLoginViewCommand { get; set; }
+        readonly string _registrationPath;
+        public RegisterVM() : base()
         {
-            LoginCommand = new Command(() =>
+            _registrationPath = "/Registration/Register";
+            RegisterCommand = new Command(() =>
             {
                 if (IsProcessing) return;
                 if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return;
 
                 IsProcessing = true;
-                TryLoginAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return login completion
+                TryRegisterAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return registration completion
             });
-            GoToRegisterViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new RegisterView()));
+            GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new LoginView()));
         }
 
-        async Task<bool> TryLoginAsync()
+        async Task<bool> TryRegisterAsync()
         {
             try
             {
@@ -29,10 +31,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Login = LoginInput,
                     Password = PasswordInput
                 };
-                var response = await ServiceProvider.Instance.Authenticate(request);
+                var response = await ServiceProvider.Instance.Authenticate(request, _registrationPath);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
+                    Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}";
                     return true;
                 }
                 else
