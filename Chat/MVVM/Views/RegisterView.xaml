@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CrossPlatformChat.MVVM.Views.RegisterView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
-             Title="RegisterView"
+             Title="Sign up"
              Background="midnightblue">
     <ContentPage.BindingContext>
         <vm:RegisterVM/>
@@ -15,7 +15,7 @@
                    TextColor="White"
                    FontAttributes="Bold"/>
 
-            <Label Text="With SignalR&#10;Sign up" FontSize="20" Margin="0,5,0,40"
+            <Label Text="With SignalR" FontSize="20" Margin="0,5,0,40"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    TextColor="Coral"/>
 
@@ -26,7 +26,7 @@
                 <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding Password}"/>
             </Frame>
 
-            <Button Margin="0,10" Text="Login" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
+            <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
 
             <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
                 <Label Text="Already have an account?" TextColor="LightSkyBlue" />

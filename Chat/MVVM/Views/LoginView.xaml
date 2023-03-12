@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CrossPlatformChat.MVVM.Views.LoginView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
-             Title="LoginView"
+             Title="Sign in"
              Background="MidnightBlue">
     <ContentPage.BindingContext>
         <vm:LoginVM/>
@@ -28,7 +28,7 @@
 
             <Label Text="Forgot password" TextColor="DeepSkyBlue" Margin="100,10,0,10"/>
 
-            <Button Margin="0,10" Text="Login" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
+            <Button Margin="0,10" Text="Sign in" TextColor="White" Background="FireBrick" Command="{Binding LoginCommand}"/>
 
             <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
                 <Label Text="Don't have account?" TextColor="LightSkyBlue" />

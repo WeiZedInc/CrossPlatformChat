@@ -19,7 +19,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 TryRegisterAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return registration completion
             });
-            GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new LoginView()));
+            GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PopAsync());
         }
 
         async Task<bool> TryRegisterAsync()

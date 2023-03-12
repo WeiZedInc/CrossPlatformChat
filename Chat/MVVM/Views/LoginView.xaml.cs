@@ -7,6 +7,6 @@ public partial class LoginView : ContentPage
 	public LoginView()
 	{
 		InitializeComponent();
-        App.Current.MainPage = this;
+        NavigationPage.SetHasNavigationBar(this, false);
     }
 }

@@ -5,6 +5,6 @@ public partial class RegisterView : ContentPage
 	public RegisterView()
 	{
 		InitializeComponent();
-        App.Current.MainPage = this;
+        NavigationPage.SetHasNavigationBar(this, false);
     }
 }
