@@ -61,11 +61,12 @@ namespace Chat.API.Functions.User
                 if (entity != null) 
                     return (null, RegistrationStatus.LoginOccupied);
 
+                if (login.Length < 3)
+                    return (null, RegistrationStatus.InvalidLogin);
+
                 if (password.Length < 4)
                     return (null, RegistrationStatus.InvalidPassword);
 
-                if (login.Length < 3)
-                    return (null, RegistrationStatus.InvalidLogin);
 
                 var passwordTuple = CreateHashedPassword(password);
                 db.Users.Add(new Users 
@@ -73,7 +74,7 @@ namespace Chat.API.Functions.User
                     Login = login, 
                     Username = login.ToUpper(),
                     Password = passwordTuple.HashedPassword,
-                    LastLoginTime = DateTime.Now,
+                    RegistrationTime = DateTime.UtcNow,
                     StoreSalt = passwordTuple.Salt
                 }); // remade for async
                 db.SaveChanges();
