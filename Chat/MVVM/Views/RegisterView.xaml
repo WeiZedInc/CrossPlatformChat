@@ -8,36 +8,33 @@
     <ContentPage.BindingContext>
         <vm:RegisterVM/>
     </ContentPage.BindingContext>
-    <Grid>
-        <VerticalStackLayout VerticalOptions="Center" Margin="40">
-            <Label Text="Cross Platform Chat" FontSize="40" 
+    <VerticalStackLayout VerticalOptions="Center" Margin="40">
+        <Label Text="Cross Platform Chat" FontSize="40" FontFamily="NotoSansThin"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
-                   TextColor="White"
-                   FontAttributes="Bold"/>
+                   TextColor="White"/>
 
-            <Label Text="With SignalR" FontSize="20" Margin="0,5,0,40"
+        <Label Text="With SignalR" FontSize="20" Margin="0,5,0,40" FontFamily="NotoSansThin" FontAttributes="Bold"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                    TextColor="Coral"/>
 
-            <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding LoginInput}"/>
-            </Frame>
-            <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
-            </Frame>
+        <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
+            <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding LoginInput}"/>
+        </Frame>
+        <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
+            <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
+        </Frame>
 
-            <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding RegisterCommand}"/>
+        <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding RegisterCommand}"/>
 
-            <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
-                <Label Text="Already have an account?" TextColor="LightSkyBlue" />
-                <Label Text="Sign in" TextColor="DeepSkyBlue" Margin="5,0,0,0">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding GoToLoginViewCommand}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
+        <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
+            <Label Text="Already have an account?" TextColor="LightSkyBlue" />
+            <Label Text="Sign in" TextColor="DeepSkyBlue" Margin="5,0,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToLoginViewCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
 
-            <Label Text="{Binding Test}" TextColor="Gray" />
-        </VerticalStackLayout>
-    </Grid>
+        <Label Text="{Binding Test}" TextColor="Gray" />
+    </VerticalStackLayout>
 </ContentPage>
