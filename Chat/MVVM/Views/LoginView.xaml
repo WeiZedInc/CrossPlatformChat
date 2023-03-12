@@ -20,10 +20,10 @@
                    TextColor="Coral"/>
 
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding UserModel.LoginInput}"/>
+                <Entry Placeholder="Login" ReturnType="Go" TextColor="Black" Text="{Binding LoginInput}"/>
             </Frame>
             <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding UserModel.PasswordInput}"/>
+                <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
             </Frame>
 
             <Label Text="Forgot password" TextColor="DeepSkyBlue" Margin="100,10,0,10"/>
@@ -39,7 +39,7 @@
                 </Label>
             </HorizontalStackLayout>
 
-            <Label Text="{Binding UserModel.Test}" TextColor="Gray" />
+            <Label Text="{Binding Test}" TextColor="Gray" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

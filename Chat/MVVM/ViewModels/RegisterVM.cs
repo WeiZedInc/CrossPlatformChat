@@ -3,23 +3,21 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class RegisterVM
+    internal class RegisterVM : BaseUserModel
     {
-        public BaseUserModel UserModel { get; set; }
         public ICommand RegisterCommand { get; set; }
         public ICommand GoToLoginViewCommand { get; set; }
         readonly string _registrationPath;
         public RegisterVM()
         {
-            UserModel = new BaseUserModel();
             _registrationPath = "/Registration/Register";
             RegisterCommand = new Command(() =>
             {
-                if (UserModel.IsProcessing) return;
-                if (string.IsNullOrWhiteSpace(UserModel.LoginInput) || string.IsNullOrWhiteSpace(UserModel.PasswordInput)) return;
+                if (IsProcessing) return;
+                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return;
 
-                UserModel.IsProcessing = true;
-                TryRegisterAsync().GetAwaiter().OnCompleted(() => UserModel.IsProcessing = false);  // can return registration completion
+                IsProcessing = true;
+                TryRegisterAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return registration completion
             });
             GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PopAsync());
         }
@@ -30,24 +28,24 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 var request = new AuthenticationRequest
                 {
-                    Login = UserModel.LoginInput,
-                    Password = UserModel.PasswordInput
+                    Login = LoginInput,
+                    Password = PasswordInput
                 };
                 var response = await ServiceProvider.Instance.Authenticate(request, _registrationPath);
                 if (response.StatusCode == 200)
                 {
-                    UserModel.Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}";
+                    Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}";
                     return true;
                 }
                 else
                 {
-                    UserModel.Test = response.StatusMessage;
+                    Test = response.StatusMessage;
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                UserModel.Test = ex.Message;
+                Test = ex.Message;
                 return false;
             }
         }
