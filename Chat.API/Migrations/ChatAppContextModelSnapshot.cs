@@ -43,6 +43,9 @@ namespace Chat.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<DateTime>("RegistrationTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<byte[]>("StoreSalt")
                         .IsRequired()
                         .HasColumnType("longblob");

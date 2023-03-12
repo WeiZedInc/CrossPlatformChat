@@ -24,8 +24,8 @@ namespace Chat.API.Functions.User
 
     public class UserManager : IUserManager
     {
-        private readonly ChatAppContext context;
-        public UserManager(ChatAppContext context) => this.context = context;
+        private readonly ChatAppContext db;
+        public UserManager(ChatAppContext context) => db = context;
         readonly string securityKey = "1234567890123456";
         readonly DateTime tokenExpireTime = DateTime.Now.AddDays(1);
 
@@ -33,7 +33,7 @@ namespace Chat.API.Functions.User
         {
             try
             {
-                var entity = context.Users.SingleOrDefault(x => x.Login == login);
+                var entity = db.Users.SingleOrDefault(x => x.Login == login);
                 if (entity == null) return null;
 
                 var isPasswordsMatches = VerifyPassword(password, entity.StoreSalt, entity.Password);
@@ -47,9 +47,8 @@ namespace Chat.API.Functions.User
                     Username = entity.Username,
                     Token = token,
                 };
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -58,37 +57,40 @@ namespace Chat.API.Functions.User
         {
             try
             {
-                var entity = context.Users.SingleOrDefault(x => x.Login == login);
+                var entity = db.Users.SingleOrDefault(x => x.Login == login);
                 if (entity != null) 
                     return (null, RegistrationStatus.LoginOccupied);
 
-                //add logics for checking pass and login to be correct
+                if (password.Length < 4)
+                    return (null, RegistrationStatus.InvalidPassword);
+
+                if (login.Length < 3)
+                    return (null, RegistrationStatus.InvalidLogin);
 
                 var passwordTuple = CreateHashedPassword(password);
-                context.Users.Add(new Users 
+                db.Users.Add(new Users 
                 { 
                     Login = login, 
-                    IsOnline = true,
-                    Username = login,
+                    Username = login.ToUpper(),
+                    Password = passwordTuple.HashedPassword,
                     LastLoginTime = DateTime.Now,
-                    StoreSalt = passwordTuple.Salt, 
-                    Password = passwordTuple.HashedPassword 
+                    StoreSalt = passwordTuple.Salt
                 }); // remade for async
-                context.SaveChanges();
+                db.SaveChanges();
+
+                var newEntity = db.Users.SingleOrDefault(x => x.Login == login);
 
                 return (new User
                 {
-                    ID = entity.ID,
-                    Username = entity.Username,
+                    ID = newEntity!.ID,
+                    Login = login,
+                    Username = newEntity.Username,
                     Password = password,
-                    Token = GenerateJWTToken(entity),
-                    AvatarSource = entity.AvatarSource,
-                    IsOnline = true,
-                    LastLoginTime = DateTime.Now
+                    Token = GenerateJWTToken(newEntity),
                 }, RegistrationStatus.Success);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -98,12 +100,12 @@ namespace Chat.API.Functions.User
         {
             try
             {
-                var entity = context.Users.SingleOrDefault(x => x.ID == ID);
+                var entity = db.Users.SingleOrDefault(x => x.ID == ID);
                 if (entity == null) return null;
 
                 return Convert.ChangeType(entity, typeof(User)) as User;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -112,10 +114,7 @@ namespace Chat.API.Functions.User
         (string HashedPassword, byte[] Salt) CreateHashedPassword(string password)
         {
             byte[] salt = new byte[128 / 8]; 
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
+            using (var rng = RandomNumberGenerator.Create()) rng.GetBytes(salt);
 
             string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password,
@@ -145,7 +144,5 @@ namespace Chat.API.Functions.User
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
-        
     }
 }

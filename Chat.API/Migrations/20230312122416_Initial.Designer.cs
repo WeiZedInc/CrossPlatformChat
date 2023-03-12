@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chat.API.Migrations
 {
     [DbContext(typeof(ChatAppContext))]
-    [Migration("20230311181911_init")]
-    partial class init
+    [Migration("20230312122416_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace Chat.API.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("RegistrationTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<byte[]>("StoreSalt")
                         .IsRequired()

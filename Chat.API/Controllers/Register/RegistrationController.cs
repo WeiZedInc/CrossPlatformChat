@@ -14,14 +14,22 @@ namespace Chat.API.Controlls.Register
         public IActionResult Register(BaseRequest request)
         {
             var response = _userManager.Register(request.Login, request.Password);
+            RegistrationStatus status = response.Item2;
+            User? user = response.Item1;
 
-            if (response.Item1 != null && response.Item2 == RegistrationStatus.Success)
+            if (user != null && status == RegistrationStatus.Success)
                 return Ok(response);
 
-            if (response.Item2 == RegistrationStatus.InvalidLogin) // add switch or smth to handle errors
-                return BadRequest(new { message = "Invalid username or password!" });
 
-            return BadRequest(new { message = "End method" });
+            var message = status switch
+            {
+                RegistrationStatus.LoginOccupied => $"Login occupied!",
+                RegistrationStatus.InvalidLogin => "Invalid login!",
+                RegistrationStatus.InvalidPassword => "Invalid password!",
+                _ => "Unexpected error at register controller!"
+            };
+
+            return BadRequest(message);
         }
 
     }

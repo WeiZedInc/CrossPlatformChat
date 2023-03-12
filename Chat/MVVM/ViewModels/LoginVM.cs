@@ -59,7 +59,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Login = LoginInput,
                     Password = PasswordInput
                 };
-                var response = await ServiceProvider.Instance.Authenticate(request);
+                var response = await ServiceProvider.Instance.Register(request);
                 if (response.StatusCode == 200)
                 {
                     Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
