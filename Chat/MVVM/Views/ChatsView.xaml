@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CrossPlatformChat.MVVM.Views.ChatsView"
+             xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
+             Background="#1C0A00"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.BindingContext>
+        <vm:ChatsVM/>
+    </ContentPage.BindingContext>
+    <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center">
+        <SearchBar Placeholder="Search chat" Margin="0,20" WidthRequest="370"
+                   TextColor="#CC9544" FontFamily="Regular"
+                   BackgroundColor="#361500"
+                   PlaceholderColor="#603601" />
+        
+        <Frame BackgroundColor="#603601" BorderColor="Transparent" Margin="35,0,35,0" Padding="0,0,0,0" IsVisible="{Binding NoChats}">
+            <VerticalStackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Center">
+                <Label Text="There are no chats available yet...&#10;It's time to fix it!" TextColor="#CC9544" 
+                       FontSize="20" FontFamily="Light"/>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <Frame BackgroundColor="#603601" BorderColor="Transparent" Margin="5,0,5,0" Padding="0,0,0,0">
+            <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Start">
+                <Image Source="dotnet_bot.svg" HeightRequest="50" WidthRequest="50" Margin="10"/>
+                <Label Text="{Binding ChatName}"/>
+            </HorizontalStackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

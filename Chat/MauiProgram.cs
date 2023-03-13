@@ -15,10 +15,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 
 				fonts.AddFont("NotoSans-ExtraLight.ttf", "NotoSansExtraLight");
-				fonts.AddFont("NotoSans-Light.ttf", "NotoSansLight");
+				fonts.AddFont("NotoSans-Light.ttf", "Light");
 				fonts.AddFont("NotoSans-Medium.ttf", "NotoSansMedium");
-				fonts.AddFont("NotoSans-Regular.ttf", "NotoSansRegular");
+				fonts.AddFont("NotoSans-Regular.ttf", "Regular");
 				fonts.AddFont("NotoSans-Thin.ttf", "NotoSansThin");
+
+				fonts.AddFont("MaterialIcons-Regular", "Icons");
 			});
 
 #if DEBUG

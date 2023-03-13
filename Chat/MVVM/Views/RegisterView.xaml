@@ -24,7 +24,7 @@
             <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
         </Frame>
 
-        <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" Command="{Binding RegisterCommand}"/>
+        <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding RegisterCommand}"/>
 
         <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
             <Label Text="Already have an account?" TextColor="LightSkyBlue" />

@@ -67,6 +67,7 @@
 	  <None Remove=".gitattributes" />
 	  <None Remove=".gitignore" />
 	  <None Remove="LoginView.png" />
+	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
 	  <None Remove="Resources\Fonts\NotoSans-ExtraLight.ttf" />
 	  <None Remove="Resources\Fonts\NotoSans-Light.ttf" />
 	  <None Remove="Resources\Fonts\NotoSans-Medium.ttf" />
@@ -80,6 +81,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="MVVM\Views\ChatsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
