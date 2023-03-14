@@ -45,7 +45,6 @@ namespace Chat.API.Functions.User
                 {
                     ID = entity.ID,
                     Username = entity.Username,
-                    Token = token,
                 };
             }
             catch (Exception)

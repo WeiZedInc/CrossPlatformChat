@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CrossPlatformChat.Services
 {
-    internal class CryptoManager
+    internal class CryptoManager // todo
     {
         (string HashedPassword, byte[] Salt) CreateHashedPassword(string password)
         {
