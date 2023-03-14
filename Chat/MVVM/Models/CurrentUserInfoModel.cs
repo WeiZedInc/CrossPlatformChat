@@ -3,12 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrossPlatformChat.MVVM.Models
 {
-    [Table("users")]
-    internal class UserInfoModel : INotifyPropertyChanged
+    [Table("currentuser")]
+    internal class CurrentUserInfoModel : INotifyPropertyChanged
     {
         #region DataBase
         [Key] public int ID { get; set; }
-        [Required] public bool IsCurrentUser { get; set; }
+        public string KeyWord { get; set; }
+        public string HashedPassword { get; set; }
         public string Login { get; set; } = null!;
         public string Username { get; set; } = null!;
         public string Password { get; set; } = null!;
@@ -53,7 +54,7 @@ namespace CrossPlatformChat.MVVM.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public UserInfoModel()
+        public CurrentUserInfoModel()
         {
             LoginInput = string.Empty;
             PasswordInput = string.Empty;

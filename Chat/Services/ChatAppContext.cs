@@ -12,7 +12,7 @@ namespace CrossPlatformChat.Services
     {
         public ChatAppContext(DbContextOptions<ChatAppContext> options) : base(options) { }
         public virtual DbSet<ChatInfoModel> Chats { get; set; } = null!;
-        public virtual DbSet<UserInfoModel> Users { get; set; } = null!;
+        public virtual DbSet<CurrentUserInfoModel> Users { get; set; } = null!;
         public virtual DbSet<MessageInfoModel> Messages { get; set; } = null!;
 
         public static readonly string connectionString = "Data Source=localapp.db";

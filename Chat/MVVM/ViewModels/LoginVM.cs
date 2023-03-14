@@ -3,7 +3,7 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class LoginVM : UserInfoModel
+    internal class LoginVM : CurrentUserInfoModel
     {
         public ICommand LoginCommand { get; set; }
         public ICommand GoToRegisterViewCommand { get; set; }
