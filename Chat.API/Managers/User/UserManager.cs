@@ -25,7 +25,7 @@ namespace Chat.API.Functions.User
     public class UserManager : IUserManager
     {
         private readonly ChatAppContext db;
-        public UserManager(ChatAppContext context) => db = context;
+        public UserManager(ChatAppContext context) => db = context ?? throw new ArgumentNullException(nameof(context));
         readonly string securityKey = "1234567890123456";
         readonly DateTime tokenExpireTime = DateTime.Now.AddDays(1);
 
@@ -36,7 +36,7 @@ namespace Chat.API.Functions.User
                 var entity = db.Users.SingleOrDefault(x => x.Login == login);
                 if (entity == null) return null;
 
-                var isPasswordsMatches = VerifyPassword(password, entity.StoreSalt, entity.Password);
+                var isPasswordsMatches = VerifyPassword(password, entity.Password);
                 if (isPasswordsMatches == false) return null;
 
                 var token = GenerateJWTToken(entity);
@@ -68,14 +68,12 @@ namespace Chat.API.Functions.User
                     return (null, RegistrationStatus.InvalidPassword);
 
 
-                var passwordTuple = CreateHashedPassword(password);
                 db.Users.Add(new Users 
                 { 
                     Login = login, 
                     Username = login.ToUpper(),
-                    Password = passwordTuple.HashedPassword,
+                    Password = password,
                     RegistrationTime = DateTime.UtcNow,
-                    StoreSalt = passwordTuple.Salt
                 }); // remade for async
                 db.SaveChanges();
 
@@ -112,25 +110,7 @@ namespace Chat.API.Functions.User
             }
         }
 
-        (string HashedPassword, byte[] Salt) CreateHashedPassword(string password)
-        {
-            byte[] salt = new byte[128 / 8]; 
-            using (var rng = RandomNumberGenerator.Create()) rng.GetBytes(salt);
-
-            string hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password,
-                salt,
-                KeyDerivationPrf.HMACSHA1,
-                10000,
-                256 / 8));
-
-            return (hashedPassword, salt);
-        }
-        bool VerifyPassword(string enteredPassword, byte[] storedSlat, string storedPassword)
-        {
-            string encryptedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(enteredPassword, storedSlat, KeyDerivationPrf.HMACSHA1, 10000, 256/8));
-            return encryptedPassword.Equals(storedPassword);
-        }
+        bool VerifyPassword(string enteredPassword, string storedPassword) => enteredPassword.Equals(storedPassword);
         string GenerateJWTToken(Users user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -10,6 +10,5 @@
         public bool IsOnline { get; set; }
         public DateTime LastLoginTime { get; set; }
         public DateTime RegistrationTime { get; set; }
-        public byte[] StoreSalt { get; set; } = null!;
     }
 }

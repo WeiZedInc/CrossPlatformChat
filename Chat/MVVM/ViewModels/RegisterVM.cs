@@ -3,7 +3,7 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class RegisterVM : BaseUserModel
+    internal class RegisterVM : UserInfoModel
     {
         public ICommand RegisterCommand { get; set; }
         public ICommand GoToLoginViewCommand { get; set; }
@@ -31,7 +31,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Login = LoginInput,
                     Password = PasswordInput
                 };
-                var response = await ServiceProvider.Instance.Authenticate(request, _registrationPath);
+                var response = await ServerProvider.Instance.Authenticate(request, _registrationPath);
                 if (response.StatusCode == 200)
                 {
                     Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}";

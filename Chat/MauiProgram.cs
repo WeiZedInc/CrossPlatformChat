@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CrossPlatformChat;
 
@@ -27,6 +29,12 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+        //db settings
+        builder.Services.AddDbContext<ChatAppContext>(context =>
+            context.UseSqlite(ChatAppContext.connectionString));
+
+        builder.Services.AddTransient(connection => new SqliteConnection(ChatAppContext.connectionString));
+
+        return builder.Build();
 	}
 }
