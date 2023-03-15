@@ -12,7 +12,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             TestCMD = new Command(() =>
             {
-                Test = DBManager.Instance.AddDbTest(new DBTestModel
+                Test = App.Database.SaveTestAsync(new DBTestModel
                 {
                     AvatarSource = "hui",
                     LastLoginTime = DateTime.Now,

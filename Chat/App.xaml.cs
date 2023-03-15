@@ -4,7 +4,20 @@ namespace CrossPlatformChat;
 
 public partial class App : Application
 {
-	public App()
+    static DBTest database;
+    public static DBTest Database
+    {
+        get
+        {
+            if (database == null)
+            {
+                database = new DBTest(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Notes.db3"));
+            }
+            return database;
+        }
+    }
+
+    public App()
 	{
 		InitializeComponent();
 

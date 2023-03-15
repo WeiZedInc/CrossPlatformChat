@@ -52,7 +52,7 @@ namespace CrossPlatformChat.MVVM.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    internal class DBTestModel
+    public class DBTestModel
     {
         [PrimaryKey, AutoIncrement, Unique]
         [Column("id")]
