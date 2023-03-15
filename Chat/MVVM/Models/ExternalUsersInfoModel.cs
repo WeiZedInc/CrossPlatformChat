@@ -1,4 +1,6 @@
-﻿namespace CrossPlatformChat.MVVM.Models
+﻿using SQLite;
+
+namespace CrossPlatformChat.MVVM.Models
 {
     internal class ExternalUsersInfoModel : INotifyPropertyChanged
     {
@@ -7,11 +9,13 @@
         bool _isOnline;
         DateTime _LastLoginTime;
 
+        [PrimaryKey, AutoIncrement, Unique]
         public int ID
         {
             get { return _ID; }
             set { _ID = value; OnPropertyChanged(); }
         }
+        [Unique]
         public string Username
         {
             get { return _UserName; }

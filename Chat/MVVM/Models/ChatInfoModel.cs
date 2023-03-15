@@ -1,10 +1,15 @@
-﻿namespace CrossPlatformChat.MVVM.Models
+﻿using SQLite;
+
+namespace CrossPlatformChat.MVVM.Models
 {
     internal class ChatInfoModel : INotifyPropertyChanged
     {
         int _ID, _MissedMessagesCount = 0;
         string _Name, _UsersID, _MessagesID;
         DateTime _CreatedDate;
+        byte[] _StoredKeyWord = null!;
+
+        [PrimaryKey, AutoIncrement, Unique]
         public int ID
         {
             get { return _ID; }
@@ -20,7 +25,7 @@
             get { return _Name; }
             set { _Name = value; OnPropertyChanged(); }
         }
-        public string UersID
+        public string UsersID
         {
             get { return _UsersID; }
             set { _UsersID = value; OnPropertyChanged(); }
@@ -35,6 +40,12 @@
             get { return _CreatedDate; }
             set { _CreatedDate = value; OnPropertyChanged(); }
         }
+        public byte[] StoredKeyWord
+        {
+            get { return _StoredKeyWord; }
+            set { _StoredKeyWord = value; OnPropertyChanged(); }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>

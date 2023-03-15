@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using SQLite;
 
 namespace CrossPlatformChat.MVVM.Models
 {
@@ -10,6 +10,7 @@ namespace CrossPlatformChat.MVVM.Models
         DateTime _LastLoginTime, _RegistrationTime;
         byte[] _StoredSalt = null!;
 
+        [PrimaryKey, AutoIncrement, Unique]
         public int ID
         {
             get { return _ID; }
@@ -28,7 +29,8 @@ namespace CrossPlatformChat.MVVM.Models
         {
             get { return _Login; }
             set { _Login = value; OnPropertyChanged(); }
-        } 
+        }
+        [Unique]
         public string Username
         {
             get { return _UserName; }
@@ -64,6 +66,7 @@ namespace CrossPlatformChat.MVVM.Models
             get { return _StoredSalt; }
             set { _StoredSalt = value; OnPropertyChanged(); }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

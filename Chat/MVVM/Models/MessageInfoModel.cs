@@ -1,4 +1,6 @@
-﻿namespace CrossPlatformChat.MVVM.Models
+﻿using SQLite;
+
+namespace CrossPlatformChat.MVVM.Models
 {
     public enum MessageStatus
     {
@@ -13,6 +15,8 @@
         string _SenderID, _Content;
         DateTime _SentDate;
         MessageStatus _Status;
+
+        [PrimaryKey, AutoIncrement, Unique]
         public int ID
         {
             get { return _ID; }
