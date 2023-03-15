@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CrossPlatformChat.MVVM.Models
+﻿namespace CrossPlatformChat.MVVM.Models
 {
     public enum MessageStatus
     {
@@ -10,14 +7,44 @@ namespace CrossPlatformChat.MVVM.Models
         SentAndNotRead
     }
 
-    [Table("messages")]
-    internal class MessageInfoModel
+    internal class MessageInfoModel : INotifyPropertyChanged
     {
-        [Key] public int ID { get; set; }
-        [Required] public string SenderID { get; set; }
-        [Required] public int ChatID { get; set; }
-        [Required][MaxLength(2020)] public string Content { get; set; } // 20 reserved for special symbols, 2k length is optimal maximum for messages
-        public DateTime SentDate { get; set; }
-        [EnumDataType(typeof(MessageStatus))] public MessageStatus Status { get; set; }
+        int _ID, _ChatID;
+        string _SenderID, _Content;
+        DateTime _SentDate;
+        MessageStatus _Status;
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; OnPropertyChanged(); }
+        }
+        public string SenderID
+        {
+            get { return _SenderID; }
+            set { _SenderID = value; OnPropertyChanged(); }
+        }
+        public int ChatID
+        {
+            get { return _ChatID; }
+            set { _ChatID = value; OnPropertyChanged(); }
+        }
+        public string Content
+        {
+            get { return _Content; }
+            set { _Content = value; OnPropertyChanged(); }
+        }
+        public DateTime SentDate
+        {
+            get { return _SentDate; }
+            set { _SentDate = value; OnPropertyChanged(); }
+        }
+        public MessageStatus Status
+        {
+            get { return _Status; }
+            set { _Status = value; OnPropertyChanged(); }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

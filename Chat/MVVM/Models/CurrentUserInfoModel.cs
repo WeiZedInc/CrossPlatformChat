@@ -1,49 +1,95 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrossPlatformChat.MVVM.Models
 {
-    [Table("currentuser")]
-    internal class CurrentUserInfoModel : INotifyPropertyChanged
+    internal class CurrentUserInfo : INotifyPropertyChanged
     {
-        #region DataBase
-        [Key] public int ID { get; set; }
-        public string KeyWord { get; set; }
-        public string HashedPassword { get; set; }
-        public string Login { get; set; } = null!;
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public string AvatarSource { get; set; } = "avatar.png";
-        public bool IsOnline { get; set; }
-        public DateTime LastLoginTime { get; set; }
-        public DateTime RegistrationTime { get; set; }
-        public byte[] StoreSalt { get; set; } = null!;
-        #endregion
+        int _ID;
+        string _KeyWord, _HashedPassword, _UserName = null!, _Password = null!, _Login = null!, _AvatarSource = "avatar.png";
+        bool _isOnline;
+        DateTime _LastLoginTime, _RegistrationTime;
+        byte[] _StoredSalt = null!;
 
-        #region BussinessLogic
-        [NotMapped] private string _loginInput;
-        [NotMapped] private string _passwordInput;
-        [NotMapped] private string _test;
-        [NotMapped] private bool _isProcessing;
-        [NotMapped]
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; OnPropertyChanged(); }
+        }
+        public string KeyWord
+        {
+            get { return _KeyWord; }
+            set { _KeyWord = value; OnPropertyChanged(); }
+        }
+        public string HashedPassword {
+            get { return _HashedPassword; }
+            set { _HashedPassword = value; OnPropertyChanged(); }
+        }
+        public string Login
+        {
+            get { return _Login; }
+            set { _Login = value; OnPropertyChanged(); }
+        } 
+        public string Username
+        {
+            get { return _UserName; }
+            set { _UserName = value; OnPropertyChanged(); }
+        } 
+        public string Password
+        {
+            get { return _Password; }
+            set { _Password = value; OnPropertyChanged(); }
+        } 
+        public string AvatarSource
+        {
+            get { return _AvatarSource; }
+            set { _AvatarSource = value; OnPropertyChanged(); }
+        } 
+        public bool IsOnline
+        {
+            get { return _isOnline; }
+            set { _isOnline = value; OnPropertyChanged(); }
+        }
+        public DateTime LastLoginTime
+        {
+            get { return _LastLoginTime; }
+            set { _LastLoginTime = value; OnPropertyChanged(); }
+        }
+        public DateTime RegistrationTime
+        {
+            get { return _RegistrationTime; }
+            set { _RegistrationTime = value; OnPropertyChanged(); }
+        }
+        public byte[] StoredSalt
+        {
+            get { return _StoredSalt; }
+            set { _StoredSalt = value; OnPropertyChanged(); }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    internal class CurrentUserInfoModel : CurrentUserInfo, INotifyPropertyChanged
+    {
+        private string _loginInput;
+        private string _passwordInput;
+        private string _test;
+        private bool _isProcessing;
         public string Test
         {
             get { return _test; }
             set { _test = value; OnPropertyChanged(); }
         }
-        [NotMapped]
         public string LoginInput
         {
             get { return _loginInput; }
             set { _loginInput = value; OnPropertyChanged(); }
         }
-        [NotMapped]
         public string PasswordInput
         {
             get { return _passwordInput; }
             set { _passwordInput = value; OnPropertyChanged(); }
         }
-        [NotMapped]
         public bool IsProcessing
         {
             get { return _isProcessing; }
@@ -60,6 +106,5 @@ namespace CrossPlatformChat.MVVM.Models
             PasswordInput = string.Empty;
             IsProcessing = false;
         }
-        #endregion
     }
 }

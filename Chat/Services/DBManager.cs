@@ -7,12 +7,12 @@ namespace CrossPlatformChat.Services
     {
         readonly ChatAppContext db;
         public static ObservableCollection<ChatInfoModel> AllChatsForClient { get; set; }
-        public static ObservableCollection<CurrentUserInfoModel> AllUsersForClient { get; set; }
+        public static ObservableCollection<ExternalUsersInfoModel> AllUsersForClient { get; set; }
         public static ObservableCollection<MessageInfoModel> AllMessagesForClient { get; set; }
 
-        public DBManager(ChatAppContext context)
+        public DBManager()
         {
-            db = context ?? throw new ArgumentNullException(nameof(context));
+            db = new ChatAppContext();
         }
     }
 }

@@ -1,16 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace CrossPlatformChat.MVVM.Models
+﻿namespace CrossPlatformChat.MVVM.Models
 {
-    [Table("users")]
-    internal class ExternalUsersInfoModel
+    internal class ExternalUsersInfoModel : INotifyPropertyChanged
     {
-        [Key] public int ID { get; set; }
-        public string Login { get; set; } = null!;
-        public string Username { get; set; } = null!;
-        public string AvatarSource { get; set; } = "avatar.png";
-        public bool IsOnline { get; set; }
-        public DateTime LastLoginTime { get; set; }
+        int _ID;
+        string _UserName = null!, _AvatarSource = "avatar.png";
+        bool _isOnline;
+        DateTime _LastLoginTime;
+
+        public int ID
+        {
+            get { return _ID; }
+            set { _ID = value; OnPropertyChanged(); }
+        }
+        public string Username
+        {
+            get { return _UserName; }
+            set { _UserName = value; OnPropertyChanged(); }
+        }
+        public string AvatarSource
+        {
+            get { return _AvatarSource; }
+            set { _AvatarSource = value; OnPropertyChanged(); }
+        }
+        public bool IsOnline
+        {
+            get { return _isOnline; }
+            set { _isOnline = value; OnPropertyChanged(); }
+        }
+        public DateTime LastLoginTime
+        {
+            get { return _LastLoginTime; }
+            set { _LastLoginTime = value; OnPropertyChanged(); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

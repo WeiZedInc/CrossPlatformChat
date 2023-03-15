@@ -28,13 +28,6 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-
-        //db settings
-        builder.Services.AddDbContext<ChatAppContext>(context =>
-            context.UseSqlite(ChatAppContext.connectionString));
-
-        builder.Services.AddTransient(connection => new SqliteConnection(ChatAppContext.connectionString));
-
         return builder.Build();
 	}
 }
