@@ -2,6 +2,7 @@
 
 namespace CrossPlatformChat.MVVM.Models
 {
+    [Table("currentuserinfo")]
     internal class CurrentUserInfo : INotifyPropertyChanged
     {
         int _ID;
@@ -11,56 +12,77 @@ namespace CrossPlatformChat.MVVM.Models
         byte[] _StoredSalt = null!;
 
         [PrimaryKey, AutoIncrement, Unique]
+        [Column("id")]
         public int ID
         {
             get { return _ID; }
             set { _ID = value; OnPropertyChanged(); }
         }
+
+        [Column("keyWord")]
         public string KeyWord
         {
             get { return _KeyWord; }
             set { _KeyWord = value; OnPropertyChanged(); }
         }
+
+        [Column("hashedPassword")]
         public string HashedPassword {
             get { return _HashedPassword; }
             set { _HashedPassword = value; OnPropertyChanged(); }
         }
+
+        [Column("login")]
         public string Login
         {
             get { return _Login; }
             set { _Login = value; OnPropertyChanged(); }
         }
+
         [Unique]
+        [Column("username")]
         public string Username
         {
             get { return _UserName; }
             set { _UserName = value; OnPropertyChanged(); }
-        } 
+        }
+
+        [Column("password")]
         public string Password
         {
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
-        } 
+        }
+
+        [Column("avatarSource")]
         public string AvatarSource
         {
             get { return _AvatarSource; }
             set { _AvatarSource = value; OnPropertyChanged(); }
-        } 
+        }
+
+        [Column("isOnline")]
         public bool IsOnline
         {
             get { return _isOnline; }
             set { _isOnline = value; OnPropertyChanged(); }
         }
+
+        [Column("lastLoginTime")]
         public DateTime LastLoginTime
         {
             get { return _LastLoginTime; }
             set { _LastLoginTime = value; OnPropertyChanged(); }
         }
+
+        [Column("registrationTime")]
         public DateTime RegistrationTime
         {
             get { return _RegistrationTime; }
             set { _RegistrationTime = value; OnPropertyChanged(); }
         }
+
+        [Column("storedSalt")]
         public byte[] StoredSalt
         {
             get { return _StoredSalt; }
