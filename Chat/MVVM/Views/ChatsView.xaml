@@ -25,6 +25,7 @@
                 <Label Text="{Binding Test}"/>
             </HorizontalStackLayout>
         </Frame>
-        <Button Margin="0,10" Text="{Binding Test}" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding TestCMD}"/>
+        <Button Margin="0,10" Text="External" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding AddExternal}"/>
+        <Button Margin="0,10" Text="Current" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding AddCurrent}"/>
     </VerticalStackLayout>
 </ContentPage>

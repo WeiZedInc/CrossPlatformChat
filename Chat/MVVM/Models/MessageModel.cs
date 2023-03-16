@@ -8,8 +8,9 @@ namespace CrossPlatformChat.MVVM.Models
         Received,
         SentAndNotRead
     }
+
     [Table("messages")]
-    internal class MessageInfoModel : INotifyPropertyChanged
+    internal class MessageModel : INotifyPropertyChanged
     {
         int _ID, _ChatID;
         string _SenderID, _Content;
