@@ -10,7 +10,7 @@ namespace CrossPlatformChat.MVVM.Models
         DateTime _CreatedDate;
         byte[] _StoredKeyWord = null!;
 
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         [Column("id")]
         public int ID
         {

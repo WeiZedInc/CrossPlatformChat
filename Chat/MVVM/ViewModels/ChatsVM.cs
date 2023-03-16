@@ -12,13 +12,14 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             TestCMD = new Command(() =>
             {
-                Test = App.Database.SaveTestAsync(new DBTestModel
+                App.Instance.SaveTestAsync(new DBTestModel
                 {
                     AvatarSource = "hui",
                     LastLoginTime = DateTime.Now,
                     IsOnline = false,
                     Username = "Test"
-                }).Result.ToString();
+                });
+                Test = App.Instance.GetInfo("testtbl").ToString();
             });
         }
 

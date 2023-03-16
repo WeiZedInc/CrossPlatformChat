@@ -4,22 +4,19 @@ namespace CrossPlatformChat;
 
 public partial class App : Application
 {
-    static DBTest database;
-    public static DBTest Database
+    static DBTest _instance;
+    public static DBTest Instance
     {
         get
         {
-            if (database == null)
-            {
-                database = new DBTest(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Notes.db3"));
-            }
-            return database;
+            return _instance;
         }
     }
 
     public App()
 	{
-		InitializeComponent();
+        _instance = new DBTest(Path.Combine(FileSystem.AppDataDirectory, "Test.db"));
+        InitializeComponent();
 
         MainPage = new NavigationPage(new ChatsView());
     }

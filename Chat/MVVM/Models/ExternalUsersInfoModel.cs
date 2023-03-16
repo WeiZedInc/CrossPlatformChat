@@ -10,7 +10,7 @@ namespace CrossPlatformChat.MVVM.Models
         bool _isOnline;
         DateTime _LastLoginTime;
 
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         [Column("id")]
         public int ID
         {
@@ -18,7 +18,6 @@ namespace CrossPlatformChat.MVVM.Models
             set { _ID = value; OnPropertyChanged(); }
         }
 
-        [Unique]
         [Column("username")]
         public string Username
         {
@@ -52,13 +51,13 @@ namespace CrossPlatformChat.MVVM.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
+    [Table("testtbl")]
     public class DBTestModel
     {
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         [Column("id")]
         public int ID { get;set; }
 
-        [Unique]
         [Column("username")]
         public string Username { get; set; }
 

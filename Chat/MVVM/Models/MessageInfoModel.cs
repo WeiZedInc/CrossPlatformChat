@@ -16,7 +16,7 @@ namespace CrossPlatformChat.MVVM.Models
         DateTime _SentDate;
         MessageStatus _Status;
 
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         [Column("id")]
         public int ID
         {

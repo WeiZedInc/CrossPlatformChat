@@ -11,7 +11,7 @@ namespace CrossPlatformChat.MVVM.Models
         DateTime _LastLoginTime, _RegistrationTime;
         byte[] _StoredSalt = null!;
 
-        [PrimaryKey, AutoIncrement, Unique]
+        [PrimaryKey, AutoIncrement]
         [Column("id")]
         public int ID
         {
@@ -39,7 +39,6 @@ namespace CrossPlatformChat.MVVM.Models
             set { _Login = value; OnPropertyChanged(); }
         }
 
-        [Unique]
         [Column("username")]
         public string Username
         {
