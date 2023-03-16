@@ -5,9 +5,7 @@
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              Background="#1C0A00"
              NavigationPage.HasNavigationBar="False">
-    <ContentPage.BindingContext>
-        <vm:ChatsVM/>
-    </ContentPage.BindingContext>
+    
     <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center">
         <SearchBar Placeholder="Search chat" Margin="0,20" WidthRequest="370"
                    TextColor="#CC9544" FontFamily="Regular"

@@ -2,24 +2,27 @@
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class ChatsVM
+    public class ChatsVM
     {
         public bool NoChats { get; set; } = true;
         public string Test { get; set; } = "Test";
         public ICommand TestCMD { get; set; }
 
-        public ChatsVM()
+        public readonly ISQLiteCRUD _dbservice;
+
+        public ChatsVM(ISQLiteCRUD dbservice)
         {
-            TestCMD = new Command(() =>
+            _dbservice = dbservice;
+            TestCMD = new Command(async () =>
             {
-                App.Instance.SaveTestAsync(new DBTestModel
+                await _dbservice.AddAsync(new TestExternalUsers
                 {
                     AvatarSource = "hui",
                     LastLoginTime = DateTime.Now,
                     IsOnline = false,
                     Username = "Test"
                 });
-                Test = App.Instance.GetInfo("testtbl").ToString();
+                App.Current.MainPage.DisplayAlert("ok", _dbservice.GetListAsync().Result.Count.ToString(), "ok").GetAwaiter();
             });
         }
 

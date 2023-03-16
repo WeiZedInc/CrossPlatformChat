@@ -50,24 +50,4 @@ namespace CrossPlatformChat.MVVM.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
-
-    [Table("testtbl")]
-    public class DBTestModel
-    {
-        [PrimaryKey, AutoIncrement]
-        [Column("id")]
-        public int ID { get;set; }
-
-        [Column("username")]
-        public string Username { get; set; }
-
-        [Column("avatarSource")]
-        public string AvatarSource { get; set; }
-
-        [Column("isOnline")]
-        public bool IsOnline { get; set; }
-
-        [Column("lastLoginTime")]
-        public DateTime LastLoginTime { get; set; }
-    }
 }

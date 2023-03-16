@@ -3,7 +3,7 @@
 namespace CrossPlatformChat.MVVM.Models
 {
     [Table("currentuserinfo")]
-    internal class CurrentUserInfo : INotifyPropertyChanged
+    public class CurrentUserInfo : INotifyPropertyChanged
     {
         int _ID;
         string _KeyWord, _HashedPassword, _UserName = null!, _Password = null!, _Login = null!, _AvatarSource = "avatar.png";
@@ -93,7 +93,7 @@ namespace CrossPlatformChat.MVVM.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    internal class CurrentUserInfoModel : CurrentUserInfo, INotifyPropertyChanged
+    public class CurrentUserInfoModel : CurrentUserInfo, INotifyPropertyChanged
     {
         private string _loginInput;
         private string _passwordInput;

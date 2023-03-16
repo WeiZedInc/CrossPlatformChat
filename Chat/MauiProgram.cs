@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CrossPlatformChat.MVVM.ViewModels;
+using CrossPlatformChat.MVVM.Views;
+using Microsoft.Extensions.Logging;
 
 namespace CrossPlatformChat;
 
@@ -26,6 +28,21 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+		//views
+		builder.Services.AddTransient<LoginView>();
+		builder.Services.AddTransient<ChatsView>();
+		builder.Services.AddTransient<RegisterView>();
+
+        //viewmodels
+        builder.Services.AddTransient<ChatsVM>();
+        builder.Services.AddTransient<RegisterVM>();
+        builder.Services.AddTransient<LoginVM>();
+
+
+        //db's
+        builder.Services.AddSingleton<ISQLiteCRUD, TestExternalUsersSerivece>();
+
+
         return builder.Build();
 	}
 }

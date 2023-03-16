@@ -3,7 +3,7 @@
 namespace CrossPlatformChat.MVVM.Models
 {
     [Table("chats")]
-    internal class ChatInfoModel : INotifyPropertyChanged
+    public class ChatInfoModel : INotifyPropertyChanged
     {
         int _ID, _MissedMessagesCount = 0;
         string _Name, _UsersID, _MessagesID;
