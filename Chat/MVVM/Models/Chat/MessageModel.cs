@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models
+namespace CrossPlatformChat.MVVM.Models.Chat
 {
     public enum MessageStatus
     {

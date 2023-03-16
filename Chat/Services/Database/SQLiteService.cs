@@ -1,4 +1,5 @@
-﻿using CrossPlatformChat.MVVM.Models;
+﻿using CrossPlatformChat.MVVM.Models.Chat;
+using CrossPlatformChat.MVVM.Models.Users;
 using SQLite;
 
 namespace CrossPlatformChat.Services.Database
@@ -18,7 +19,7 @@ namespace CrossPlatformChat.Services.Database
 
 
             connection.CreateTableAsync<ChatModel>();
-            connection.CreateTableAsync<CurrentUserInfo>();
+            connection.CreateTableAsync<ClientData>();
             connection.CreateTableAsync<MessageModel>();
             connection.CreateTableAsync<BaseUserModel>();
         }

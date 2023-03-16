@@ -1,4 +1,5 @@
-﻿using CrossPlatformChat.MVVM.Models;
+﻿using CrossPlatformChat.MVVM.Models.Chat;
+using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.Services.Database;
 
 namespace CrossPlatformChat.MVVM.ViewModels
@@ -28,14 +29,14 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
             AddCurrent = new Command(async () =>
             {
-                await _dbservice.InsertAsync(new CurrentUserInfo
+                await _dbservice.InsertAsync(new ClientData
                 {
                     AvatarSource = "test.png",
                     LastLoginTime = DateTime.Now,
                     IsOnline = false,
                     Username = "Test",
                 });
-                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<CurrentUserInfo>().Result.Count.ToString(), "ok").GetAwaiter();
+                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<ClientData>().Result.Count.ToString(), "ok").GetAwaiter();
             });
         }
 

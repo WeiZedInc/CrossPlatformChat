@@ -1,9 +1,9 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models
+namespace CrossPlatformChat.MVVM.Models.Users
 {
     [Table("currentuserinfo")]
-    public class CurrentUserInfo : INotifyPropertyChanged
+    public class ClientData : INotifyPropertyChanged
     {
         int _ID;
         string _KeyWord, _HashedPassword, _UserName = null!, _Password = null!, _Login = null!, _AvatarSource = "avatar.png";
@@ -22,7 +22,8 @@ namespace CrossPlatformChat.MVVM.Models
             get { return _KeyWord; }
             set { _KeyWord = value; OnPropertyChanged(); }
         }
-        public string HashedPassword {
+        public string HashedPassword
+        {
             get { return _HashedPassword; }
             set { _HashedPassword = value; OnPropertyChanged(); }
         }
@@ -72,7 +73,7 @@ namespace CrossPlatformChat.MVVM.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    public class CurrentUserModel : CurrentUserInfo, INotifyPropertyChanged
+    public class ClientModel : ClientData, INotifyPropertyChanged
     {
         private string _loginInput;
         private string _passwordInput;
@@ -103,7 +104,7 @@ namespace CrossPlatformChat.MVVM.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        public CurrentUserModel()
+        public ClientModel()
         {
             LoginInput = string.Empty;
             PasswordInput = string.Empty;
