@@ -17,14 +17,14 @@ namespace CrossPlatformChat.MVVM.ViewModels
             _dbservice = dbservice;
             AddExternal = new Command(async () =>
             {
-                await _dbservice.InsertAsync(new BaseUserModel
+                await _dbservice.InsertAsync(new GeneralUserData
                 {
                     AvatarSource = "test.png",
                     LastLoginTime = DateTime.Now,
                     IsOnline = false,
                     Username = "Test"
                 });
-                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<BaseUserModel>().Result.Count.ToString(), "ok").GetAwaiter();
+                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<GeneralUserData>().Result.Count.ToString(), "ok").GetAwaiter();
             });
 
             AddCurrent = new Command(async () =>

@@ -21,7 +21,7 @@ namespace CrossPlatformChat.Services.Database
             connection.CreateTableAsync<ChatModel>();
             connection.CreateTableAsync<ClientData>();
             connection.CreateTableAsync<MessageModel>();
-            connection.CreateTableAsync<BaseUserModel>();
+            connection.CreateTableAsync<GeneralUserData>();
         }
 
         public Task<int> InsertAsync(object entity) => connection.InsertAsync(entity);

@@ -3,7 +3,7 @@
 namespace CrossPlatformChat.MVVM.Models.Users
 {
     [Table("users")]
-    internal class BaseUserModel : INotifyPropertyChanged
+    public class GeneralUserData : INotifyPropertyChanged
     {
         int _ID;
         string _UserName = null!, _AvatarSource = "avatar.png";

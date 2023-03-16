@@ -2,21 +2,13 @@
 
 namespace CrossPlatformChat.MVVM.Models.Users
 {
-    [Table("currentuserinfo")]
-    public class ClientData : INotifyPropertyChanged
+    [Table("client")]
+    public class ClientData : GeneralUserData, INotifyPropertyChanged
     {
-        int _ID;
-        string _KeyWord, _HashedPassword, _UserName = null!, _Password = null!, _Login = null!, _AvatarSource = "avatar.png";
-        bool _isOnline;
-        DateTime _LastLoginTime, _RegistrationTime;
+        string _KeyWord, _HashedPassword, _Password = null!, _Login = null!;
+        DateTime _RegistrationTime;
         byte[] _StoredSalt = null!;
 
-        [PrimaryKey, AutoIncrement]
-        public int ID
-        {
-            get { return _ID; }
-            set { _ID = value; OnPropertyChanged(); }
-        }
         public string KeyWord
         {
             get { return _KeyWord; }
@@ -32,30 +24,10 @@ namespace CrossPlatformChat.MVVM.Models.Users
             get { return _Login; }
             set { _Login = value; OnPropertyChanged(); }
         }
-        public string Username
-        {
-            get { return _UserName; }
-            set { _UserName = value; OnPropertyChanged(); }
-        }
         public string Password
         {
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
-        }
-        public string AvatarSource
-        {
-            get { return _AvatarSource; }
-            set { _AvatarSource = value; OnPropertyChanged(); }
-        }
-        public bool IsOnline
-        {
-            get { return _isOnline; }
-            set { _isOnline = value; OnPropertyChanged(); }
-        }
-        public DateTime LastLoginTime
-        {
-            get { return _LastLoginTime; }
-            set { _LastLoginTime = value; OnPropertyChanged(); }
         }
         public DateTime RegistrationTime
         {
