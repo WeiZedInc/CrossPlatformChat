@@ -1,4 +1,4 @@
-﻿using CrossPlatformChat.MVVM.Models;
+﻿using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
