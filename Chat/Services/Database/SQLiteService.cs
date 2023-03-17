@@ -15,7 +15,7 @@ namespace CrossPlatformChat.Services.Database
 
         void SetupConnection()
         {
-            string dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "localdata.db3");
+            string dbpath = Path.Combine(FileSystem.AppDataDirectory, "localdata.db3");
             connection = new SQLiteAsyncConnection(dbpath);
 
 
@@ -30,6 +30,11 @@ namespace CrossPlatformChat.Services.Database
         public Task<int> DeleteAsync(object entity) => connection.DeleteAsync(entity);
 
         public Task<int> UpdateAsync(object entity) => connection.UpdateAsync(entity);
+
+        public Task<T> FirstOrDefault<T>() where T : class, new()
+        {
+            return connection.Table<T>().FirstOrDefaultAsync();
+        }
 
         public Task<int> InsertAllAsync<T>(IEnumerable<T> entityCollection)
         {

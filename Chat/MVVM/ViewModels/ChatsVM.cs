@@ -15,6 +15,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
         public ChatsVM(ISQLiteService dbservice)
         {
             _dbservice = dbservice;
+
+            #region For Testing
             AddExternal = new Command(async () =>
             {
                 await _dbservice.InsertAsync(new GeneralUserData
@@ -24,9 +26,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     IsOnline = false,
                     Username = "Test"
                 });
-                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<GeneralUserData>().Result.Count.ToString(), "ok").GetAwaiter();
+                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<GeneralUserData>().Result.Count.ToString(), "ok").GetAwaiter(); //
             });
 
+            _dbservice.DeleteAllInTableAsync<ClientData>(); //
             AddCurrent = new Command(async () =>
             {
                 await _dbservice.InsertAsync(new ClientData
@@ -35,9 +38,11 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     LastLoginTime = DateTime.Now,
                     IsOnline = false,
                     Username = "Test",
+                    KeyWord = "Test"
                 });
-                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<ClientData>().Result.Count.ToString(), "ok").GetAwaiter();
+                App.Current.MainPage.DisplayAlert("ok", _dbservice.TableToListAsync<ClientData>().Result.Count.ToString(), "ok").GetAwaiter(); //
             });
+            #endregion
         }
 
         public string GetLastMessageInChat(ChatModel chat)

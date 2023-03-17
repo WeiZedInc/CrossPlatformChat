@@ -4,12 +4,13 @@ using CrossPlatformChat.Utils;
 
 namespace CrossPlatformChat.Services
 {
-    public class ClientManager : ClientData
+    public class ClientManager
     {
-        ClientManager _instance;
+        static ClientManager _instance;
+        ClientData _data;
         ISQLiteService db;
 
-        public ClientManager Instance { 
+        public static ClientManager Instance { 
             get 
             {
                 if (_instance == null) 
@@ -20,12 +21,13 @@ namespace CrossPlatformChat.Services
         }
         private ClientManager() { }
 
-        void Init()
+        static void Init()
         {
             _instance = new ClientManager();
             _instance.db = DependencyHelper.GetService<ISQLiteService>();
-            var clientData = db.TableToListAsync<ClientData>().Result;
-            //_instance.Login = clientData.Where()
+            var clientData = _instance.db.FirstOrDefault<ClientData>().Result;
+
+            _instance._data = clientData;
         }
     }
 }

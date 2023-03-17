@@ -22,6 +22,8 @@
         /// <returns>null value if the entity is not found in the database, otherwise returns found entity</returns>
         Task<T> FindInTableAsync<T>(int ID) where T : class, new();
 
+        Task<T> FirstOrDefault<T>() where T : class, new();
+
         /// <summary>
         /// This method blocks the callers thread.
         /// </summary>
