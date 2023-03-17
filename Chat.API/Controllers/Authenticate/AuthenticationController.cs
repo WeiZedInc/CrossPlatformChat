@@ -13,7 +13,7 @@ namespace Chat.API.Controlls.Authenticate
         [HttpPost("Authenticate")]
         public IActionResult Authenticate(BaseRequest request)
         {
-            var response = _userManager.Authenticate(request.Login, request.Password);
+            var response = _userManager.Authenticate(request.Login, request.HashedPassword);
             if (response == null)
                 return BadRequest(new { message = "Invalid username or password!" });
 

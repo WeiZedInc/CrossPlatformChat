@@ -1,14 +1,18 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
+using CrossPlatformChat.Services.Database;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    internal class RegisterVM : ClientModel
+    public class RegisterVM : ClientModel
     {
         public ICommand RegisterCommand { get; set; }
+        public ICommand TestCMD { get; set; }
         public ICommand GoToLoginViewCommand { get; set; }
+        ISQLiteService db;
         readonly string _registrationPath;
-        public RegisterVM()
+        public RegisterVM(ISQLiteService db)
         {
+            this.db = db;
             _registrationPath = "/Registration/Register";
             RegisterCommand = new Command(() =>
             {
@@ -18,6 +22,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 TryRegisterAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return registration completion
             });
+            TestCMD = new Command(() =>
+            {
+                App.Current.MainPage.DisplayAlert("ok", db.FirstOrDefault<ClientData>().Result.HashedPassword, "ok").GetAwaiter(); //
+            });
             GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PopAsync());
         }
 
@@ -25,15 +33,24 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             try
             {
+                var passTuple = CryptoManager.CreateHashedPassword(PasswordInput, KeyWordInput);
                 var request = new AuthenticationRequest
                 {
                     Login = LoginInput,
-                    Password = PasswordInput
+                    HashedPassword = passTuple.HashedPassword
                 };
-                var response = await ServerProvider.Instance.Authenticate(request, _registrationPath);
+                var response = await APIManager.Instance.Authenticate(request, _registrationPath);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}";
+                    Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}" +
+                        $"\nHashedPassword:{passTuple.HashedPassword}\nKeyWord:{KeyWordInput}\nSalt:{passTuple.Salt}";
+                    db.DeleteAllInTableAsync<ClientData>().Wait(); // for testing only
+                    await db.InsertAsync(new ClientData()
+                    { // todo: need to be completed with all data
+                        HashedPassword = passTuple.HashedPassword,
+                        KeyWord = KeyWordInput,
+                        StoredSalt = passTuple.Salt
+                    });
                     return true;
                 }
                 else

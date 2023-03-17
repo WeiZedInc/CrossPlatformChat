@@ -3,9 +3,9 @@ using System.Security.Cryptography;
 
 namespace CrossPlatformChat.Services
 {
-    internal class CryptoManager // todo
+    public static class CryptoManager // todo
     {
-        (string HashedPassword, byte[] Salt) CreateHashedPassword(string password, string keyWordSalt)
+        public static (string HashedPassword, byte[] Salt) CreateHashedPassword(string password, string keyWordSalt)
         {
             byte[] salt = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create()) rng.GetBytes(salt);
@@ -20,7 +20,7 @@ namespace CrossPlatformChat.Services
             return (hashedPassword, salt);
         }
 
-        bool VerifyPassword(string enteredPassword, byte[] storedSlat, string storedPassword)
+        public static bool VerifyPassword(string enteredPassword, byte[] storedSlat, string storedPassword)
         {
             string encryptedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(enteredPassword, storedSlat, KeyDerivationPrf.HMACSHA1, 10000, 256 / 8));
             return encryptedPassword.Equals(storedPassword);

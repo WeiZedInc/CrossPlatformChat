@@ -1,5 +1,6 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.MVVM.Views;
+using CrossPlatformChat.Utils;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
@@ -17,7 +18,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 TryLoginAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return login completion
             });
-            GoToRegisterViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new RegisterView()));
+            GoToRegisterViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new RegisterView(DependencyHelper.GetService<RegisterVM>()))); // remake
         }
 
         async Task<bool> TryLoginAsync()
@@ -27,12 +28,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var request = new AuthenticationRequest
                 {
                     Login = LoginInput,
-                    Password = PasswordInput
+                    HashedPassword = ClientManager.Instance._data.HashedPassword
                 };
-                var response = await ServerProvider.Instance.Authenticate(request);
+                var response = await APIManager.Instance.Authenticate(request);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
+                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}"; // token not received
                     return true;
                 }
                 else

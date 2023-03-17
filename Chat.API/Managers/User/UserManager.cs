@@ -36,7 +36,7 @@ namespace Chat.API.Functions.User
                 var entity = db.Users.SingleOrDefault(x => x.Login == login);
                 if (entity == null) return null;
 
-                var isPasswordsMatches = VerifyPassword(password, entity.Password);
+                var isPasswordsMatches = VerifyPassword(password, entity.HashedPassword);
                 if (isPasswordsMatches == false) return null;
 
                 var token = GenerateJWTToken(entity);
@@ -71,7 +71,7 @@ namespace Chat.API.Functions.User
                 { 
                     Login = login, 
                     Username = login.ToUpper(),
-                    Password = password,
+                    HashedPassword = password,
                     RegistrationTime = DateTime.UtcNow,
                 }); // remade for async
                 db.SaveChanges();
@@ -83,7 +83,7 @@ namespace Chat.API.Functions.User
                     ID = newEntity!.ID,
                     Login = login,
                     Username = newEntity.Username,
-                    Password = password,
+                    HashedPassword = password,
                     Token = GenerateJWTToken(newEntity),
                 }, RegistrationStatus.Success);
 

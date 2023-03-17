@@ -5,9 +5,6 @@
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              Title="Sign up"
              Background="midnightblue">
-    <ContentPage.BindingContext>
-        <vm:RegisterVM/>
-    </ContentPage.BindingContext>
     <VerticalStackLayout VerticalOptions="Center" Margin="40">
         <Label Text="Cross Platform Chat" FontSize="40" FontFamily="NotoSansThin"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
@@ -23,8 +20,12 @@
         <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
             <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
         </Frame>
+        <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
+            <Entry Placeholder="Enter keyword to encrypt your data with" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding KeyWordInput}"/>
+        </Frame>
 
         <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding RegisterCommand}"/>
+        <Button Margin="0,20" Text="Test" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding TestCMD}"/>
 
         <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
             <Label Text="Already have an account?" TextColor="LightSkyBlue" />

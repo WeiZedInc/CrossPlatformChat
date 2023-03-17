@@ -29,6 +29,10 @@ namespace Chat.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsOnline")
                         .HasColumnType("tinyint(1)");
 
@@ -36,10 +40,6 @@ namespace Chat.API.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 

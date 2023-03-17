@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Chat.API.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class reInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,14 +25,13 @@ namespace Chat.API.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Username = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
+                    HashedPassword = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AvatarSource = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsOnline = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     LastLoginTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    RegistrationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    StoreSalt = table.Column<byte[]>(type: "longblob", nullable: false)
+                    RegistrationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {

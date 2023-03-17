@@ -21,7 +21,7 @@
             <Entry Placeholder="Login" ReturnType="Go" TextColor="White" Text="{Binding LoginInput}"/>
         </Frame>
         <Frame Padding=" 10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
-            <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
+            <Entry Placeholder="Password" ReturnType="Go" TextColor="White" IsPassword="True" Text="{Binding PasswordInput}"/>
         </Frame>
 
         <Label Text="Forgot password" TextColor="#CC9544" Margin="100,10,0,10"/>

@@ -3,6 +3,6 @@
     public class BaseRequest
     {
         public string Login { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public string HashedPassword { get; set; } = null!;
     }
 }

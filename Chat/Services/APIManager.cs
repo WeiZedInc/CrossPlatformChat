@@ -4,15 +4,15 @@ using System.Text;
 
 namespace CrossPlatformChat.Services
 {
-    internal class ServerProvider
+    internal class APIManager
     {
-        private static ServerProvider _instance;
+        private static APIManager _instance;
         //private string _serverRootURL = "https://10.0.2.2:7233"; //api url, use on hosted api
         public string _accessToken = "";
 
-        static ServerProvider() => _instance = new ServerProvider();
-        private ServerProvider() { }
-        public static ServerProvider Instance { get => _instance; }
+        static APIManager() => _instance = new APIManager();
+        private APIManager() { }
+        public static APIManager Instance { get => _instance; }
 
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request, string path = "/Authentication/Authenticate")
         {

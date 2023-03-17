@@ -49,6 +49,7 @@ namespace CrossPlatformChat.MVVM.Models.Users
     {
         private string _loginInput;
         private string _passwordInput;
+        private string _keyWordInput;
         private string _test;
         private bool _isProcessing;
         public string Test
@@ -65,6 +66,11 @@ namespace CrossPlatformChat.MVVM.Models.Users
         {
             get { return _passwordInput; }
             set { _passwordInput = value; OnPropertyChanged(); }
+        }
+        public string KeyWordInput
+        {
+            get { return _keyWordInput; }
+            set { _keyWordInput = value; OnPropertyChanged(); }
         }
         public bool IsProcessing
         {

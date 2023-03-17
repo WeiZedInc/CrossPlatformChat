@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chat.API.Migrations
 {
     [DbContext(typeof(ChatAppContext))]
-    [Migration("20230314202914_PasswordEncryptionWentToClient")]
-    partial class PasswordEncryptionWentToClient
+    [Migration("20230317210147_reInit")]
+    partial class reInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,10 @@ namespace Chat.API.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("HashedPassword")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsOnline")
                         .HasColumnType("tinyint(1)");
 
@@ -39,10 +43,6 @@ namespace Chat.API.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Login")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
