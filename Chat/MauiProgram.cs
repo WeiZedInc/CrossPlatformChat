@@ -29,8 +29,9 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-		//views
-		builder.Services.AddSingleton<ChatsView>();
+
+        //views
+        builder.Services.AddSingleton<ChatsView>();
 		builder.Services.AddTransient<LoginView>();
 		builder.Services.AddTransient<RegisterView>();
 

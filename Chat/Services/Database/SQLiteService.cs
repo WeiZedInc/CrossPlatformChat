@@ -9,12 +9,13 @@ namespace CrossPlatformChat.Services.Database
         public SQLiteAsyncConnection connection;
         public SQLiteService()
         {
-            if (connection == null) SetupConnection();
+            if (connection == null) 
+                SetupConnection();
         }
 
         void SetupConnection()
         {
-            string dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestExternalUsers.db3");
+            string dbpath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "localdata.db3");
             connection = new SQLiteAsyncConnection(dbpath);
 
 
