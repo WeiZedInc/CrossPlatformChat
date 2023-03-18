@@ -25,7 +25,6 @@
         </Frame>
 
         <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding RegisterCommand}"/>
-        <Button Margin="0,20" Text="Test" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding TestCMD}"/>
 
         <HorizontalStackLayout Margin="0,40,0,0" HorizontalOptions="Center">
             <Label Text="Already have an account?" TextColor="LightSkyBlue" />

@@ -1,31 +1,35 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
+using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Database;
+using CrossPlatformChat.Utils;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class RegisterVM : ClientModel
     {
         public ICommand RegisterCommand { get; set; }
-        public ICommand TestCMD { get; set; }
         public ICommand GoToLoginViewCommand { get; set; }
+
         ISQLiteService db;
         readonly string _registrationPath;
         public RegisterVM(ISQLiteService db)
         {
             this.db = db;
             _registrationPath = "/Registration/Register";
-            RegisterCommand = new Command(() =>
+
+            RegisterCommand = new Command(async () =>
             {
                 if (IsProcessing) return;
-                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return;
+                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return; // remake checks to be optimal
 
                 IsProcessing = true;
-                TryRegisterAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return registration completion
+                if (await TryRegisterAsync())
+                {
+                    //var page = new ChatsView(DependencyHelper.GetService<ChatsVM>());
+                    //App.Current.MainPage.Navigation.PushAsync(page).Wait();
+                }
             });
-            TestCMD = new Command(() =>
-            {
-                App.Current.MainPage.DisplayAlert("ok", db.FirstOrDefault<ClientData>().Result.HashedPassword, "ok").GetAwaiter(); //
-            });
+
             GoToLoginViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PopAsync());
         }
 
@@ -42,15 +46,24 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var response = await APIManager.Instance.Authenticate(request, _registrationPath);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Registration successful!\nUsername: {response.UserName}\nToken:{response.Token}" +
-                        $"\nHashedPassword:{passTuple.HashedPassword}\nKeyWord:{KeyWordInput}\nSalt:{passTuple.Salt}";
-                    db.DeleteAllInTableAsync<ClientData>().Wait(); // for testing only
+                    await db.DeleteAllInTableAsync<ClientData>();
                     await db.InsertAsync(new ClientData()
-                    { // todo: need to be completed with all data
+                    {
                         HashedPassword = passTuple.HashedPassword,
                         KeyWord = KeyWordInput,
-                        StoredSalt = passTuple.Salt
+                        StoredSalt = passTuple.Salt,
+                        IsOnline = true,
+                        LastLoginTime = DateTime.UtcNow,
+                        RegistrationTime = DateTime.UtcNow,
+                        Password = PasswordInput,
+                        Login = LoginInput,
+                        Username = LoginInput,
+                        AvatarSource = "default.png",
+                        Token = response.Token
                     });
+
+                    Test = $"Registration successful!\nToken:{response.Token}" +
+                        $"\nUsername:{response.UserName}\nID:{response.ID}";
                     return true;
                 }
                 else
@@ -63,6 +76,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 Test = ex.Message;
                 return false;
+            }
+            finally 
+            { 
+                IsProcessing = false;
             }
         }
     }

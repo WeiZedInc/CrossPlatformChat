@@ -4,9 +4,23 @@ namespace CrossPlatformChat.MVVM.Views;
 
 public partial class ChatsView : ContentPage
 {
-	public ChatsView(ChatsVM chatsVM)
+    bool loaded = false;
+    ChatsVM chatsVM;
+    public ChatsView(ChatsVM vm)
 	{
-		InitializeComponent();
+        chatsVM = vm;
+
+        InitializeComponent();
 		BindingContext = chatsVM;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (loaded == false)
+        {
+            chatsVM.InitClientDB();
+            loaded = true;
+        }
+    }
 }

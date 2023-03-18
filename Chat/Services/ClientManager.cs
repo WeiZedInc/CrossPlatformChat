@@ -7,7 +7,7 @@ namespace CrossPlatformChat.Services
     public class ClientManager
     {
         static ClientManager _instance;
-        public ClientData _data;
+        public ClientData Client;
         ISQLiteService db;
 
         public static ClientManager Instance { 
@@ -29,7 +29,7 @@ namespace CrossPlatformChat.Services
                 _instance.db = DependencyHelper.GetService<ISQLiteService>();
                 var clientData = _instance.db.FirstOrDefault<ClientData>().Result;
 
-                _instance._data = clientData;
+                _instance.Client = clientData;
             }
             catch (Exception)
             {

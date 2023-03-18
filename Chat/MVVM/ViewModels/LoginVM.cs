@@ -8,17 +8,28 @@ namespace CrossPlatformChat.MVVM.ViewModels
     {
         public ICommand LoginCommand { get; set; }
         public ICommand GoToRegisterViewCommand { get; set; }
+        public ICommand GoToChatsViewCommand { get; set; }
+
         public LoginVM() : base()
         {
-            LoginCommand = new Command(() =>
+            LoginCommand = new Command(async () =>
             {
                 if (IsProcessing) return;
-                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return;
+                if (string.IsNullOrWhiteSpace(LoginInput) || string.IsNullOrWhiteSpace(PasswordInput)) return; // remake checks to be optimal
 
                 IsProcessing = true;
-                TryLoginAsync().GetAwaiter().OnCompleted(() => IsProcessing = false);  // can return login completion
+                if (await TryLoginAsync())
+                {
+                    //var page = new ChatsView(DependencyHelper.GetService<ChatsVM>());
+                    //App.Current.MainPage.Navigation.PushAsync(page).Wait();
+                }
             });
-            GoToRegisterViewCommand = new Command(async () => await App.Current.MainPage.Navigation.PushAsync(new RegisterView(DependencyHelper.GetService<RegisterVM>()))); // remake
+
+            GoToRegisterViewCommand = new Command(async () =>
+            {
+                var page = new RegisterView(DependencyHelper.GetService<RegisterVM>());
+                await App.Current.MainPage.Navigation.PushAsync(page);
+            });
         }
 
         async Task<bool> TryLoginAsync()
@@ -28,12 +39,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var request = new AuthenticationRequest
                 {
                     Login = LoginInput,
-                    HashedPassword = ClientManager.Instance._data.HashedPassword
+                    HashedPassword = ClientManager.Instance.Client.HashedPassword
                 };
                 var response = await APIManager.Instance.Authenticate(request);
                 if (response.StatusCode == 200)
                 {
-                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}"; // token not received
+                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
                     return true;
                 }
                 else
@@ -46,6 +57,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 Test = ex.Message;
                 return false;
+            }
+            finally
+            {
+                IsProcessing = false;
             }
         }
     }

@@ -5,7 +5,7 @@ namespace CrossPlatformChat.MVVM.Models.Users
     [Table("client")]
     public class ClientData : GeneralUserData, INotifyPropertyChanged
     {
-        string _KeyWord, _HashedPassword, _Password = null!, _Login = null!;
+        string _KeyWord, _HashedPassword, _Password = null!, _Login = null!, _Token = null!;
         DateTime _RegistrationTime;
         byte[] _StoredSalt = null!;
 
@@ -28,6 +28,11 @@ namespace CrossPlatformChat.MVVM.Models.Users
         {
             get { return _Password; }
             set { _Password = value; OnPropertyChanged(); }
+        }
+        public string Token
+        {
+            get { return _Token; }
+            set { _Token = value; OnPropertyChanged(); }
         }
         public DateTime RegistrationTime
         {

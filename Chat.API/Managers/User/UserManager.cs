@@ -65,7 +65,6 @@ namespace Chat.API.Functions.User
                 if (password.Length < 4)
                     return (null, RegistrationStatus.InvalidPassword);
 
-
                 db.Users.Add(new Users 
                 { 
                     Login = login, 
