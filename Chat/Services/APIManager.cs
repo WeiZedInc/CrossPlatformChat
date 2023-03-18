@@ -16,24 +16,20 @@ namespace CrossPlatformChat.Services
 
         public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request, string path = "/Authentication/Authenticate")
         {
+            if (request == null) return null;
+
             var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
             {
-                client.Timeout = TimeSpan.FromSeconds(10);
-                var httpRequestMsg = new HttpRequestMessage();
-                httpRequestMsg.Method = HttpMethod.Post;
-                httpRequestMsg.RequestUri = new Uri(devSsl.DevServerRootUrl + path);
+                Uri URI = new Uri(devSsl.DevServerRootUrl + path);
+                var httpRequest = new HttpRequestMessage(HttpMethod.Post, URI);
 
-                if (request != null)
-                {
-                    string jsonContent = JsonConvert.SerializeObject(request);
-                    var httpContent = new StringContent(jsonContent, encoding: Encoding.UTF8, "application/json");
-                    httpRequestMsg.Content = httpContent;
-                }
+                httpRequest.Content = new StringContent(JsonConvert.SerializeObject(request), encoding: Encoding.UTF8, "application/json");
 
                 try
                 {
-                    var response = await client.SendAsync(httpRequestMsg);
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    var response = await client.SendAsync(httpRequest);
                     var responseContent = await response.Content.ReadAsStringAsync();
 
                     var result = JsonConvert.DeserializeObject<AuthenticationResponse>(responseContent);

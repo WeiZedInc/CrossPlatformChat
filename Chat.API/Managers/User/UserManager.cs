@@ -39,12 +39,11 @@ namespace Chat.API.Functions.User
                 var isPasswordsMatches = VerifyPassword(password, entity.HashedPassword);
                 if (isPasswordsMatches == false) return null;
 
-                var token = GenerateJWTToken(entity);
-
                 return new User
                 {
                     ID = entity.ID,
                     Username = entity.Username,
+                    Token = GenerateJWTToken(entity)
                 };
             }
             catch (Exception)
