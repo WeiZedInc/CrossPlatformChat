@@ -1,5 +1,6 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.MVVM.Views;
+using CrossPlatformChat.Services.Database;
 using CrossPlatformChat.Utils;
 
 namespace CrossPlatformChat.MVVM.ViewModels
@@ -20,15 +21,13 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 if (await TryLoginAsync())
                 {
-                    //var page = new ChatsView(DependencyHelper.GetService<ChatsVM>());
-                    //App.Current.MainPage.Navigation.PushAsync(page).Wait();
+                    await App.Current.MainPage.Navigation.PushAsync(new ChatsView());
                 }
             });
 
             GoToRegisterViewCommand = new Command(async () =>
             {
-                var page = new RegisterView(DependencyHelper.GetService<RegisterVM>());
-                await App.Current.MainPage.Navigation.PushAsync(page);
+                await App.Current.MainPage.Navigation.PushAsync(new RegisterView());
             });
         }
 

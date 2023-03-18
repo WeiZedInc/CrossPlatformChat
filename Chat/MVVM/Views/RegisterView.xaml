@@ -5,6 +5,9 @@
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              Title="Sign up"
              Background="midnightblue">
+    <ContentPage.BindingContext>
+        <vm:RegisterVM/>
+    </ContentPage.BindingContext>
     <VerticalStackLayout VerticalOptions="Center" Margin="40">
         <Label Text="Cross Platform Chat" FontSize="40" FontFamily="NotoSansThin"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"

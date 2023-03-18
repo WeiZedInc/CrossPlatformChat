@@ -12,9 +12,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         ISQLiteService db;
         readonly string _registrationPath;
-        public RegisterVM(ISQLiteService db)
+        public RegisterVM()
         {
-            this.db = db;
+            db = ServiceHelper.GetService<ISQLiteService>();
             _registrationPath = "/Registration/Register";
 
             RegisterCommand = new Command(async () =>
@@ -25,8 +25,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 if (await TryRegisterAsync())
                 {
-                    //var page = new ChatsView(DependencyHelper.GetService<ChatsVM>());
-                    //App.Current.MainPage.Navigation.PushAsync(page).Wait();
+                    await App.Current.MainPage.Navigation.PushAsync(new ChatsView());
                 }
             });
 

@@ -30,16 +30,6 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
-        //views
-        builder.Services.AddSingleton<ChatsView>();
-		builder.Services.AddTransient<LoginView>();
-		builder.Services.AddTransient<RegisterView>();
-
-        //viewmodels
-        builder.Services.AddSingleton<ChatsVM>();
-        builder.Services.AddTransient<LoginVM>();
-        builder.Services.AddTransient<RegisterVM>();
-
         //db's
         builder.Services.AddSingleton<ISQLiteService, SQLiteService>();
 

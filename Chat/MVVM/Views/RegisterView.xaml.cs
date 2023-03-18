@@ -4,10 +4,9 @@ namespace CrossPlatformChat.MVVM.Views;
 
 public partial class RegisterView : ContentPage
 {
-	public RegisterView(RegisterVM vm)
+	public RegisterView()
 	{
 		InitializeComponent();
-		BindingContext = vm;
         NavigationPage.SetHasNavigationBar(this, false);
     }
 }

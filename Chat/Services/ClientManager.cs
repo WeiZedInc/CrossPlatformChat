@@ -26,7 +26,7 @@ namespace CrossPlatformChat.Services
             try
             {
                 _instance = new ClientManager();
-                _instance.db = DependencyHelper.GetService<ISQLiteService>();
+                _instance.db = ServiceHelper.GetService<ISQLiteService>();
                 var clientData = _instance.db.FirstOrDefault<ClientData>().Result;
 
                 _instance.Client = clientData;

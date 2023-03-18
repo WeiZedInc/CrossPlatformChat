@@ -1,26 +1,12 @@
 using CrossPlatformChat.MVVM.ViewModels;
+using CrossPlatformChat.Utils;
 
 namespace CrossPlatformChat.MVVM.Views;
 
 public partial class ChatsView : ContentPage
 {
-    bool loaded = false;
-    ChatsVM chatsVM;
-    public ChatsView(ChatsVM vm)
+    public ChatsView()
 	{
-        chatsVM = vm;
-
         InitializeComponent();
-		BindingContext = chatsVM;
 	}
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        if (loaded == false)
-        {
-            chatsVM.InitClientDB();
-            loaded = true;
-        }
-    }
 }
