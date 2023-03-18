@@ -1,4 +1,5 @@
 ﻿using Chat.API.Entities;
+using Chat.API.Managers.User;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,6 +21,7 @@ namespace Chat.API.Functions.User
         User? Authenticate(string login, string password);
         (User?, RegistrationStatus) Register(string login, string password);
         User? GetUserByID(int ID);
+        public BaseUser? GetBaseUserByName(string username);
     }
 
     public class UserManager : IUserManager
@@ -51,6 +53,22 @@ namespace Chat.API.Functions.User
                 throw;
             }
         }
+
+        public BaseUser? GetBaseUserByName(string username)
+        {
+            try
+            {
+                var entity = db.Users.SingleOrDefault(x => x.Username == username);
+                if (entity == null) return null;
+
+                return new BaseUser(entity.Username, entity.IsOnline, entity.LastLoginTime, entity.AvatarSource);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public (User?, RegistrationStatus) Register(string login, string password)
         {
             try
