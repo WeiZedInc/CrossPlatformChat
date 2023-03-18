@@ -1,7 +1,4 @@
-﻿using CrossPlatformChat.MVVM.Models.Users;
-using CrossPlatformChat.MVVM.Views;
-using CrossPlatformChat.Services.Database;
-using CrossPlatformChat.Utils;
+﻿using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat;
 
@@ -12,7 +9,7 @@ public partial class App : Application
         InitializeComponent();
 
         NavigationPage page;
-        if (ClientManager.Instance.Client == null)
+        if (ClientManager.Instance.Local == null)
             page = new NavigationPage(new LoginView());
         else
             page = new NavigationPage(new ChatsView());

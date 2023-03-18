@@ -7,21 +7,25 @@ namespace CrossPlatformChat.Services
     public class ClientManager
     {
         static ClientManager _instance;
-        public ClientData Client;
+        public ClientData Local;
+        public List<GeneralUserData> ExternalUsersList;
         ISQLiteService db;
 
         public static ClientManager Instance { 
             get 
             {
-                if (_instance == null) 
-                    Init();
+                if (_instance == null)
+                {
+                    GetLocalData();
+                    GetExternalData();
+                }
 
                 return _instance; 
             } 
         }
         private ClientManager() { }
 
-        static void Init()
+        static void GetLocalData()
         {
             try
             {
@@ -29,12 +33,17 @@ namespace CrossPlatformChat.Services
                 _instance.db = ServiceHelper.GetService<ISQLiteService>();
                 var clientData = _instance.db.FirstOrDefault<ClientData>().Result;
 
-                _instance.Client = clientData;
+                _instance.Local = clientData;
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        static void GetExternalData()
+        {
+            _instance.ExternalUsersList = new List<GeneralUserData>();
         }
     }
 }

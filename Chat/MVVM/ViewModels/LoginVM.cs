@@ -38,7 +38,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var request = new AuthenticationRequest
                 {
                     Login = LoginInput,
-                    HashedPassword = ClientManager.Instance.Client.HashedPassword
+                    HashedPassword = ClientManager.Instance.Local.HashedPassword
                 };
                 var response = await APIManager.Instance.Authenticate(request);
                 if (response.StatusCode == 200)
