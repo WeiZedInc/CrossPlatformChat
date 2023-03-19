@@ -1,8 +1,8 @@
 ﻿using CrossPlatformChat.Services.Base;
 
-namespace CrossPlatformChat.Services.Authentication
+namespace CrossPlatformChat.Services.Chat
 {
-    internal class AuthenticationRequest : IBaseRequest
+    internal class FriendsRequest : IBaseRequest
     {
         public string Login { get; set; }
         public string HashedPassword { get; set; }

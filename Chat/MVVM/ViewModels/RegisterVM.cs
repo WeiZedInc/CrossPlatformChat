@@ -11,11 +11,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
         public ICommand GoToLoginViewCommand { get; set; }
 
         ISQLiteService db;
-        readonly string _registrationPath;
         public RegisterVM()
         {
             db = ServiceHelper.GetService<ISQLiteService>();
-            _registrationPath = "/Registration/Register";
 
             RegisterCommand = new Command(async () =>
             {
@@ -42,7 +40,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Login = LoginInput,
                     HashedPassword = passTuple.HashedPassword
                 };
-                var response = await APIManager.Instance.Authenticate(request, _registrationPath);
+                var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Register);
                 if (response.StatusCode == 200)
                 {
                     await db.DeleteAllInTableAsync<ClientData>();

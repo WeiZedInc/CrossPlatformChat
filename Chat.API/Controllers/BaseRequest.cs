@@ -4,6 +4,6 @@
     {
         public string Login { get; set; } = null!;
         public string HashedPassword { get; set; } = null!;
-        public string? FriendNames { get; set; }
+        public string? FriendsJSON { get; set; }
     }
 }

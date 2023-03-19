@@ -1,9 +1,16 @@
 ﻿using CrossPlatformChat.EmulatorHelper;
+using CrossPlatformChat.Services.Base;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace CrossPlatformChat.Services
 {
+    public enum RequestPath
+    {
+        Authenticate,
+        Register,
+    }
+
     internal class APIManager
     {
         private static APIManager _instance;
@@ -14,14 +21,15 @@ namespace CrossPlatformChat.Services
         private APIManager() { }
         public static APIManager Instance { get => _instance; }
 
-        public async Task<AuthenticationResponse> Authenticate(AuthenticationRequest request, string path = "/Authentication/Authenticate")
+        public async Task<T> HttpRequest<T>(IBaseRequest request, RequestPath pathEnum) where T : BaseResponse, new()
         {
-            if (request == null) return null;
+            if (request == null) return default;
 
             var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
             {
-                Uri URI = new Uri(devSsl.DevServerRootUrl + path);
+                
+                Uri URI = new Uri(devSsl.DevServerRootUrl + GetAPIPath(pathEnum));
                 var httpRequest = new HttpRequestMessage(HttpMethod.Post, URI);
 
                 httpRequest.Content = new StringContent(JsonConvert.SerializeObject(request), encoding: Encoding.UTF8, "application/json");
@@ -32,23 +40,33 @@ namespace CrossPlatformChat.Services
                     var response = await client.SendAsync(httpRequest);
                     var responseContent = await response.Content.ReadAsStringAsync();
 
-                    var result = JsonConvert.DeserializeObject<AuthenticationResponse>(responseContent);
+                    var result = JsonConvert.DeserializeObject<T>(responseContent);
                     result.StatusCode = (int)response.StatusCode;
 
                     if (result.StatusCode == 200)
-                        _accessToken = result.Token;
-
-                    return result;
+                        return result;
+                    else
+                        return null;
                 }
                 catch (Exception ex)
                 {
-                    return new AuthenticationResponse
+                    return new T
                     {
                         StatusCode = 500,
                         StatusMessage = ex.Message
                     };
                 }
             }
+        }
+
+        string GetAPIPath(RequestPath pathEnum)
+        {
+            return pathEnum switch
+            {
+                RequestPath.Authenticate => "/Authentication/Authenticate",
+                RequestPath.Register => "/Registration/Register",
+                _ => string.Empty
+            };
         }
     }
 }

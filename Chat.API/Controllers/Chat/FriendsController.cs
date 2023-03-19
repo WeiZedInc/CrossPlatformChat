@@ -16,9 +16,9 @@ namespace Chat.API.Controllers.Chat
         [HttpPost("GetFriends")]
         public IActionResult GetFriends(BaseRequest request) // remake, no time now
         {
-            string[]? friendNames = JsonConvert.DeserializeObject<string[]>(request.FriendNames);
+            int[]? friends = JsonConvert.DeserializeObject<int[]>(request.FriendsJSON);
 
-            var response = _userManager.GetBaseUserByName(friendNames[0]);
+            var response = _userManager.GetUserByID(friends[0]);
             if (response == null)
                 return BadRequest(new { message = "Invalid username or password!" });
 

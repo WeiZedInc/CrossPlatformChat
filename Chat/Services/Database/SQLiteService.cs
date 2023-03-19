@@ -18,11 +18,7 @@ namespace CrossPlatformChat.Services.Database
             string dbpath = Path.Combine(FileSystem.AppDataDirectory, "localdata.db3");
             connection = new SQLiteAsyncConnection(dbpath);
 
-
-            connection.CreateTableAsync<ChatModel>();
-            connection.CreateTableAsync<ClientData>();
-            connection.CreateTableAsync<MessageModel>();
-            connection.CreateTableAsync<GeneralUserData>();
+            connection.CreateTablesAsync<ClientData, ChatModel, MessageModel, GeneralUserData>().Wait();
         }
 
         public Task<int> InsertAsync(object entity) => connection.InsertAsync(entity);

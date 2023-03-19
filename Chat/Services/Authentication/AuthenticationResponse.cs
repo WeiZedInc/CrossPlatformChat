@@ -1,12 +1,11 @@
-﻿namespace CrossPlatformChat.Services.Authentication
+﻿using CrossPlatformChat.Services.Base;
+
+namespace CrossPlatformChat.Services.Authentication
 {
-    internal class AuthenticationResponse
+    internal class AuthenticationResponse : BaseResponse
     {
         public int ID { get; set; }
         public string UserName { get; set; }
         public string Token { get; set; }
-
-        public int StatusCode { get; set; }
-        public string StatusMessage { get; set; }
     }
 }
