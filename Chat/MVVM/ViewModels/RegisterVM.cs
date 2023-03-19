@@ -43,7 +43,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Register);
                 if (response.StatusCode == 200)
                 {
-                    await db.DeleteAllInTableAsync<ClientData>();
                     await db.InsertAsync(new ClientData()
                     {
                         HashedPassword = passTuple.HashedPassword,

@@ -18,7 +18,7 @@ namespace Chat.API.Controlls.Register
             User? user = response.Item1;
 
             if (user != null && status == RegistrationStatus.Success)
-                return Ok(response);
+                return Ok(user);
 
 
             var message = status switch

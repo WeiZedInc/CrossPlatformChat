@@ -23,7 +23,7 @@ namespace CrossPlatformChat.Services
 
         public async Task<T> HttpRequest<T>(IBaseRequest request, RequestPath pathEnum) where T : BaseResponse, new()
         {
-            if (request == null) return default;
+            if (request == null) return null;
 
             var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
@@ -38,9 +38,9 @@ namespace CrossPlatformChat.Services
                 {
                     client.Timeout = TimeSpan.FromSeconds(10);
                     var response = await client.SendAsync(httpRequest);
-                    var responseContent = await response.Content.ReadAsStringAsync();
+                    string responseContent = await response.Content.ReadAsStringAsync();
 
-                    var result = JsonConvert.DeserializeObject<T>(responseContent);
+                    T result = JsonConvert.DeserializeObject<T>(responseContent);
                     result.StatusCode = (int)response.StatusCode;
 
                     if (result.StatusCode == 200)

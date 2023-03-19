@@ -2,6 +2,7 @@
 using Chat.API.Managers.User;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -83,24 +84,24 @@ namespace Chat.API.Functions.User
                 if (password.Length < 4)
                     return (null, RegistrationStatus.InvalidPassword);
 
-                db.Users.Add(new Users 
-                { 
-                    Login = login, 
+                var newUserToDB = new Users
+                {
+                    Login = login,
                     Username = login.ToUpper(),
                     HashedPassword = password,
                     RegistrationTime = DateTime.UtcNow,
-                }); // remade for async
+                };
+
+                db.Users.Add(newUserToDB);// remade for async
                 db.SaveChanges();
 
-                var newEntity = db.Users.SingleOrDefault(x => x.Login == login);
-
+                var Token = GenerateJWTToken(newUserToDB);
                 return (new User
                 {
-                    ID = newEntity!.ID,
                     Login = login,
-                    Username = newEntity.Username,
+                    Username = login.ToUpper(),
                     HashedPassword = password,
-                    Token = GenerateJWTToken(newEntity),
+                    Token = Token,
                 }, RegistrationStatus.Success);
 
             }
