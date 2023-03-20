@@ -58,20 +58,17 @@ namespace CrossPlatformChat.MVVM.ViewModels
                         AvatarSource = "default.png",
                         Token = response.Token
                     });
-
-                    Test = $"Registration successful!\nToken:{response.Token}" +
-                        $"\nUsername:{response.UserName}\nID:{response.ID}";
                     return true;
                 }
                 else
                 {
-                    Test = response.StatusMessage;
+                    await App.Current.MainPage.DisplayAlert("Error", response.StatusMessage, "ok");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Test = ex.Message;
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
                 return false;
             }
             finally 

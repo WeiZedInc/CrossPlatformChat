@@ -36,7 +36,5 @@
                 </Label.GestureRecognizers>
             </Label>
         </HorizontalStackLayout>
-
-        <Label Text="{Binding Test}" TextColor="Gray" />
     </VerticalStackLayout>
 </ContentPage>

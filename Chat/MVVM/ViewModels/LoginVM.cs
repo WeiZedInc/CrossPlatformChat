@@ -40,20 +40,18 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     HashedPassword = ClientManager.Instance.Local.HashedPassword
                 };
                 var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Authenticate, HttpMethod.Post);
-                if (response.StatusCode == 200)
-                {
-                    Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";
+
+                if (response.StatusCode == 200) 
                     return true;
-                }
                 else
                 {
-                    Test = response.StatusMessage;
+                    await App.Current.MainPage.DisplayAlert("Error", response.StatusMessage, "ok");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Test = ex.Message;
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
                 return false;
             }
             finally
