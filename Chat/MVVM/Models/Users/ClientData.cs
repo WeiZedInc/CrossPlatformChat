@@ -45,10 +45,5 @@ namespace CrossPlatformChat.MVVM.Models.Users
             get { return _StoredSalt; }
             set { _StoredSalt = value; OnPropertyChanged(); }
         }
-        public string FriendsJSON
-        {
-            get { return _FriendsJSON; }
-            set { _FriendsJSON = value; OnPropertyChanged(); }
-        }
     }
 }
