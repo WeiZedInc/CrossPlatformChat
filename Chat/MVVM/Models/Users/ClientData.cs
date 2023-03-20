@@ -3,7 +3,7 @@
 namespace CrossPlatformChat.MVVM.Models.Users
 {
     [Table("clients")]
-    public class ClientData : GeneralUserData, INotifyPropertyChanged
+    public class ClientData : GeneralUserData
     {
         string _KeyWord, _HashedPassword, _Password = null!, _Login = null!, _Token = null!;
         DateTime _RegistrationTime;
@@ -50,9 +50,5 @@ namespace CrossPlatformChat.MVVM.Models.Users
             get { return _FriendsJSON; }
             set { _FriendsJSON = value; OnPropertyChanged(); }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CrossPlatformChat.MVVM.Models.Users
 {
-    public class ClientModel : ClientData, INotifyPropertyChanged
+    public class ClientModel : ClientData
     {
         private string _loginInput;
         private string _passwordInput;
@@ -34,10 +34,6 @@ namespace CrossPlatformChat.MVVM.Models.Users
             get { return _isProcessing; }
             set { _isProcessing = value; OnPropertyChanged(); }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public ClientModel()
         {
