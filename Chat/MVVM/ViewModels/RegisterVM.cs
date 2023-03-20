@@ -2,7 +2,7 @@
 using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Base;
 using CrossPlatformChat.Services.Database;
-using CrossPlatformChat.Utils;
+using CrossPlatformChat.Utils.Helpers;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {

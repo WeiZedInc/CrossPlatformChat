@@ -1,6 +1,6 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.Services.Database;
-using CrossPlatformChat.Utils;
+using CrossPlatformChat.Utils.Helpers;
 
 namespace CrossPlatformChat.Services
 {

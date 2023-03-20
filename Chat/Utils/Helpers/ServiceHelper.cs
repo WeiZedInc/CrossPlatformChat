@@ -1,4 +1,4 @@
-﻿namespace CrossPlatformChat.Utils
+﻿namespace CrossPlatformChat.Utils.Helpers
 {
     public static class ServiceHelper // Dependency Injection helper
     {

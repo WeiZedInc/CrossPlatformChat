@@ -1,5 +1,5 @@
-﻿using CrossPlatformChat.EmulatorHelper;
-using CrossPlatformChat.Services.Base;
+﻿using CrossPlatformChat.Services.Base;
+using CrossPlatformChat.Utils.Helpers;
 using Newtonsoft.Json;
 using System.Text;
 
