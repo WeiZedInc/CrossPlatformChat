@@ -11,7 +11,7 @@ namespace Chat.API.Controlls.Register
         public RegistrationController(IUserManager userManager) => _userManager = userManager;
 
         [HttpPost("Register")]
-        public IActionResult Register(BaseRequest request)
+        public IActionResult Register(IBaseRequest request)
         {
             var response = _userManager.Register(request.Login, request.HashedPassword);
             RegistrationStatus status = response.Item2;

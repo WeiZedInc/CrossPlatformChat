@@ -11,7 +11,7 @@ namespace Chat.API.Controlls.Authenticate
         public AuthenticationController(IUserManager userManager) => _userManager = userManager;
 
         [HttpPost("Authenticate")]
-        public IActionResult Authenticate(BaseRequest request)
+        public IActionResult Authenticate(IBaseRequest request)
         {
             var response = _userManager.Authenticate(request.Login, request.HashedPassword);
             if (response == null)

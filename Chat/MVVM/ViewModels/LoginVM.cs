@@ -1,5 +1,6 @@
 ﻿using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.MVVM.Views;
+using CrossPlatformChat.Services.Base;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
@@ -33,12 +34,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             try
             {
-                var request = new AuthenticationRequest
+                var request = new BaseRequest
                 {
                     Login = LoginInput,
                     HashedPassword = ClientManager.Instance.Local.HashedPassword
                 };
-                var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Authenticate);
+                var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Authenticate, HttpMethod.Post);
                 if (response.StatusCode == 200)
                 {
                     Test = $"Logined!\nUsername: {response.UserName}\nToken:{response.Token}";

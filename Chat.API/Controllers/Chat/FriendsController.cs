@@ -14,7 +14,7 @@ namespace Chat.API.Controllers.Chat
         public FriendsController(IUserManager userManager) => _userManager = userManager;
 
         [HttpPost("GetFriends")]
-        public IActionResult GetFriends(BaseRequest request) // remake, no time now
+        public IActionResult GetFriends(IBaseRequest request) 
         {
             int[]? friends = JsonConvert.DeserializeObject<int[]>(request.FriendsJSON);
 

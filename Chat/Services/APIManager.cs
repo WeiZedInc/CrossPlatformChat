@@ -9,6 +9,7 @@ namespace CrossPlatformChat.Services
     {
         Authenticate,
         Register,
+        GetFriends,
     }
 
     internal class APIManager
@@ -21,7 +22,7 @@ namespace CrossPlatformChat.Services
         private APIManager() { }
         public static APIManager Instance { get => _instance; }
 
-        public async Task<T> HttpRequest<T>(IBaseRequest request, RequestPath pathEnum) where T : BaseResponse, new()
+        public async Task<T> HttpRequest<T>(BaseRequest request, RequestPath pathEnum, HttpMethod method) where T : BaseResponse, new()
         {
             if (request == null) return null;
 
@@ -30,7 +31,7 @@ namespace CrossPlatformChat.Services
             {
                 
                 Uri URI = new Uri(devSsl.DevServerRootUrl + GetAPIPath(pathEnum));
-                var httpRequest = new HttpRequestMessage(HttpMethod.Post, URI);
+                var httpRequest = new HttpRequestMessage(method, URI);
 
                 httpRequest.Content = new StringContent(JsonConvert.SerializeObject(request), encoding: Encoding.UTF8, "application/json");
 
@@ -65,6 +66,7 @@ namespace CrossPlatformChat.Services
             {
                 RequestPath.Authenticate => "/Authentication/Authenticate",
                 RequestPath.Register => "/Registration/Register",
+                RequestPath.GetFriends => "/Friends/GetFriends",
                 _ => string.Empty
             };
         }

@@ -1,9 +1,9 @@
 ﻿namespace Chat.API.Controlls
 {
-    public class BaseRequest
+    public interface IBaseRequest
     {
-        public string Login { get; set; } = null!;
-        public string HashedPassword { get; set; } = null!;
+        public string Login { get; set; }
+        public string HashedPassword { get; set; }
         public string? FriendsJSON { get; set; }
     }
 }
