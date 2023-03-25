@@ -8,7 +8,6 @@ namespace CrossPlatformChat.MVVM.Models.Users
         string _KeyWord, _HashedPassword, _Password = null!, _Login = null!, _Token = null!;
         DateTime _RegistrationTime;
         byte[] _StoredSalt = null!;
-        string _FriendsJSON = string.Empty;
 
         public string KeyWord
         {

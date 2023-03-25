@@ -11,9 +11,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class ChatsVM
     {
-        public bool NoChats { get; set; } = true;
-        public ICommand AddExternal { get; set; }
-        public ICommand AddCurrent { get; set; }
+        public bool NoChats { get; set; } = false;
+        public ICommand NewChatCMD { get; set; }
 
         public readonly ISQLiteService _dbservice;
 
