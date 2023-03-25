@@ -1,5 +1,4 @@
 ﻿using CrossPlatformChat.Database.Entities;
-using CrossPlatformChat.MVVM.Models;
 using SQLite;
 
 namespace CrossPlatformChat.Database

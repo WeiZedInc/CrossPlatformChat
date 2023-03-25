@@ -10,7 +10,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         public ICommand GoToRegisterViewCommand { get; set; }
         public ICommand GoToChatsViewCommand { get; set; }
 
-        public LoginVM() : base()
+        public LoginVM()
         {
             LoginCommand = new Command(async () =>
             {
@@ -41,7 +41,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 };
                 var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Authenticate, HttpMethod.Post);
 
-                if (response.StatusCode == 200) 
+                if (response.StatusCode == 200)
                     return true;
                 else
                 {

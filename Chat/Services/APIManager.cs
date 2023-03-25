@@ -29,7 +29,7 @@ namespace CrossPlatformChat.Services
             var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
             {
-                
+
                 Uri URI = new Uri(devSsl.DevServerRootUrl + GetAPIPath(pathEnum));
                 var httpRequest = new HttpRequestMessage(method, URI);
 

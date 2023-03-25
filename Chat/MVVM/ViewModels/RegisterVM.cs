@@ -72,8 +72,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
                 return false;
             }
-            finally 
-            { 
+            finally
+            {
                 IsProcessing = false;
             }
         }
