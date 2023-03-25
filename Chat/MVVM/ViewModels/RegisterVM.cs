@@ -1,7 +1,7 @@
-﻿using CrossPlatformChat.MVVM.Models.Users;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Base;
-using CrossPlatformChat.Services.Database;
 using CrossPlatformChat.Utils.Helpers;
 
 namespace CrossPlatformChat.MVVM.ViewModels

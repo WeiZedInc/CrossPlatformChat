@@ -1,6 +1,6 @@
-﻿using CrossPlatformChat.MVVM.ViewModels;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.MVVM.ViewModels;
 using CrossPlatformChat.MVVM.Views;
-using CrossPlatformChat.Services.Database;
 using Microsoft.Extensions.Logging;
 
 namespace CrossPlatformChat;

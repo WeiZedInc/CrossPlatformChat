@@ -1,8 +1,9 @@
-﻿using SQLite;
+﻿using CrossPlatformChat.Database.Entities;
+using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models.Users
+namespace CrossPlatformChat.MVVM.Models
 {
-    public class ClientModel : ClientData
+    public class ClientModel : ClientEntity
     {
         private string _loginInput;
         private string _passwordInput;

@@ -1,4 +1,4 @@
-﻿namespace CrossPlatformChat.Services.Database
+﻿namespace CrossPlatformChat.Database
 {
     public interface ISQLiteService
     {

@@ -22,7 +22,6 @@
             </VerticalStackLayout>
         </Frame>
 
-        <controls:SmallChatControl/>
 
         <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <Button Margin="0,10" Text="Create chat" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding NewChatCMD}"/>

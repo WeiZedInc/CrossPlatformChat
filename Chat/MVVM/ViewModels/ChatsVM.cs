@@ -1,8 +1,8 @@
-﻿using CrossPlatformChat.MVVM.Models.Chat;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.Models.Users;
 using CrossPlatformChat.Services.Base;
 using CrossPlatformChat.Services.Chat.Friends;
-using CrossPlatformChat.Services.Database;
 using CrossPlatformChat.Utils.Helpers;
 using Newtonsoft.Json;
 using static System.Net.Mime.MediaTypeNames;
@@ -19,6 +19,20 @@ namespace CrossPlatformChat.MVVM.ViewModels
         public ChatsVM()
         {
             _dbservice = ServiceHelper.GetService<ISQLiteService>();
+            if (_dbservice.TableToListAsync<ChatModel>().Result.Count == 0)
+                NoChats = true;
+
+            NewChatCMD = new Command(CreateChat);
+        }
+
+        void CreateChat()
+        {
+            ChatModel chat = new ChatModel()
+            {
+                CreatedDate = DateTime.Now,
+                Name = "test",
+                StoredKeyWord = new byte[] { 1, 2, 3 }
+            };
         }
 
         public string GetLastMessageInChat(ChatModel chat)

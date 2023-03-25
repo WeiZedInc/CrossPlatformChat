@@ -1,9 +1,9 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models.Users
+namespace CrossPlatformChat.Database.Entities
 {
     [Table("users")]
-    public class GeneralUserData : INotifyPropertyChanged
+    public class GeneralUserEntity : INotifyPropertyChanged
     {
         int _ID;
         string _UserName = null!, _AvatarSource = "avatar.png";

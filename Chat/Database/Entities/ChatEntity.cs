@@ -1,9 +1,9 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models.Chat
+namespace CrossPlatformChat.Database.Entities
 {
     [Table("chats")]
-    public class ChatModel : INotifyPropertyChanged
+    public class ChatEntity : INotifyPropertyChanged
     {
         int _ID, _MissedMessagesCount = 0;
         string _Name, _UsersID, _MessagesID;

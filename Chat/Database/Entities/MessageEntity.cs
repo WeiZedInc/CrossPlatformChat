@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models.Chat
+namespace CrossPlatformChat.Database.Entities
 {
     public enum MessageStatus
     {
@@ -10,7 +10,7 @@ namespace CrossPlatformChat.MVVM.Models.Chat
     }
 
     [Table("messages")]
-    internal class MessageModel : INotifyPropertyChanged
+    internal class MessageEntity : INotifyPropertyChanged
     {
         int _ID, _ChatID;
         string _SenderID, _Content;

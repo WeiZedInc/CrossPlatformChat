@@ -1,5 +1,5 @@
-﻿using CrossPlatformChat.MVVM.Models.Users;
-using CrossPlatformChat.Services.Database;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.Utils.Helpers;
 
 namespace CrossPlatformChat.Services
@@ -7,8 +7,8 @@ namespace CrossPlatformChat.Services
     public class ClientManager
     {
         static ClientManager _instance;
-        public ClientData? Local;
-        public List<GeneralUserData> Friends;
+        public ClientEntity? Local;
+        public List<GeneralUserEntity> Friends;
         ISQLiteService db;
 
         public static ClientManager Instance { 
@@ -31,7 +31,7 @@ namespace CrossPlatformChat.Services
             {
                 _instance = new ClientManager();
                 _instance.db = ServiceHelper.GetService<ISQLiteService>();
-                var clientData = _instance.db.FirstOrDefault<ClientData>().Result;
+                var clientData = _instance.db.FirstOrDefault<ClientEntity>().Result;
 
                 _instance.Local = clientData;
             }
@@ -43,7 +43,7 @@ namespace CrossPlatformChat.Services
 
         static void LoadFriends()
         {
-            _instance.Friends = new List<GeneralUserData>();
+            _instance.Friends = new List<GeneralUserEntity>();
         }
     }
 }

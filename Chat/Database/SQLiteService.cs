@@ -1,15 +1,15 @@
-﻿using CrossPlatformChat.MVVM.Models.Chat;
-using CrossPlatformChat.MVVM.Models.Users;
+﻿using CrossPlatformChat.Database.Entities;
+using CrossPlatformChat.MVVM.Models;
 using SQLite;
 
-namespace CrossPlatformChat.Services.Database
+namespace CrossPlatformChat.Database
 {
     internal class SQLiteService : ISQLiteService
     {
         public SQLiteAsyncConnection connection;
         public SQLiteService()
         {
-            if (connection == null) 
+            if (connection == null)
                 SetupConnection();
         }
 
@@ -18,11 +18,11 @@ namespace CrossPlatformChat.Services.Database
             string dbpath = Path.Combine(FileSystem.AppDataDirectory, "localdata.db3");
             connection = new SQLiteAsyncConnection(dbpath);
 
-            connection.CreateTablesAsync<ClientData, ChatModel, MessageModel, GeneralUserData>().Wait();
-            connection.DeleteAllAsync<ClientData>().Wait(); ;//for testing only
-            connection.DeleteAllAsync<ChatModel>().Wait(); ;//for testing only
-            connection.DeleteAllAsync<MessageModel>().Wait(); ;//for testing only
-            connection.DeleteAllAsync<GeneralUserData>().Wait(); ;//for testing only
+            connection.CreateTablesAsync<ClientEntity, ChatEntity, MessageEntity, GeneralUserEntity>().Wait();
+            //connection.DeleteAllAsync<ClientEntity>().Wait(); ;//for testing only
+            //connection.DeleteAllAsync<ChatEntity>().Wait(); ;//for testing only
+            //connection.DeleteAllAsync<MessageEntity>().Wait(); ;//for testing only
+            //connection.DeleteAllAsync<GeneralUserEntity>().Wait(); ;//for testing only
         }
 
         public Task<int> InsertAsync(object entity) => connection.InsertAsync(entity);

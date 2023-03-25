@@ -1,9 +1,9 @@
 ﻿using SQLite;
 
-namespace CrossPlatformChat.MVVM.Models.Users
+namespace CrossPlatformChat.Database.Entities
 {
     [Table("clients")]
-    public class ClientData : GeneralUserData
+    public class ClientEntity : GeneralUserEntity
     {
         string _KeyWord, _HashedPassword, _Password = null!, _Login = null!, _Token = null!;
         DateTime _RegistrationTime;
