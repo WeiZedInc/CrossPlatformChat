@@ -1,4 +1,5 @@
 ﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Base;
@@ -44,7 +45,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Register, HttpMethod.Post);
                 if (response.StatusCode == 200)
                 {
-                    await db.InsertAsync(new ClientData()
+                    await db.InsertAsync(new ClientEntity()
                     {
                         HashedPassword = passTuple.HashedPassword,
                         KeyWord = KeyWordInput,

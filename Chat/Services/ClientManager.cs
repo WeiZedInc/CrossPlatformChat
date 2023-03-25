@@ -7,18 +7,14 @@ namespace CrossPlatformChat.Services
     public class ClientManager
     {
         static ClientManager _instance;
-        public ClientEntity? Local;
-        public List<GeneralUserEntity> Friends;
+        public ClientEntity Local;
         ISQLiteService db;
 
         public static ClientManager Instance { 
             get 
             {
                 if (_instance == null)
-                {
                     GetLocalData();
-                    LoadFriends();
-                }
 
                 return _instance; 
             } 
@@ -39,11 +35,6 @@ namespace CrossPlatformChat.Services
             {
                 throw;
             }
-        }
-
-        static void LoadFriends()
-        {
-            _instance.Friends = new List<GeneralUserEntity>();
         }
     }
 }
