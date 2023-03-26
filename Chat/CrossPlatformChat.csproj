@@ -104,8 +104,4 @@
 	  </MauiXaml>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Utils\Request-Response\Chat\Messages\" />
-	</ItemGroup>
-
 </Project>

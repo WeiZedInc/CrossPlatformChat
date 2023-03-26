@@ -66,7 +66,7 @@ namespace CrossPlatformChat.Services
             {
                 RequestPath.Authenticate => "/Authentication/Authenticate",
                 RequestPath.Register => "/Registration/Register",
-                RequestPath.GetUserByUsername => "/Users/GetByUsername",
+                RequestPath.GetUserByUsername => "/GeneralUsers/GetByUsername",
                 _ => string.Empty
             };
         }

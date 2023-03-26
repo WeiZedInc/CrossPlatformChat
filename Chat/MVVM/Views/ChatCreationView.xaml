@@ -19,7 +19,7 @@
         </Frame>
 
         <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
-            <Entry Placeholder="Chat name" ReturnType="Go" TextColor="White" Text="{Binding UserIDToAdd}" Completed="{Binding GetUserByUsername}"/>
+            <Entry Placeholder="Chat name" ReturnType="Go" TextColor="White" Text="{Binding UsernameToAdd}" Completed="{Binding GetUserByUsername}"/>
         </Frame>
         
         <HorizontalStackLayout HorizontalOptions="Start">

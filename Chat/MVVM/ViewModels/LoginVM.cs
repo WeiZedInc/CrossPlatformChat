@@ -6,10 +6,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class LoginVM : ClientModel
     {
-        public ICommand LoginCommand { get; set; }
-        public ICommand GoToRegisterViewCommand { get; set; }
-        public ICommand GoToChatsViewCommand { get; set; }
-
         public LoginVM()
         {
             LoginCommand = new Command(async () =>

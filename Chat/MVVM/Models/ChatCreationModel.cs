@@ -8,11 +8,11 @@ namespace CrossPlatformChat.MVVM.Models
         public string KeyWordInput { get; set; }
         public List<GeneralUserEntity> UsersToAdd { get; set; }
 
-        string _UserIDToAdd;
-        public string UserIDToAdd
+        string _UsernameToAdd;
+        public string UsernameToAdd
         {
-            get { return _UserIDToAdd; }
-            set { _UserIDToAdd = value; OnPropertyChanged(); }
+            get { return _UsernameToAdd; }
+            set { _UsernameToAdd = value; OnPropertyChanged(); }
         }
 
         bool _isSavingKeyword;

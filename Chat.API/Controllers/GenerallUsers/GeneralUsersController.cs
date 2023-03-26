@@ -11,7 +11,7 @@ namespace Chat.API.Controlls.GeneralUsers
         private IUserManager _userManager;
         public GeneralUsersController(IUserManager userManager) => _userManager = userManager;
 
-        [HttpGet("GetByUsername")]
+        [HttpPost("GetByUsername")]
         public IActionResult GetByUsername(BaseRequest request)
         {
             GeneralUser? user = _userManager.GetGeneralUserByUsername(request.Login);
