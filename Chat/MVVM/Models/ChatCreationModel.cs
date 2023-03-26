@@ -7,6 +7,8 @@ namespace CrossPlatformChat.MVVM.Models
     {
         public string ChatNameInput { get; set; }
         public string KeyWordInput { get; set; }
+        public ICommand CreateChatCMD { get; set; }
+        public ICommand AddUserCMD { get; set; }
         public ObservableCollection<GeneralUserEntity> UsersToAdd { get; set; }
 
         string _UsernameToAdd;
@@ -29,7 +31,7 @@ namespace CrossPlatformChat.MVVM.Models
 
         public ChatCreationModel()
         {
-            UsersToAdd = new() { new() {Username = "a"}, new() { Username = "b" }, new() { Username = "c" } };
+            UsersToAdd = new();
         }
     }
 }
