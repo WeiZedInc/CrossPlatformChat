@@ -1,5 +1,4 @@
 using CrossPlatformChat.Database.Entities;
-using CrossPlatformChat.MVVM.Models;
 using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.Controls;
@@ -11,33 +10,26 @@ public partial class AddUsersControl : ContentView
 		InitializeComponent();
 	}
 
-    public static readonly BindableProperty UsersToAddProperty = BindableProperty.Create(
-        nameof(UsersToAdd),
-        typeof(ChatCreationModel),
-        typeof(AddUsersControl),
-        propertyChanged: OnChatCreationModelChanged);
-
     public static readonly BindableProperty RemoveUserCMDProperty = BindableProperty.Create(
-        nameof(RemoveUserCMD),
-        typeof(ChatCreationModel),
-        typeof(AddUsersControl),
-        propertyChanged: OnChatCreationModelChanged);
+    nameof(RemoveUserCMD),
+    typeof(ICommand),
+    typeof(AddUsersControl));
 
-    public ChatCreationModel RemoveUserCMD
+    public ICommand RemoveUserCMD
     {
-        get => (ChatCreationModel)GetValue(RemoveUserCMDProperty);
+        get => (ICommand)GetValue(RemoveUserCMDProperty);
         set => SetValue(RemoveUserCMDProperty, value);
     }
 
-    public ChatCreationModel UsersToAdd
-    {
-        get => (ChatCreationModel)GetValue(UsersToAddProperty);
-        set => SetValue(UsersToAddProperty, value);
-    }
 
-    static void OnChatCreationModelChanged(BindableObject bindable, object oldValue, object newValue)
+    public static readonly BindableProperty UsersToAddProperty = BindableProperty.Create(
+    nameof(UsersToAdd),
+    typeof(ObservableCollection<GeneralUserEntity>),
+    typeof(AddUsersControl));
+
+    public ObservableCollection<GeneralUserEntity> UsersToAdd
     {
-        var control = (AddUsersControl)bindable;
-        control.BindingContext = newValue;
+        get => (ObservableCollection<GeneralUserEntity>)GetValue(UsersToAddProperty);
+        set => SetValue(UsersToAddProperty, value);
     }
 }

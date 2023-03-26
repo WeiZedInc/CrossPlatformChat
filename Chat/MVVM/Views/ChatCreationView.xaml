@@ -27,7 +27,7 @@
                 <Button  Margin="160,0,0,0" Padding="10,-10,10,-10" Text="Add" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding AddUserCMD}"/>
             </HorizontalStackLayout>
         </Frame>
-        <controls:AddUsersControl UsersToAdd="{Binding UsersToAdd}" RemoveUserCMD="{Binding RemoveUserCMD}" />
+        <controls:AddUsersControl UsersToAdd="{Binding UsersToAdd}" RemoveUserCMD="{Binding RemoveUserCMD}"/>
 
 
 
