@@ -6,7 +6,7 @@ namespace CrossPlatformChat.Database.Entities
     public class GeneralUserEntity : INotifyPropertyChanged
     {
         int _ID;
-        string _UserName = null!, _AvatarSource = "avatar.png";
+        string _UserName = null!, _AvatarSource = "dotnet_bot.svg";
         bool _isOnline;
         DateTime _LastLoginTime;
 

@@ -18,10 +18,25 @@
             <Entry Placeholder="Chat name" ReturnType="Go" TextColor="White" Text="{Binding ChatNameInput}"/>
         </Frame>
 
-        <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
-            <Entry Placeholder="Chat name" ReturnType="Go" TextColor="White" Text="{Binding UsernameToAdd}" Completed="{Binding GetUserByUsername}"/>
-        </Frame>
         
+        
+        
+        
+        
+        <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
+            <HorizontalStackLayout>
+                <Entry Placeholder="Client username to add" ReturnType="Go" TextColor="White" Text="{Binding UsernameToAdd}"/>
+                <Button  Margin="160,0,0,0" Padding="10,-10,10,-10" Text="Add" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding LoginCommand}"/>
+            </HorizontalStackLayout>
+        </Frame>
+
+        <controls:AddUsersControl ChatCreationModel="{Binding UsersToAdd}" />
+
+
+
+
+
+
         <HorizontalStackLayout HorizontalOptions="Start">
             <Label Text="Save keyword for this chat?" Margin="10,0,10,10" FontSize="20" FontFamily="NotoSansThin" FontAttributes="Bold"
                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
@@ -29,6 +44,8 @@
             <Switch Margin="80,0,10,0" IsToggled="{Binding IsSavingKeyword}"/>
         </HorizontalStackLayout>
         
+        
+
         <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500" IsVisible="{Binding IsSavingKeyword}">
             <Entry Placeholder="Keyword" ReturnType="Go" TextColor="White" IsPassword="True" Text="{Binding KeyWordInput}"/>
         </Frame>

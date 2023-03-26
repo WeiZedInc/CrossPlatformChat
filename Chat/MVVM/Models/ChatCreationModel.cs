@@ -1,12 +1,13 @@
 ﻿using CrossPlatformChat.Database.Entities;
+using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.Models
 {
-    internal class ChatCreationModel : INotifyPropertyChanged
+    public class ChatCreationModel : INotifyPropertyChanged
     {
         public string ChatNameInput { get; set; }
         public string KeyWordInput { get; set; }
-        public List<GeneralUserEntity> UsersToAdd { get; set; }
+        public ObservableCollection<GeneralUserEntity> UsersToAdd { get; set; }
 
         string _UsernameToAdd;
         public string UsernameToAdd
@@ -28,7 +29,7 @@ namespace CrossPlatformChat.MVVM.Models
 
         public ChatCreationModel()
         {
-            UsersToAdd = new();
+            UsersToAdd = new() { new() {Username = "a"}, new() { Username = "b" }, new() { Username = "c" } };
         }
     }
 }

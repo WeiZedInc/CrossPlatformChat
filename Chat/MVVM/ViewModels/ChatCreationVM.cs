@@ -6,7 +6,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 {
     internal class ChatCreationVM : ChatCreationModel
     {
-        public async Task<bool> GetUserByUsername()
+        public async Task<bool> GetUserByUsername() 
         {
             try
             {
