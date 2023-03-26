@@ -1,14 +1,12 @@
-﻿namespace Chat.API.Functions.User
+﻿using Chat.API.Managers.User;
+
+namespace Chat.API.Functions.User
 {
-    public class User
+    public class User : GeneralUser
     {
         public int ID { get; set; }
         public string Login { get; set; } = null!;
-        public string Username { get; set; } = null!;
         public string HashedPassword { get; set; } = null!;
-        public string AvatarSource { get; set; } = "avatar.png";
-        public bool IsOnline { get; set; }
-        public DateTime LastLoginTime { get; set; }
         public string Token { get; set; } = null!;
     }
 }

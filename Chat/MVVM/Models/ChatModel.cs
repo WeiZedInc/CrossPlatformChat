@@ -10,14 +10,14 @@ namespace CrossPlatformChat.MVVM.Models
     public class ChatModel : ChatEntity
     {
         public bool NoChats { get; set; } = false;
-        public static ObservableCollection<ChatModel> AllChats { get; set; }
+        public static ObservableCollection<ChatEntity> AllChats { get; set; }
         public ICommand NewChatCMD { get; set; }
         public readonly ISQLiteService _dbservice;
 
         public ChatModel()
         {
             _dbservice = ServiceHelper.GetService<ISQLiteService>();
-            AllChats = new ObservableCollection<ChatModel>(_dbservice.TableToListAsync<ChatModel>().Result);
+            AllChats = new ObservableCollection<ChatEntity>(_dbservice.TableToListAsync<ChatEntity>().Result);
         }
     }
 }

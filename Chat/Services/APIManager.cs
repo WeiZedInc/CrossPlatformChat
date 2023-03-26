@@ -9,7 +9,7 @@ namespace CrossPlatformChat.Services
     {
         Authenticate,
         Register,
-        GetFriends,
+        GetUserByUsername,
     }
 
     internal class APIManager
@@ -66,7 +66,7 @@ namespace CrossPlatformChat.Services
             {
                 RequestPath.Authenticate => "/Authentication/Authenticate",
                 RequestPath.Register => "/Registration/Register",
-                RequestPath.GetFriends => "/Friends/GetFriends",
+                RequestPath.GetUserByUsername => "/Users/GetByUsername",
                 _ => string.Empty
             };
         }
