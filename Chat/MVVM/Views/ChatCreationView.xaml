@@ -27,7 +27,31 @@
                 <Button  Margin="160,0,0,0" Padding="10,-10,10,-10" Text="Add" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding AddUserCMD}"/>
             </HorizontalStackLayout>
         </Frame>
-        <controls:AddUsersControl UsersToAdd="{Binding UsersToAdd}" RemoveUserCMD="{Binding RemoveUserCMD}"/>
+        <CollectionView ItemsSource="{Binding UsersToAdd}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ScrollView Margin="5">
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Remove" BackgroundColor="Red" 
+                                               Command="{Binding Source={x:RelativeSource AncestorType={x:Type vm:ChatCreationVM}}, Path=RemoveUserCMD}" 
+                                               CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
+                                <HorizontalStackLayout>
+                                    <Image Source="{Binding AvatarSource}" HeightRequest="40" WidthRequest="40" Margin="10"/>
+                                    <Label Text="{Binding Username}"
+                             FontSize="20" FontFamily="NotoSansThin" FontAttributes="Bold"
+                             VerticalTextAlignment="Start" TextColor="White"/>
+                                </HorizontalStackLayout>
+                            </Frame>
+                        </SwipeView>
+                    </ScrollView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
 
 

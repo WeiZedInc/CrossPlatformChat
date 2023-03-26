@@ -9,31 +9,37 @@ namespace CrossPlatformChat.MVVM.ViewModels
     {
         public ChatCreationVM()
         {
-            AddUserCMD = new Command(async () =>
-            {
-                if (UsersToAdd.Where(x => x.Username == UsernameToAdd).FirstOrDefault() != null)
-                {
-                    await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
-                    return;
-                }
-                else if (UsernameToAdd == ClientManager.Instance.Local.Username)
-                {
-                    await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
-                    return;
-                }
+            AddUserCMD = new Command(AddUser);
+            RemoveUserCMD = new Command<GeneralUserEntity>(RemoveUser);
+        }
+        
 
-                GeneralUserEntity user = await GetUserByUsername();
-                if (user != null)
-                    UsersToAdd.Add(user);
-                else
-                    await App.Current.MainPage.DisplayAlert("Oops", "There is no user with such username!", "Ok");
-            });
+        public void RemoveUser(GeneralUserEntity user)
+        {
+            if (UsersToAdd.Contains(user))
+                UsersToAdd.Remove(user);
+        }
 
-            RemoveUserCMD = new Command<GeneralUserEntity>(user =>
+        public async void AddUser()
+        {
+            if (UsersToAdd.Where(x => x.Username == UsernameToAdd).FirstOrDefault() != null)
             {
-                if (UsersToAdd.Contains(user))
-                    UsersToAdd.Remove(user);
-            });
+                await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
+                return;
+            }
+            else if (UsernameToAdd == ClientManager.Instance.Local.Username)
+            {
+                await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
+                return;
+            }
+
+            GeneralUserEntity user = await GetUserByUsername();
+            if (user != null)
+                UsersToAdd.Add(user);
+            else
+                await App.Current.MainPage.DisplayAlert("Oops", "There is no user with such username!", "Ok");
+
+            UsernameToAdd = string.Empty;
         }
 
         public async Task<GeneralUserEntity> GetUserByUsername()
@@ -55,14 +61,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     };
                 }
                 else
-                {
-                    await App.Current.MainPage.DisplayAlert("ChatCreationVM (GetUserByUsername)", response.StatusMessage, "ok");
                     return null;
-                }
             }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("ChatCreationVM (GetUserByUsername)", ex.Message, "ok");
+            catch (Exception)
+            { //handling errors in cmd's
                 return null;
             }
         }
