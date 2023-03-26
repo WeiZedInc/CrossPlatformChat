@@ -21,14 +21,20 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             try
             {
-                (string Hash, byte[] Salt) key = new();
-                if (KeyWordInput != string.Empty)
-                    key = CryptoManager.CreateHash(KeyWordInput);
-                else
+                if(KeyWordInput == string.Empty || ChatNameInput == string.Empty)
                 {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Input keyword for the chat, please.", "Ok");
+                    await App.Current.MainPage.DisplayAlert("Oops", "Fill all the entries, please.", "Ok");
                     return;
                 }
+                if (KeyWordInput.Length < 4 || ChatNameInput.Length < 4)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "Keyword and chat name must contains at leas of 4 symbols.", "Ok");
+                    return;
+                }
+
+                (string Hash, byte[] Salt) key = new();
+                key = CryptoManager.CreateHash(KeyWordInput);
+
 
                 int[] UsersID = new int[UsersToAdd.Count];
                 for (int i = 0; i < UsersToAdd.Count; i++)
