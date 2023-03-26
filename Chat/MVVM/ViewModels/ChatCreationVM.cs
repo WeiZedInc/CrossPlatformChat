@@ -1,7 +1,10 @@
-﻿using CrossPlatformChat.Database.Entities;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.Services.Base;
+using CrossPlatformChat.Utils.Helpers;
 using CrossPlatformChat.Utils.Request_Response.Chat;
+using Newtonsoft.Json;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
@@ -11,8 +14,51 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             AddUserCMD = new Command(AddUser);
             RemoveUserCMD = new Command<GeneralUserEntity>(RemoveUser);
+            CreateChatCMD = new Command(CreateChat);
         }
-        
+
+        public async void CreateChat()
+        {
+            try
+            {
+                (string Hash, byte[] Salt) key = new();
+                if (KeyWordInput != string.Empty)
+                    key = CryptoManager.CreateHash(KeyWordInput);
+                else
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "Input keyword for the chat, please.", "Ok");
+                    return;
+                }
+
+                int[] UsersID = new int[UsersToAdd.Count];
+                for (int i = 0; i < UsersToAdd.Count; i++)
+                    UsersID[i] = UsersToAdd[i].ID;
+
+                ChatEntity chat = new ChatEntity()
+                {
+                    ID = GenerateChatID(),
+                    CreatedDate = DateTime.Now,
+                    MissedMessagesCount = 0,
+                    Name = ChatNameInput,
+                    HashedKeyword = key.Hash,
+                    StoredSalt = key.Salt,
+                    MessagesID = string.Empty,
+                    GeneralUsersID_JSON = JsonConvert.SerializeObject(UsersID)
+                };
+
+                await ServiceHelper.GetService<ISQLiteService>().InsertAsync(chat);
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Oops", ex.Message, "Ok");
+            }
+        }
+
+        int GenerateChatID()
+        {
+            Random rnd = new Random();
+            return Math.Abs(ClientManager.Instance.Local.Username.Length + rnd.Next() / (DateTime.Now.Second + 1) - UsernameToAdd.Length);
+        }
 
         public void RemoveUser(GeneralUserEntity user)
         {
@@ -42,31 +88,30 @@ namespace CrossPlatformChat.MVVM.ViewModels
             UsernameToAdd = string.Empty;
         }
 
-        public async Task<GeneralUserEntity> GetUserByUsername()
+        public async Task<GeneralUserEntity> GetUserByUsername() // refactor to make check database on containing of user before request the api
         {
-            try
-            {
-                var request = new BaseRequest { Login = UsernameToAdd, HashedPassword = string.Empty};
-                var response = await APIManager.Instance.HttpRequest<UserEntityResponse>(request, RequestPath.GetUserByUsername, HttpMethod.Post);
+            var request = new BaseRequest { Login = UsernameToAdd, HashedPassword = string.Empty };
+            var response = await APIManager.Instance.HttpRequest<UserEntityResponse>(request, RequestPath.GetUserByUsername, HttpMethod.Post);
 
-                if (response.StatusCode == 200)
+            if (response.StatusCode == 200)
+            {
+                var newUser = new GeneralUserEntity()
                 {
-                    return new GeneralUserEntity()
-                    {
-                        AvatarSource = response.AvatarSource,
-                        ID = response.ID,
-                        IsOnline = response.IsOnline,
-                        LastLoginTime = response.LastLoginTime,
-                        Username = response.Username
-                    };
-                }
-                else
-                    return null;
+                    ID = response.ID,
+                    AvatarSource = response.AvatarSource,
+                    IsOnline = response.IsOnline,
+                    LastLoginTime = response.LastLoginTime,
+                    Username = response.Username
+                };
+
+                if (ServiceHelper.GetService<ISQLiteService>().FindInTableAsync<GeneralUserEntity>(newUser.ID)?.Result != null) // saving user for further operations with found user
+                    await ServiceHelper.GetService<ISQLiteService>().InsertAsync(newUser);
+
+                return newUser;
             }
-            catch (Exception)
-            { //handling errors in cmd's
+            else
                 return null;
-            }
+
         }
     }
 }

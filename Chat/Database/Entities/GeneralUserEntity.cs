@@ -10,7 +10,7 @@ namespace CrossPlatformChat.Database.Entities
         bool _isOnline;
         DateTime _LastLoginTime;
 
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int ID
         {
             get { return _ID; }

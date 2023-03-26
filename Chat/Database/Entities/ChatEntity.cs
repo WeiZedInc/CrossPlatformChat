@@ -6,9 +6,10 @@ namespace CrossPlatformChat.Database.Entities
     public class ChatEntity : INotifyPropertyChanged
     {
         int _ID, _MissedMessagesCount = 0;
-        string _Name, _UsersID, _MessagesID;
+        string _Name, _GeneralUsersID_JSON, _MessagesID;
         DateTime _CreatedDate;
-        byte[] _StoredKeyWord = null!;
+        string _HashedKeyword = string.Empty;
+        byte[] _StoredSalt = null!;
 
         [PrimaryKey, AutoIncrement]
         public int ID
@@ -26,10 +27,10 @@ namespace CrossPlatformChat.Database.Entities
             get { return _Name; }
             set { _Name = value; OnPropertyChanged(); }
         }
-        public string UsersID
+        public string GeneralUsersID_JSON
         {
-            get { return _UsersID; }
-            set { _UsersID = value; OnPropertyChanged(); }
+            get { return _GeneralUsersID_JSON; }
+            set { _GeneralUsersID_JSON = value; OnPropertyChanged(); }
         } //convert array of users id's to JSON
         public string MessagesID
         {
@@ -41,10 +42,16 @@ namespace CrossPlatformChat.Database.Entities
             get { return _CreatedDate; }
             set { _CreatedDate = value; OnPropertyChanged(); }
         }
-        public byte[] StoredKeyWord
+        public string HashedKeyword
         {
-            get { return _StoredKeyWord; }
-            set { _StoredKeyWord = value; OnPropertyChanged(); }
+            get { return _HashedKeyword; }
+            set { _HashedKeyword = value; OnPropertyChanged(); }
+        }
+
+        public byte[] StoredSalt
+        {
+            get { return _StoredSalt; }
+            set { _StoredSalt = value; OnPropertyChanged(); }
         }
 
 

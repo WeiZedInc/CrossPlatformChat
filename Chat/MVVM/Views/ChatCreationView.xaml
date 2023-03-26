@@ -53,15 +53,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-
-
-        <HorizontalStackLayout HorizontalOptions="Start">
-            <Label Text="Save keyword for this chat?" Margin="10,0,10,10" FontSize="20" FontFamily="NotoSansThin" FontAttributes="Bold"
-                   VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
-                   TextColor="White"/>
-            <Switch Margin="80,0,10,0" IsToggled="{Binding IsSavingKeyword}"/>
-        </HorizontalStackLayout>
-        <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500" IsVisible="{Binding IsSavingKeyword}">
+        <Frame Padding="10,0,10,0" BorderColor="Transparent" BackgroundColor="#221500">
             <Entry Placeholder="Keyword" ReturnType="Go" TextColor="White" IsPassword="True" Text="{Binding KeyWordInput}"/>
         </Frame>
 

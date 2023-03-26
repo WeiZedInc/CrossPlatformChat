@@ -22,6 +22,16 @@
             </VerticalStackLayout>
         </Frame>
 
+        <CollectionView ItemsSource="{Binding AllChats}" >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ScrollView Margin="5">
+                        <controls:SmallChatControl/>
+                    </ScrollView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
 
         <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
             <Button Margin="0,10" Text="Create chat" TextColor="White" Background="#603601" FontSize="Medium" Command="{Binding NewChatCMD}"/>

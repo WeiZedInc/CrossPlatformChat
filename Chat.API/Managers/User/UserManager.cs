@@ -61,6 +61,7 @@ namespace Chat.API.Functions.User
 
                 return new GeneralUser 
                 { 
+                    ID = entity.ID,
                     Username = entity.Username,
                     IsOnline = entity.IsOnline, 
                     LastLoginTime = entity.LastLoginTime,
