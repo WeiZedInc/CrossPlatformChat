@@ -11,12 +11,28 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             AddUserCMD = new Command(async () =>
             {
-                if (UsernameToAdd == ClientManager.Instance.Local.Username || UsersToAdd.Where(x=> x.Username == UsernameToAdd).FirstOrDefault() != null)
+                if (UsersToAdd.Where(x => x.Username == UsernameToAdd).FirstOrDefault() != null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
                     return;
+                }
+                else if (UsernameToAdd == ClientManager.Instance.Local.Username)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
+                    return;
+                }
 
                 GeneralUserEntity user = await GetUserByUsername();
                 if (user != null)
                     UsersToAdd.Add(user);
+                else
+                    await App.Current.MainPage.DisplayAlert("Oops", "There is no user with such username!", "Ok");
+            });
+
+            RemoveUserCMD = new Command<GeneralUserEntity>(user =>
+            {
+                if (UsersToAdd.Contains(user))
+                    UsersToAdd.Remove(user);
             });
         }
 
@@ -29,7 +45,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
                 if (response.StatusCode == 200)
                 {
-                    await App.Current.MainPage.DisplayAlert("OK", response.Username, "ok");
                     return new GeneralUserEntity()
                     {
                         AvatarSource = response.AvatarSource,
@@ -41,13 +56,13 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 }
                 else
                 {
-                    await App.Current.MainPage.DisplayAlert("Error", response.StatusMessage, "ok");
+                    await App.Current.MainPage.DisplayAlert("ChatCreationVM (GetUserByUsername)", response.StatusMessage, "ok");
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("GetUserByUsername", ex.Message, "ok");
+                await App.Current.MainPage.DisplayAlert("ChatCreationVM (GetUserByUsername)", ex.Message, "ok");
                 return null;
             }
         }

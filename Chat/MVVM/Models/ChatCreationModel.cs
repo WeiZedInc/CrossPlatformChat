@@ -9,6 +9,7 @@ namespace CrossPlatformChat.MVVM.Models
         public string KeyWordInput { get; set; }
         public ICommand CreateChatCMD { get; set; }
         public ICommand AddUserCMD { get; set; }
+        public ICommand RemoveUserCMD { get; set; }
         public ObservableCollection<GeneralUserEntity> UsersToAdd { get; set; }
 
         string _UsernameToAdd;
