@@ -21,14 +21,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             try
             {
-                if(KeyWordInput == string.Empty || ChatNameInput == string.Empty)
-                {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Fill all the entries, please.", "Ok");
-                    return;
-                }
                 if (KeyWordInput.Length < 4 || ChatNameInput.Length < 4)
                 {
-                    await App.Current.MainPage.DisplayAlert("Oops", "Keyword and chat name must contains at leas of 4 symbols.", "Ok");
+                    await App.Current.MainPage.DisplayAlert("Oops", "Keyword and chat name must contains at least of 4 symbols.", "Ok");
                     return;
                 }
 
