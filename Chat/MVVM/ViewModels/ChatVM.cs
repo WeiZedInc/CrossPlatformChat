@@ -31,29 +31,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         public ChatVM()
         {
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl(APIManager.Instance.devSsl.DevServerRootUrl + "/ChatHub").Build();  // for emulator
-            _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
-
             Messages = new ObservableCollection<MessageEntity>();
             IsConnected = false;
             IsBusy = false;
             SendMessageCommand = new Command(async () => await SendMessage(), () => IsConnected);
 
-            _hubConnection.Closed += async (error) =>
-            {
-                SendLocalMessage(null, "Hub connection closed");
-                IsConnected = false;
-                await Task.Delay(3000);
-                await Connect();
-            };
-
-            _hubConnection.On<ClientEntity, string>("Receive", (user, message) =>
-            {
-                SendLocalMessage(user, message);
-            });
-
-            Connect();
+            Connect().Wait();
         }
 
         public async Task Connect()
@@ -62,9 +45,26 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 return;
             try
             {
-                await _hubConnection.StartAsync();
-                SendLocalMessage(null, "You've entered the chat");
+                //var accessToken = await GetAccessTokenAsync(); have to rewrite token geneationg system (API-Client)
+                //_hubConnection = new HubConnectionBuilder()
+                //    .WithUrl($"{APIManager.Instance.devSsl.DevServerRootUrl}/ChatHub?access_token={accessToken}").Build();  // for emulator
+                //_hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
 
+                //_hubConnection.Closed += async (error) =>
+                //{
+                //    SendLocalMessage(null, "Hub connection closed");
+                //    IsConnected = false;
+                //    await Task.Delay(3000);
+                //    await Connect();
+                //};
+
+                //_hubConnection.On<ClientEntity, string>("Receive", (user, message) =>
+                //{
+                //    SendLocalMessage(user, message);
+                //});
+                //await _hubConnection.StartAsync();
+
+                SendLocalMessage(null, "You've entered the chat");
                 IsConnected = true;
             }
             catch (Exception ex)
