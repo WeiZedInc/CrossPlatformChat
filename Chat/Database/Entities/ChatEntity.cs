@@ -6,7 +6,7 @@ namespace CrossPlatformChat.Database.Entities
     public class ChatEntity : INotifyPropertyChanged
     {
         int _ID, _MissedMessagesCount = 0;
-        string _Name, _GeneralUsersID_JSON, _MessagesID;
+        string _Name, _GeneralUsersID_JSON, _MessagesID, _LogoSource = "dotnet_bot.svg";
         DateTime _CreatedDate;
         string _HashedKeyword = string.Empty;
         byte[] _StoredSalt = null!;
@@ -26,6 +26,11 @@ namespace CrossPlatformChat.Database.Entities
         {
             get { return _Name; }
             set { _Name = value; OnPropertyChanged(); }
+        }
+        public string LogoSource
+        {
+            get { return _LogoSource; }
+            set { _LogoSource = value; OnPropertyChanged(); }
         }
         public string GeneralUsersID_JSON
         {
@@ -47,7 +52,6 @@ namespace CrossPlatformChat.Database.Entities
             get { return _HashedKeyword; }
             set { _HashedKeyword = value; OnPropertyChanged(); }
         }
-
         public byte[] StoredSalt
         {
             get { return _StoredSalt; }

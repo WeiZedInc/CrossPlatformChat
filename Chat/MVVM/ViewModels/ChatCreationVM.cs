@@ -1,6 +1,7 @@
 ﻿using CrossPlatformChat.Database;
 using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.MVVM.Models;
+using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Base;
 using CrossPlatformChat.Utils.Helpers;
 using CrossPlatformChat.Utils.Request_Response.Chat;
@@ -48,6 +49,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 };
 
                 await ServiceHelper.GetService<ISQLiteService>().InsertAsync(chat);
+               // await App.Current.MainPage.Navigation.PopAsync();
+                App.Current.MainPage = new NavigationPage(new ChatsView()); // refactor
             }
             catch (Exception ex)
             {
