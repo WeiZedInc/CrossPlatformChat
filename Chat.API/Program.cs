@@ -25,7 +25,6 @@ builder.Services.AddTransient(connection => new MySqlConnection(ChatAppContext.c
 //user settings
 builder.Services.AddTransient<IUserManager, UserManager>();
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

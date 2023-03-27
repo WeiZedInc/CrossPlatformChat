@@ -12,7 +12,7 @@ public partial class App : Application
         if (ClientManager.Instance.Local == null)
             page = new NavigationPage(new LoginView());
         else
-            page = new NavigationPage(new ChatsView());
+            page = new NavigationPage(new ChatsCollectionView());
 
         MainPage = page;
     }

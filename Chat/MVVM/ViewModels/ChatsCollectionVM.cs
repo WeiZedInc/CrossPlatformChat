@@ -3,9 +3,9 @@ using CrossPlatformChat.MVVM.Views;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    public class ChatsVM : ChatModel
+    public class ChatsCollectionVM : ChatModel
     {
-        public ChatsVM()
+        public ChatsCollectionVM()
         {
             if (AllChats.Count == 0)
                 NoChats = true;

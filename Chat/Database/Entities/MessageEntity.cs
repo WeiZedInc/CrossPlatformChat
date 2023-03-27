@@ -10,10 +10,10 @@ namespace CrossPlatformChat.Database.Entities
     }
 
     [Table("messages")]
-    internal class MessageEntity : INotifyPropertyChanged
+    public class MessageEntity : INotifyPropertyChanged
     {
-        int _ID, _ChatID;
-        string _SenderID, _Content;
+        int _ID, _ChatID, _SenderID;
+        string _Content;
         DateTime _SentDate;
         MessageStatus _Status;
 
@@ -26,7 +26,7 @@ namespace CrossPlatformChat.Database.Entities
         }
 
         [Column("senderID")]
-        public string SenderID
+        public int SenderID
         {
             get { return _SenderID; }
             set { _SenderID = value; OnPropertyChanged(); }

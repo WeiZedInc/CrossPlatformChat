@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CrossPlatformChat.MVVM.Views.ChatsView"
+             x:Class="CrossPlatformChat.MVVM.Views.ChatsCollectionView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              Background="#1C0A00"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>
-        <vm:ChatsVM/>
+        <vm:ChatsCollectionVM/>
     </ContentPage.BindingContext>
     <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center">
         <SearchBar Placeholder="Search chat" Margin="0,20" WidthRequest="370"

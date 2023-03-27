@@ -17,6 +17,7 @@ namespace CrossPlatformChat.Services
         private static APIManager _instance;
         //private string _serverRootURL = "https://10.0.2.2:7233"; //api url, use on hosted api
         public string _accessToken = "";
+        public readonly DevHttpsConnectionHelper devSsl = new(7233); // for emulators only with localdb
 
         static APIManager() => _instance = new APIManager();
         private APIManager() { }
@@ -26,7 +27,6 @@ namespace CrossPlatformChat.Services
         {
             if (request == null) return null;
 
-            var devSsl = new DevHttpsConnectionHelper(7233); // for emulators only with localdb
             using (HttpClient client = devSsl.HttpClient)
             {
 

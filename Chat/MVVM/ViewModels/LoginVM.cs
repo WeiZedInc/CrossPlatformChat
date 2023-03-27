@@ -16,7 +16,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 IsProcessing = true;
                 if (await TryLoginAsync())
                 {
-                    await App.Current.MainPage.Navigation.PushAsync(new ChatsView());
+                    await App.Current.MainPage.Navigation.PushAsync(new ChatsCollectionView());
                 }
             });
 

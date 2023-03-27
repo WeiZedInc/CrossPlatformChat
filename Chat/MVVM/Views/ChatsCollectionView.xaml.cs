@@ -2,9 +2,9 @@ using CrossPlatformChat.MVVM.ViewModels;
 
 namespace CrossPlatformChat.MVVM.Views;
 
-public partial class ChatsView : ContentPage
+public partial class ChatsCollectionView : ContentPage
 {
-    public ChatsView()
+    public ChatsCollectionView()
 	{
         InitializeComponent();
 	}
@@ -14,7 +14,7 @@ public partial class ChatsView : ContentPage
         base.OnAppearing();
 
         // Refresh the ItemsSource of the CollectionView
-        var vm = (ChatsVM)BindingContext;
+        var vm = (ChatsCollectionVM)BindingContext;
         if (vm.AllChats.Count == 0)
             vm.NoChats = true;
     }

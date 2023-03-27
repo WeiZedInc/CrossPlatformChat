@@ -50,7 +50,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
                 await ServiceHelper.GetService<ISQLiteService>().InsertAsync(chat);
                // await App.Current.MainPage.Navigation.PopAsync();
-                App.Current.MainPage = new NavigationPage(new ChatsView()); // refactor
+                App.Current.MainPage = new NavigationPage(new ChatsCollectionView()); // refactor
             }
             catch (Exception ex)
             {
