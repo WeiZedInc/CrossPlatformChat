@@ -9,11 +9,11 @@ public partial class App : Application
         InitializeComponent();
 
         NavigationPage page;
-        if (ClientManager.Instance.Local == null)
-            page = new NavigationPage(new LoginView());
-        else
-            page = new NavigationPage(new ChatsCollectionView());
-
+        //if (ClientManager.Instance.Local == null)
+        //    page = new NavigationPage(new LoginView());
+        //else
+        //    page = new NavigationPage(new ChatsCollectionView());
+        page = new NavigationPage(new ChatView());
         MainPage = page;
     }
 }

@@ -8,7 +8,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
     {
         HubConnection _hubConnection;
         public string UserName { get; set; }
-        public string Message { get; set; }
+        public string MessageContent { get; set; }
         public ICommand SendMessageCommand { get; }
         public ObservableCollection<MessageEntity> Messages { get; }
 
@@ -52,7 +52,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 SendLocalMessage(user, message);
             });
         }
-        // подключение к чату
+
         public async Task Connect()
         {
             if (IsConnected)
@@ -70,7 +70,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        // Отключение от чата
         public async Task Disconnect()
         {
             if (!IsConnected)
@@ -81,13 +80,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
             SendLocalMessage(null, "You've leaved the chat");
         }
 
-        // Отправка сообщения
         async Task SendMessage()
         {
             try
             {
                 IsBusy = true;
-                await _hubConnection.InvokeAsync("Send", UserName, Message);
+                await _hubConnection.InvokeAsync("Send", UserName, MessageContent);
             }
             catch (Exception ex)
             {
