@@ -33,6 +33,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(APIManager.Instance.devSsl.DevServerRootUrl + "/ChatHub").Build();  // for emulator
+            _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
 
             Messages = new ObservableCollection<MessageEntity>();
             IsConnected = false;
@@ -51,6 +52,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 SendLocalMessage(user, message);
             });
+
+            Connect();
         }
 
         public async Task Connect()
@@ -66,7 +69,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
             catch (Exception ex)
             {
-                SendLocalMessage(null, $"Connection error: {ex.Message}");
+                //SendLocalMessage(null, $"Connection error: {ex.Message}");
+                await App.Current.MainPage.DisplayAlert("Error at Connect", ex.Message, "ok");
             }
         }
 
@@ -97,14 +101,20 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        private void SendLocalMessage(ClientEntity client, string message)
+        private async void SendLocalMessage(ClientEntity client, string message)
         {
-            Messages.Insert(0, new MessageEntity // remake index
+            try
             {
-                Content = message,
-                SenderID = client.ID
-            });
+                Messages.Insert(0, new MessageEntity // remake index
+                {
+                    Content = message,
+                    SenderID = client.ID
+                });
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error at SendLocalMessage", ex.Message, "ok");
+            }
         }
-
     }
 }
