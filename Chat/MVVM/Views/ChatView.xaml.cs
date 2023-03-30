@@ -14,12 +14,12 @@ public partial class ChatView : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await vm.Connect();
+        await vm.ChatHub.Connect();
     }
 
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
-        await vm.Disconnect();
+        await vm.ChatHub.Disconnect();
     }
 }

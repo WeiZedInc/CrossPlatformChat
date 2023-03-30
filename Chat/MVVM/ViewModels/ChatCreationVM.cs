@@ -32,9 +32,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 key = CryptoManager.CreateHash(KeyWordInput);
 
 
-                int[] UsersID = new int[UsersToAdd.Count];
+                int[] UsersID = default;
+                UsersID = new int[UsersToAdd.Count];
                 for (int i = 0; i < UsersToAdd.Count; i++)
                     UsersID[i] = UsersToAdd[i].ID;
+
+
 
                 ChatEntity chat = new ChatEntity()
                 {
@@ -48,8 +51,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 };
 
                 await ServiceHelper.GetService<ISQLiteService>().InsertAsync(chat);
-               // await App.Current.MainPage.Navigation.PopAsync();
-                App.Current.MainPage = new NavigationPage(new ChatsCollectionView()); // refactor
+                ServiceHelper.GetService<ChatsCollectionModel>().Chats.Add(chat, new());
+                App.Current.MainPage = new NavigationPage(ServiceHelper.GetService<ChatsCollectionView>());
             }
             catch (Exception ex)
             {
@@ -71,50 +74,65 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         public async void AddUser()
         {
-            if (UsersToAdd.Where(x => x.Username == UsernameToAdd).FirstOrDefault() != null)
+            try
             {
-                await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
+                if (UsersToAdd.Where(x => x.Username == UsernameToAdd).FirstOrDefault() != null)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
+                    return;
+                }
+                else if (UsernameToAdd == ClientManager.Instance.Local.Username)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
+                    return;
+                }
+
+                GeneralUserEntity user = await GetUserByUsername(); //returns null on any second try add user
+                if (user != null)
+                    UsersToAdd.Add(user);
+                else
+                    await App.Current.MainPage.DisplayAlert("Oops", "There is no user with such username!", "Ok");
+
+                UsernameToAdd = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("ChatCreationVM: AddUser", ex.Message, "Ok");
                 return;
             }
-            else if (UsernameToAdd == ClientManager.Instance.Local.Username)
-            {
-                await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
-                return;
-            }
-
-            GeneralUserEntity user = await GetUserByUsername();
-            if (user != null)
-                UsersToAdd.Add(user);
-            else
-                await App.Current.MainPage.DisplayAlert("Oops", "There is no user with such username!", "Ok");
-
-            UsernameToAdd = string.Empty;
         }
 
         public async Task<GeneralUserEntity> GetUserByUsername() // refactor to make check database on containing of user before request the api
         {
-            var request = new BaseRequest { Login = UsernameToAdd, HashedPassword = string.Empty };
-            var response = await APIManager.Instance.HttpRequest<UserEntityResponse>(request, RequestPath.GetUserByUsername, HttpMethod.Post);
-
-            if (response.StatusCode == 200)
+            try
             {
-                var newUser = new GeneralUserEntity()
+                var request = new BaseRequest { Login = UsernameToAdd, HashedPassword = string.Empty };
+                var response = await APIManager.Instance.HttpRequest<UserEntityResponse>(request, RequestPath.GetUserByUsername, HttpMethod.Post);
+
+                if (response.StatusCode == 200)
                 {
-                    ID = response.ID,
-                    AvatarSource = response.AvatarSource,
-                    IsOnline = response.IsOnline,
-                    LastLoginTime = response.LastLoginTime,
-                    Username = response.Username
-                };
+                    var newUser = new GeneralUserEntity()
+                    {
+                        ID = response.ID,
+                        AvatarSource = response.AvatarSource,
+                        IsOnline = response.IsOnline,
+                        LastLoginTime = response.LastLoginTime,
+                        Username = response.Username
+                    };
 
-                if (ServiceHelper.GetService<ISQLiteService>().FindInTableAsync<GeneralUserEntity>(newUser.ID)?.Result != null) // saving user for further operations with found user
-                    await ServiceHelper.GetService<ISQLiteService>().InsertAsync(newUser);
+                    if (ServiceHelper.GetService<ISQLiteService>().FindInTableAsync<GeneralUserEntity>(newUser.ID)?.Result != null) // saving user for further operations with found user
+                        await ServiceHelper.GetService<ISQLiteService>().InsertAsync(newUser);
 
-                return newUser;
+                    return newUser;
+                }
+                else
+                    return null;
             }
-            else
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("ChatCreationVM: GetUserByUsername", ex.Message, "Ok");
                 return null;
-
+            }
         }
     }
 }

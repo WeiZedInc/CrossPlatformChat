@@ -5,17 +5,28 @@ using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.Models
 {
-    public class ChatModel
+    public class ChatsCollectionModel
     {
         public readonly ISQLiteService _dbservice;
-        public static ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> Chats { get; set; }
+        public bool NoChats { get; set; } = false;
+        public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> Chats { get; set; }
 
-        public ChatModel()
+        public ChatsCollectionModel()
         {
             _dbservice = ServiceHelper.GetService<ISQLiteService>();
+            Chats = new();
 
+
+            //Test();
             InitChats();
         }
+
+        void Test()
+        {
+            _dbservice.DeleteAllInTableAsync<ChatEntity>();
+            _dbservice.DeleteAllInTableAsync<MessageEntity>();
+        }
+            
 
         void InitChats() 
         {
@@ -37,6 +48,9 @@ namespace CrossPlatformChat.MVVM.Models
                 //добавляем в словарь (чат, сообщения)
                 Chats.Add(chat, msgCollection);
             }
+
+            if (Chats == null || Chats.Count == 0)
+                NoChats = true;
         }
     }
 }

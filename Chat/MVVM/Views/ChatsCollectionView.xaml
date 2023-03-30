@@ -21,7 +21,7 @@
             </VerticalStackLayout>
         </Frame>
 
-        <CollectionView ItemsSource="{Binding AllChats}">
+        <CollectionView ItemsSource="{Binding Chats.Keys}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ScrollView Margin="5">

@@ -18,10 +18,6 @@ namespace CrossPlatformChat.Database
             connection = new SQLiteAsyncConnection(dbpath);
 
             connection.CreateTablesAsync<ClientEntity, ChatEntity, MessageEntity, GeneralUserEntity>().Wait();
-            //connection.DeleteAllAsync<ClientEntity>().Wait(); ;//for testing only
-            //connection.DeleteAllAsync<ChatEntity>().Wait(); ;//for testing only
-            //connection.DeleteAllAsync<MessageEntity>().Wait(); ;//for testing only
-            //connection.DeleteAllAsync<GeneralUserEntity>().Wait(); ;//for testing only
         }
 
         public Task<int> InsertAsync(object entity) => connection.InsertAsync(entity);

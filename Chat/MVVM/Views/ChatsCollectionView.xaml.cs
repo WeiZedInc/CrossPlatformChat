@@ -8,14 +8,4 @@ public partial class ChatsCollectionView : ContentPage
 	{
         InitializeComponent();
 	}
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-
-        // Refresh the ItemsSource of the CollectionView
-        var vm = (ChatsCollectionVM)BindingContext;
-        if (ChatsCollectionVM.Chats.Count == 0)
-            vm.NoChats = true;
-    }
 }
