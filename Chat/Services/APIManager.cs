@@ -12,16 +12,11 @@ namespace CrossPlatformChat.Services
         GetUserByUsername,
     }
 
-    internal class APIManager
+    public class APIManager
     {
-        private static APIManager _instance;
         //private string _serverRootURL = "https://10.0.2.2:7233"; //api url, use on hosted api
         public string _accessToken = "";
         public readonly DevHttpsConnectionHelper devSsl = new(7233); // for emulators only with localdb
-
-        static APIManager() => _instance = new APIManager();
-        private APIManager() { }
-        public static APIManager Instance { get => _instance; }
 
         public async Task<T> HttpRequest<T>(BaseRequest request, RequestPath pathEnum, HttpMethod method) where T : BaseResponse, new()
         {

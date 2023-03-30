@@ -10,21 +10,23 @@ namespace CrossPlatformChat.MVVM.Models
         public readonly ISQLiteService _dbservice;
         public bool NoChats { get; set; } = false;
         public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> Chats { get; set; }
+        static bool _isInitialized = false;
 
         public ChatsCollectionModel()
         {
-            _dbservice = ServiceHelper.GetService<ISQLiteService>();
+            _dbservice = ServiceHelper.Get<ISQLiteService>();
             Chats = new();
 
 
-            //Test();
-            InitChats();
+            if (!_isInitialized )
+                InitChats();
         }
 
         void Test()
         {
             _dbservice.DeleteAllInTableAsync<ChatEntity>();
             _dbservice.DeleteAllInTableAsync<MessageEntity>();
+            _dbservice.DeleteAllInTableAsync<GeneralUserEntity>();
         }
             
 
@@ -51,6 +53,8 @@ namespace CrossPlatformChat.MVVM.Models
 
             if (Chats == null || Chats.Count == 0)
                 NoChats = true;
+
+            _isInitialized = true;
         }
     }
 }

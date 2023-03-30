@@ -29,9 +29,9 @@ namespace CrossPlatformChat.Utils.Helpers
                 return;
             try
             {
-                string accessToken = ClientManager.Instance.Local.Token;
+                string accessToken = ServiceHelper.Get<ClientHandler>().LocalClient.Token;
                 _hubConnection = new HubConnectionBuilder()
-                    .WithUrl($"{APIManager.Instance.devSsl.DevServerRootUrl}/ChatHub?access_token={accessToken}") // for emulator
+                    .WithUrl($"{ServiceHelper.Get<APIManager>().devSsl.DevServerRootUrl}/ChatHub?access_token={accessToken}") // for emulator
                     .Build();
 
                 _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);

@@ -50,9 +50,14 @@ namespace CrossPlatformChat.Database
             return connection.Table<T>().ToListAsync();
         }
 
-        public Task<T> FindInTableAsync<T>(int ID) where T : class, new()
+        public Task<T> FindByIdAsync<T>(int ID) where T : class, new()
         {
             return connection.FindAsync<T>(ID);
+        }
+
+        public Task<T> FindUserByNameAsync<T>(string username) where T : GeneralUserEntity, new()
+        {
+            return connection.FindAsync<T>(x => x.Username == username);
         }
 
         public Task<T> GetFromTableAsync<T>(int ID) where T : class, new()

@@ -1,5 +1,6 @@
 ﻿using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.Views;
+using CrossPlatformChat.Utils.Helpers;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
@@ -11,7 +12,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             NewChatCMD = new Command(async () =>
             {
-                await App.Current.MainPage.Navigation.PushAsync(new ChatCreationView());
+                await App.Current.MainPage.Navigation.PushAsync(ServiceHelper.Get<ChatCreationView>());
             });
         }
     }

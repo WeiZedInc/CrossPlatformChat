@@ -15,7 +15,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         ISQLiteService db;
         public RegisterVM()
         {
-            db = ServiceHelper.GetService<ISQLiteService>();
+            db = ServiceHelper.Get<ISQLiteService>();
 
             RegisterCommand = new Command(async () =>
             {
@@ -42,7 +42,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Login = LoginInput,
                     HashedPassword = passTuple.Hash
                 };
-                var response = await APIManager.Instance.HttpRequest<AuthenticationResponse>(request, RequestPath.Register, HttpMethod.Post);
+                var response = await ServiceHelper.Get<APIManager>().HttpRequest<AuthenticationResponse>(request, RequestPath.Register, HttpMethod.Post);
                 if (response.StatusCode == 200)
                 {
                     await db.InsertAsync(new ClientEntity()

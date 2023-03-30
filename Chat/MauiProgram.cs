@@ -33,9 +33,11 @@ public static class MauiProgram
 
         //db's
         builder.Services.AddSingleton<ISQLiteService, SQLiteService>();
-        builder.Services.AddSingleton<ChatsCollectionView>();
-        builder.Services.AddSingleton<ChatsCollectionModel>();
+        builder.Services.AddSingleton<APIManager>();
+        builder.Services.AddSingleton<ClientHandler>();
+
         builder.Services.AddSingleton<ChatsCollectionVM>();
+        builder.Services.AddSingleton<ChatCreationView>();
 
 
         return builder.Build();
