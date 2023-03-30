@@ -15,7 +15,7 @@ public partial class ChatsCollectionView : ContentPage
 
         // Refresh the ItemsSource of the CollectionView
         var vm = (ChatsCollectionVM)BindingContext;
-        if (vm.AllChats.Count == 0)
+        if (ChatsCollectionVM.Chats.Count == 0)
             vm.NoChats = true;
     }
 }

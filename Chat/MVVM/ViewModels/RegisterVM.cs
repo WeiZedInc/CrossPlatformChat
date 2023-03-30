@@ -57,6 +57,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                         Login = LoginInput,
                         Username = LoginInput,
                         AvatarSource = "default.png",
+                        ID = response.ID,
                         Token = response.Token
                     });
                     return true;

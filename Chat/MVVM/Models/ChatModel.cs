@@ -5,17 +5,38 @@ using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.Models
 {
-    public class ChatModel : ChatEntity
+    public class ChatModel
     {
-        public bool NoChats { get; set; } = false;
-        public ObservableCollection<ChatEntity> AllChats { get; set; }
-        public ICommand NewChatCMD { get; set; }
         public readonly ISQLiteService _dbservice;
+        public static ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> Chats { get; set; }
 
         public ChatModel()
         {
             _dbservice = ServiceHelper.GetService<ISQLiteService>();
-            AllChats = new ObservableCollection<ChatEntity>(_dbservice.TableToListAsync<ChatEntity>().Result);
+
+            InitChats();
+        }
+
+        void InitChats() 
+        {
+            //получаем чаты и сообщения с бд
+            List<ChatEntity> chatsTable = _dbservice.TableToListAsync<ChatEntity>().Result;
+            List<MessageEntity> msgTable = _dbservice.TableToListAsync<MessageEntity>().Result;
+
+            //чаты для коллекции
+            ObservableCollection<MessageEntity> msgCollection;
+
+            foreach (var chat in chatsTable)
+            {
+                //получаем сообщения определенного чата и добавляем 
+                msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
+
+                //удаляем обработанные с коллекции
+                msgTable.RemoveAll(x => x.ChatID == chat.ID);
+
+                //добавляем в словарь (чат, сообщения)
+                Chats.Add(chat, msgCollection);
+            }
         }
     }
 }

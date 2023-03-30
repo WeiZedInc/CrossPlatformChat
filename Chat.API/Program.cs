@@ -1,5 +1,6 @@
 using Chat.API.Entities;
 using Chat.API.Functions.User;
+using Chat.API.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 
@@ -25,6 +26,9 @@ builder.Services.AddTransient(connection => new MySqlConnection(ChatAppContext.c
 //user settings
 builder.Services.AddTransient<IUserManager, UserManager>();
 
+//signalR
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,9 +40,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.MapControllers();
+
+//signalR
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
+
 app.UseAuthorization();
 
-
-app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/ChatHub");
+});
 
 app.Run();

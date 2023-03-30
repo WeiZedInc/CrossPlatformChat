@@ -44,7 +44,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     Name = ChatNameInput,
                     HashedKeyword = key.Hash,
                     StoredSalt = key.Salt,
-                    MessagesID = string.Empty,
                     GeneralUsersID_JSON = JsonConvert.SerializeObject(UsersID)
                 };
 
