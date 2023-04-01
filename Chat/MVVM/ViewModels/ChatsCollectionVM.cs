@@ -14,6 +14,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 await App.Current.MainPage.Navigation.PushAsync(ServiceHelper.Get<ChatCreationView>());
             });
+
+            ChatHub chatHub = new ChatHub();
+            chatHub.Connect().Wait();
         }
     }
 }

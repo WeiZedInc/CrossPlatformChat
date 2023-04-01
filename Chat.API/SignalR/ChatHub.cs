@@ -4,9 +4,10 @@ namespace Chat.API.SignalR
 {
     public class ChatHub : Hub
     {
-        public async Task Send(string username, string message)
+        public async Task GetConnectionFromServer(string username, string message)
         {
-            await Clients.All.SendAsync("Receive", username, message);
+            await Clients.All.SendAsync("ReceiveMessage", username, message);
+            await Console.Out.WriteLineAsync(message);
         }
     }
 }

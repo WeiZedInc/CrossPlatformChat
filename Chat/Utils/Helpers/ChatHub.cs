@@ -6,6 +6,8 @@ namespace CrossPlatformChat.Utils.Helpers
     {
         HubConnection _hubConnection;
         bool _isBusy, _isConnected;
+        readonly string connectionPath = "https://10.0.2.2:7233/ChatHub";
+
         public bool IsBusy
         {
             get { return _isBusy; }
@@ -31,7 +33,7 @@ namespace CrossPlatformChat.Utils.Helpers
             {
                 string accessToken = ServiceHelper.Get<ClientHandler>().LocalClient.Token;
                 _hubConnection = new HubConnectionBuilder()
-                    .WithUrl($"{ServiceHelper.Get<APIManager>().devSsl.DevServerRootUrl}/ChatHub?access_token={accessToken}") // for emulator
+                    .WithUrl(connectionPath)
                     .Build();
 
                 _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
@@ -43,11 +45,12 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<int, string>("Receive", async (userID, message) =>
+                _hubConnection.On<int, string>("ReceiveMessage", async (chatID, message) =>
                 {
                     await App.Current.MainPage.DisplayAlert("Received msg", message, "ok");
                 });
                 await _hubConnection.StartAsync();
+                await _hubConnection.SendAsync("GetConnectionFromServer", "Connected");
 
                 await App.Current.MainPage.DisplayAlert("Success", "You have entered the chat", "ok");
                 IsConnected = true;

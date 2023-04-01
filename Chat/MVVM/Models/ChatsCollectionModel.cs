@@ -44,9 +44,6 @@ namespace CrossPlatformChat.MVVM.Models
                 //получаем сообщения определенного чата и добавляем 
                 msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
 
-                //удаляем обработанные с коллекции
-                msgTable.RemoveAll(x => x.ChatID == chat.ID);
-
                 //добавляем в словарь (чат, сообщения)
                 Chats.Add(chat, msgCollection);
             }

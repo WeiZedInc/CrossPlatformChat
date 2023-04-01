@@ -60,7 +60,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
                 await ServiceHelper.Get<ISQLiteService>().InsertAsync(chat);
                 ServiceHelper.Get<ChatsCollectionVM>().Chats.Add(chat, new());
-                App.Current.MainPage = new NavigationPage(ServiceHelper.Get<ChatsCollectionView>());
+                App.Current.MainPage = new NavigationPage(ServiceHelper.Get<ChatsCollectionView>()); // dont work
             }
             catch (Exception ex)
             {
