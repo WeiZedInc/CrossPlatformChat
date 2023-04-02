@@ -1,6 +1,6 @@
-﻿using CrossPlatformChat.MVVM.Models;
+﻿using CrossPlatformChat.Database.Entities;
+using CrossPlatformChat.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
-using static Android.Graphics.ColorSpace;
 
 namespace CrossPlatformChat.Utils.Helpers
 {
@@ -29,34 +29,31 @@ namespace CrossPlatformChat.Utils.Helpers
                 _connectionPath = "http://localhost:5066/ChatHub";
 
             Application.Current.Dispatcher.Dispatch(async () => await Connect());
-            //SendMessageToServer();
         }
 
         public async Task Connect()
         {
-            if (IsConnected)
+            if (IsConnected || IsBusy)
                 return;
+            IsBusy = true;
             try
             {
                 _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_connectionPath)
                     .Build();
 
-                _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
                 _hubConnection.Closed += async (error) =>
                 {
                     await App.Current.MainPage.DisplayAlert("Warning", "Hub connection closed", "ok");
                     IsConnected = false;
-                    await Task.Delay(3000);
                     await Connect();
                 };
 
-                _hubConnection.On<string>("ReceiveMessage", OnMessageRecieved);
+                _hubConnection.On<int, MessageEntity>("MessageFromServer", OnMessageRecieved);
 
                 await _hubConnection.StartAsync();
-
-                await App.Current.MainPage.DisplayAlert("Success", "You have entered the chat", "ok");
                 IsConnected = true;
+                IsBusy = false;
             }
             catch (Exception ex)
             {
@@ -65,12 +62,11 @@ namespace CrossPlatformChat.Utils.Helpers
         }
         public async Task Disconnect()
         {
-            if (!IsConnected)
+            if (!IsConnected || _hubConnection is null)
                 return;
             try
             {
                 await _hubConnection.StopAsync();
-                IsConnected = false;
             }
             catch (Exception ex)
             {
@@ -78,27 +74,38 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        async Task OnMessageRecieved(string message)
+        async void OnMessageRecieved(int chatID, MessageEntity messageEntity)
         {
-            await App.Current.MainPage.DisplayAlert("Received msg", message, "ok");
-            var dict = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict;
-
-            foreach (var kvp in dict) // test (adding messagess to all chats)
+            try
             {
-                kvp.Value.Add(new()
+                var dict = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict;
+                if (dict != null) return;
+
+                lock (dict)
                 {
-                    ChatID = kvp.Key.ID,
-                    Content = message,
-                });
+                    var chat = dict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
+                    if (chat != null)
+                    {
+                        var messagesCollection = dict[chat];
+                        messagesCollection?.Add(messageEntity);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok");
             }
         }
 
-        public async void SendMessageToServer(string message = "test")
+        public async Task<bool> SendMessageToServer(int chatID, MessageEntity messageEntity)
         {
-            await _hubConnection.InvokeCoreAsync("SendMessageToAll", new[]
+            if (IsConnected)
             {
-                message
-            });
+                await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { chatID, messageEntity });
+                return true;
+            }
+            else
+                return false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -4,10 +4,9 @@ namespace Chat.API.SignalR
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessageToAll(string message)
+        public async Task MessageFromClient(object chatID, object messageEntity) // recieve and send back
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
-            await Console.Out.WriteLineAsync(message);
+            await Clients.Others.SendAsync("MessageFromServer", chatID, messageEntity);
         }
     }
 }

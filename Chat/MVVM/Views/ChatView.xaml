@@ -21,6 +21,7 @@
                 <Label Text="IsBusy:" TextColor="White" FontSize="25"/>
                 <Label Text="{Binding ChatHub.IsBusy}" TextColor="White" FontSize="25"/>
             </HorizontalStackLayout>
+            <Button Text="Send test message" Command="{Binding SendMsgCMD}"/>
         </StackLayout>
         <ListView ItemsSource="{Binding Model.ChatsAndMessagessDict.Values}">
             <ListView.ItemTemplate>
