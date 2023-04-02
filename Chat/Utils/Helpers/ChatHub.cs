@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using CrossPlatformChat.MVVM.Models;
+using Microsoft.AspNetCore.SignalR.Client;
+using static Android.Graphics.ColorSpace;
 
 namespace CrossPlatformChat.Utils.Helpers
 {
     public class ChatHub : INotifyPropertyChanged
     {
         HubConnection _hubConnection;
-        bool _isBusy, _isConnected;
+        bool _isBusy = false, _isConnected = false;
         readonly string _connectionPath;
 
         public bool IsBusy
@@ -21,17 +23,13 @@ namespace CrossPlatformChat.Utils.Helpers
 
         public ChatHub()
         {
-            IsConnected = false;
-            IsBusy = false;
             if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                 _connectionPath = "http://10.0.2.2:5066/ChatHub";
             else
                 _connectionPath = "http://localhost:5066/ChatHub";
 
-            Application.Current.Dispatcher.Dispatch(async () =>
-            {
-                await Connect();
-            });
+            Application.Current.Dispatcher.Dispatch(async () => await Connect());
+            //SendMessageToServer();
         }
 
         public async Task Connect()
@@ -53,10 +51,8 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<string>("ReceiveMessage", async (message) =>
-                {
-                    await App.Current.MainPage.DisplayAlert("Received msg", message, "ok");
-                });
+                _hubConnection.On<string>("ReceiveMessage", OnMessageRecieved);
+
                 await _hubConnection.StartAsync();
 
                 await App.Current.MainPage.DisplayAlert("Success", "You have entered the chat", "ok");
@@ -64,22 +60,42 @@ namespace CrossPlatformChat.Utils.Helpers
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error at Connect", ex.Message, "ok");
+                await App.Current.MainPage.DisplayAlert("Error at Hub Connect", ex.Message, "ok");
             }
         }
-
         public async Task Disconnect()
         {
             if (!IsConnected)
                 return;
+            try
+            {
+                await _hubConnection.StopAsync();
+                IsConnected = false;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error at Hub Disconnect", ex.Message, "ok");
+            }
+        }
 
-            await _hubConnection.StopAsync();
-            IsConnected = false;
+        async Task OnMessageRecieved(string message)
+        {
+            await App.Current.MainPage.DisplayAlert("Received msg", message, "ok");
+            var dict = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict;
+
+            foreach (var kvp in dict) // test (adding messagess to all chats)
+            {
+                kvp.Value.Add(new()
+                {
+                    ChatID = kvp.Key.ID,
+                    Content = message,
+                });
+            }
         }
 
         public async void SendMessageToServer(string message = "test")
         {
-            await _hubConnection.InvokeCoreAsync("SendMessageToAll", args: new[]
+            await _hubConnection.InvokeCoreAsync("SendMessageToAll", new[]
             {
                 message
             });

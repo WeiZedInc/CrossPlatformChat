@@ -8,18 +8,19 @@ public partial class ChatView : ContentPage
     public ChatView()
 	{
 		InitializeComponent();
-        vm = BindingContext as ChatVM;
+        NavigationPage.SetHasNavigationBar(this, false);
+        vm = new ChatVM();
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await vm.ChatHub.Connect();
-    }
+    //protected override async void OnAppearing()
+    //{
+    //    base.OnAppearing();
+    //    await vm.ChatHub.Connect();
+    //}
 
-    protected override async void OnDisappearing()
-    {
-        base.OnDisappearing();
-        await vm.ChatHub.Disconnect();
-    }
+    //protected override async void OnDisappearing()
+    //{
+    //    base.OnDisappearing();
+    //    await vm.ChatHub.Disconnect();
+    //}
 }

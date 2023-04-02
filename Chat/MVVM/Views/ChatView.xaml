@@ -10,24 +10,19 @@
     </ContentPage.BindingContext>
     
     <VerticalStackLayout VerticalOptions="Center" Margin="40">
-        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+        <ActivityIndicator IsRunning="{Binding ChatHub.IsBusy}" IsVisible="{Binding ChatHub.IsBusy}"
                            HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
         <StackLayout Padding="10">
-            <Label FontSize="Small" Text="Login" VerticalOptions="Center"/>
-            <Entry x:Name="userNameBox"  Text="{Binding UserName}" HorizontalOptions="FillAndExpand"/>
-            <Label FontSize="Small" Text="Сообщение" VerticalOptions="Center"/>
-            <Entry HorizontalOptions="FillAndExpand" Text="{Binding MessageContent}"/>
-            <Button Text="Send" IsEnabled="{Binding IsConnected}" Command="{Binding SendMessageCommand}"/>
             <HorizontalStackLayout>
                 <Label Text="IsConnected:" TextColor="White" FontSize="25"/>
-                <Label Text="{Binding IsConnected}" TextColor="White" FontSize="25"/>
+                <Label Text="{Binding ChatHub.IsConnected}" TextColor="White" FontSize="25"/>
             </HorizontalStackLayout>
             <HorizontalStackLayout>
                 <Label Text="IsBusy:" TextColor="White" FontSize="25"/>
-                <Label Text="{Binding IsBusy}" TextColor="White" FontSize="25"/>
+                <Label Text="{Binding ChatHub.IsBusy}" TextColor="White" FontSize="25"/>
             </HorizontalStackLayout>
         </StackLayout>
-        <ListView ItemsSource="{Binding Messages}">
+        <ListView ItemsSource="{Binding Model.ChatsAndMessagessDict.Values}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>

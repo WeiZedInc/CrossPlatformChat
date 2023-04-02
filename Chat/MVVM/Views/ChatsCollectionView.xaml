@@ -14,14 +14,14 @@
                    BackgroundColor="#361500"
                    PlaceholderColor="#603601" />
 
-        <Frame BackgroundColor="#603601" BorderColor="Transparent" Margin="35,0,35,0" Padding="0,0,0,0" IsVisible="{Binding NoChats}">
+        <Frame BackgroundColor="#603601" BorderColor="Transparent" Margin="35,0,35,0" Padding="0,0,0,0" IsVisible="{Binding Model.NoChats}">
             <VerticalStackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Center">
                 <Label Text="There are no chats available yet...&#10;It's time to fix it!" TextColor="#CC9544" 
                        FontSize="20" FontFamily="Light"/>
             </VerticalStackLayout>
         </Frame>
 
-        <CollectionView ItemsSource="{Binding Chats.Keys}">
+        <CollectionView ItemsSource="{Binding Model.ChatsAndMessagessDict.Keys}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <ScrollView Margin="5">

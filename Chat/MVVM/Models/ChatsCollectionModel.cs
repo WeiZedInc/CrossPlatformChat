@@ -9,13 +9,13 @@ namespace CrossPlatformChat.MVVM.Models
     {
         public readonly ISQLiteService _dbservice;
         public bool NoChats { get; set; } = false;
-        public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> Chats { get; set; }
+        public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> ChatsAndMessagessDict { get; set; }
         static bool _isInitialized = false;
 
         public ChatsCollectionModel()
         {
             _dbservice = ServiceHelper.Get<ISQLiteService>();
-            Chats = new();
+            ChatsAndMessagessDict = new();
 
 
             if (!_isInitialized )
@@ -45,10 +45,10 @@ namespace CrossPlatformChat.MVVM.Models
                 msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
 
                 //добавляем в словарь (чат, сообщения)
-                Chats.Add(chat, msgCollection);
+                ChatsAndMessagessDict.Add(chat, msgCollection);
             }
 
-            if (Chats == null || Chats.Count == 0)
+            if (ChatsAndMessagessDict == null || ChatsAndMessagessDict.Count == 0)
                 NoChats = true;
 
             _isInitialized = true;
