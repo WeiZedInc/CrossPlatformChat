@@ -37,8 +37,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+    app.UseHttpsRedirection(); // turn on https on release
 
-app.UseHttpsRedirection();
+
 
 app.MapControllers();
 
@@ -50,9 +52,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ChatHub>("/ChatHub");
-});
+app.MapHub<ChatHub>("/ChatHub");
 
 app.Run();

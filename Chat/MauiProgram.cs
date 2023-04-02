@@ -1,5 +1,4 @@
 ﻿using CrossPlatformChat.Database;
-using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.ViewModels;
 using CrossPlatformChat.MVVM.Views;
 using Microsoft.Extensions.Logging;

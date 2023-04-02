@@ -6,7 +6,7 @@ namespace CrossPlatformChat.Utils.Helpers
     {
         HubConnection _hubConnection;
         bool _isBusy, _isConnected;
-        readonly string connectionPath = "https://10.0.2.2:7233/ChatHub";
+        readonly string _connectionPath;
 
         public bool IsBusy
         {
@@ -23,6 +23,15 @@ namespace CrossPlatformChat.Utils.Helpers
         {
             IsConnected = false;
             IsBusy = false;
+            if (DeviceInfo.Current.Platform == DevicePlatform.Android)
+                _connectionPath = "http://10.0.2.2:5066/ChatHub";
+            else
+                _connectionPath = "http://localhost:5066/ChatHub";
+
+            Application.Current.Dispatcher.Dispatch(async () =>
+            {
+                await Connect();
+            });
         }
 
         public async Task Connect()
@@ -31,9 +40,8 @@ namespace CrossPlatformChat.Utils.Helpers
                 return;
             try
             {
-                string accessToken = ServiceHelper.Get<ClientHandler>().LocalClient.Token;
                 _hubConnection = new HubConnectionBuilder()
-                    .WithUrl(connectionPath)
+                    .WithUrl(_connectionPath)
                     .Build();
 
                 _hubConnection.ServerTimeout = new TimeSpan(0, 0, 5);
@@ -45,12 +53,11 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<int, string>("ReceiveMessage", async (chatID, message) =>
+                _hubConnection.On<string>("ReceiveMessage", async (message) =>
                 {
                     await App.Current.MainPage.DisplayAlert("Received msg", message, "ok");
                 });
                 await _hubConnection.StartAsync();
-                await _hubConnection.SendAsync("GetConnectionFromServer", "Connected");
 
                 await App.Current.MainPage.DisplayAlert("Success", "You have entered the chat", "ok");
                 IsConnected = true;
@@ -68,6 +75,14 @@ namespace CrossPlatformChat.Utils.Helpers
 
             await _hubConnection.StopAsync();
             IsConnected = false;
+        }
+
+        public async void SendMessageToServer(string message = "test")
+        {
+            await _hubConnection.InvokeCoreAsync("SendMessageToAll", args: new[]
+            {
+                message
+            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
