@@ -43,7 +43,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     users = JsonConvert.SerializeObject(default);
                 }
 
-                ;
                 ChatEntity chat = new()
                 {
                     ID = GenerateChatID(),

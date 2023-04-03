@@ -83,7 +83,7 @@ namespace CrossPlatformChat.Utils.Helpers
         {
             try
             {
-                if (_Model.ChatsAndMessagessDict != null) return;
+                if (_Model.ChatsAndMessagessDict == null) return;
 
                 lock (_Model.ChatsAndMessagessDict)
                 {
