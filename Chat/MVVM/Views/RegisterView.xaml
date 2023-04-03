@@ -23,9 +23,6 @@
         <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
             <Entry Placeholder="Password" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding PasswordInput}"/>
         </Frame>
-        <Frame Padding=" 10,0,10,0" BorderColor="Transparent">
-            <Entry Placeholder="Enter keyword to encrypt your data with" ReturnType="Go" TextColor="Black" IsPassword="True" Text="{Binding KeyWordInput}"/>
-        </Frame>
 
         <Button Margin="0,20" Text="Sign up" TextColor="White" Background="FireBrick" FontSize="Medium" Command="{Binding RegisterCommand}"/>
 

@@ -1,4 +1,5 @@
-﻿using CrossPlatformChat.Database.Entities;
+﻿using CrossPlatformChat.Database;
+using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -74,7 +75,7 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        async void OnMessageRecieved(int chatID, MessageEntity messageEntity)
+        void OnMessageRecieved(int chatID, MessageEntity messageEntity)
         {
             try
             {
@@ -88,12 +89,13 @@ namespace CrossPlatformChat.Utils.Helpers
                     {
                         var messagesCollection = dict[chat];
                         messagesCollection?.Add(messageEntity);
+                        ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
                     }
                 }
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok");
+                App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok").Wait();
             }
         }
 

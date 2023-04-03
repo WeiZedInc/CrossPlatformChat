@@ -36,24 +36,22 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             try
             {
-                var passTuple = CryptoManager.CreateHash(PasswordInput);
+                var (Hash, Salt) = CryptoManager.CreateHash(PasswordInput);
                 var request = new BaseRequest
                 {
                     Login = LoginInput,
-                    HashedPassword = passTuple.Hash
+                    HashedPassword = Hash
                 };
                 var response = await ServiceHelper.Get<APIManager>().HttpRequest<AuthenticationResponse>(request, RequestPath.Register, HttpMethod.Post);
                 if (response.StatusCode == 200)
                 {
                     await db.InsertAsync(new ClientEntity()
                     {
-                        HashedPassword = passTuple.Hash,
-                        KeyWord = KeyWordInput,
-                        StoredSalt = passTuple.Salt,
+                        HashedPassword = Hash,
+                        StoredSalt = Salt,
                         IsOnline = true,
                         LastLoginTime = DateTime.UtcNow,
                         RegistrationTime = DateTime.UtcNow,
-                        Password = PasswordInput,
                         Login = LoginInput,
                         Username = LoginInput,
                         AvatarSource = "default.png",

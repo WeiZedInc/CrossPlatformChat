@@ -7,7 +7,6 @@ namespace CrossPlatformChat.MVVM.Models
     {
         private string _loginInput;
         private string _passwordInput;
-        private string _keyWordInput;
         private bool _isProcessing;
         public ICommand LoginCommand { get; set; }
         public ICommand GoToRegisterViewCommand { get; set; }
@@ -22,11 +21,6 @@ namespace CrossPlatformChat.MVVM.Models
         {
             get { return _passwordInput; }
             set { _passwordInput = value; OnPropertyChanged(); }
-        }
-        public string KeyWordInput
-        {
-            get { return _keyWordInput; }
-            set { _keyWordInput = value; OnPropertyChanged(); }
         }
         public bool IsProcessing
         {

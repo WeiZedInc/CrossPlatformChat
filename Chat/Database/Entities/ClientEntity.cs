@@ -5,15 +5,10 @@ namespace CrossPlatformChat.Database.Entities
     [Table("clients")]
     public class ClientEntity : GeneralUserEntity
     {
-        string _KeyWord, _HashedPassword, _Password = null!, _Login = null!, _Token = null!;
+        string _HashedPassword, _Login = null!, _Token = null!;
         DateTime _RegistrationTime;
         byte[] _StoredSalt = null!;
 
-        public string KeyWord
-        {
-            get { return _KeyWord; }
-            set { _KeyWord = value; OnPropertyChanged(); }
-        }
         public string HashedPassword
         {
             get { return _HashedPassword; }
@@ -23,11 +18,6 @@ namespace CrossPlatformChat.Database.Entities
         {
             get { return _Login; }
             set { _Login = value; OnPropertyChanged(); }
-        }
-        public string Password
-        {
-            get { return _Password; }
-            set { _Password = value; OnPropertyChanged(); }
         }
         public string Token
         {

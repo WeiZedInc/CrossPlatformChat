@@ -32,8 +32,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     return;
                 }
 
-                (string Hash, byte[] Salt) key = new();
-                key = CryptoManager.CreateHash(KeyWordInput);
 
                 string users = string.Empty;
                 if (UsersToAdd.Count != 0)
@@ -45,15 +43,15 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     users = JsonConvert.SerializeObject(default);
                 }
 
-
+                var (Hash, Salt) = CryptoManager.CreateHash(KeyWordInput);
                 ChatEntity chat = new()
                 {
                     ID = GenerateChatID(),
                     CreatedDate = DateTime.Now,
                     MissedMessagesCount = 0,
                     Name = ChatNameInput,
-                    HashedKeyword = key.Hash,
-                    StoredSalt = key.Salt,
+                    HashedKeyword = Hash,
+                    StoredSalt = Salt,
                     GeneralUsersID_JSON = users,
                     LogoSource = "dotnet_bot.svg"
                 };
