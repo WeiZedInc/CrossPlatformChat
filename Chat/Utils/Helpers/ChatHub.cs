@@ -2,6 +2,7 @@
 using CrossPlatformChat.Database.Entities;
 using CrossPlatformChat.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
+using System;
 
 namespace CrossPlatformChat.Utils.Helpers
 {
@@ -10,6 +11,7 @@ namespace CrossPlatformChat.Utils.Helpers
         HubConnection _hubConnection;
         bool _isBusy = false, _isConnected = false;
         readonly string _connectionPath;
+        ChatsCollectionModel _Model;
 
         public bool IsBusy
         {
@@ -30,6 +32,8 @@ namespace CrossPlatformChat.Utils.Helpers
                 _connectionPath = "http://localhost:5066/ChatHub";
 
             Application.Current.Dispatcher.Dispatch(async () => await Connect());
+
+            _Model = ServiceHelper.Get<ChatsCollectionModel>();
         }
 
         public async Task Connect()
@@ -79,18 +83,20 @@ namespace CrossPlatformChat.Utils.Helpers
         {
             try
             {
-                var dict = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict;
-                if (dict != null) return;
+                if (_Model.ChatsAndMessagessDict != null) return;
 
-                lock (dict)
+                lock (_Model.ChatsAndMessagessDict)
                 {
-                    var chat = dict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
-                    if (chat != null)
-                    {
-                        var messagesCollection = dict[chat];
-                        messagesCollection?.Add(messageEntity);
-                        ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
-                    }
+                    var chat = _Model.ChatsAndMessagessDict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
+                    if (chat == null) return;
+
+
+                    string decryptedMsg = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, chat.StoredSalt, messageEntity.InitialVector);
+                    messageEntity.Message = decryptedMsg;
+
+
+                    _Model.ChatsAndMessagessDict[chat].Add(messageEntity);
+                    ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
                 }
             }
             catch (Exception ex)
@@ -101,9 +107,18 @@ namespace CrossPlatformChat.Utils.Helpers
 
         public async Task<bool> SendMessageToServer(int chatID, MessageEntity messageEntity)
         {
-            if (IsConnected)
+            if (IsConnected && messageEntity != null)
             {
-                await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { chatID, messageEntity });
+                var chat = _Model.ChatsAndMessagessDict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
+                if (chat == null) return false;
+
+                var (encryptedMessage, initialVector) = CryptoManager.EncryptMessage(chat.StoredSalt, messageEntity.Message);
+
+                messageEntity.Message = null;
+                messageEntity.EncryptedMessage = encryptedMessage;
+                messageEntity.InitialVector = initialVector;
+
+                await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { chatID, messageEntity});
                 return true;
             }
             else

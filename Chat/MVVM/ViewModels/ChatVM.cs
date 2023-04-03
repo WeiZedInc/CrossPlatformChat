@@ -18,7 +18,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 bool result = await ChatHub.SendMessageToServer(0, new()
                 {
                     ChatID = 0,
-                    Content = "test"
+                    Message = "test"
                 });
                 await App.Current.MainPage.DisplayAlert("Received", result.ToString(), "ok");
             });

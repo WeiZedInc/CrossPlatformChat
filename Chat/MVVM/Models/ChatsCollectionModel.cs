@@ -18,7 +18,7 @@ namespace CrossPlatformChat.MVVM.Models
             ChatsAndMessagessDict = new();
 
 
-            if (!_isInitialized )
+            if (!_isInitialized)
                 InitChats();
         }
 
@@ -28,9 +28,9 @@ namespace CrossPlatformChat.MVVM.Models
             _dbservice.DeleteAllInTableAsync<MessageEntity>();
             _dbservice.DeleteAllInTableAsync<GeneralUserEntity>();
         }
-            
 
-        void InitChats() 
+
+        void InitChats()
         {
             //получаем чаты и сообщения с бд
             List<ChatEntity> chatsTable = _dbservice.TableToListAsync<ChatEntity>().Result;
@@ -38,18 +38,21 @@ namespace CrossPlatformChat.MVVM.Models
 
             //чаты для коллекции
             ObservableCollection<MessageEntity> msgCollection;
-
-            foreach (var chat in chatsTable)
+            lock (ChatsAndMessagessDict)
             {
-                //получаем сообщения определенного чата и добавляем 
-                msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
+                foreach (var chat in chatsTable)
+                {
+                    //получаем сообщения определенного чата и добавляем 
+                    msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
 
-                //добавляем в словарь (чат, сообщения)
-                ChatsAndMessagessDict.Add(chat, msgCollection);
+                    //добавляем в словарь (чат, сообщения)
+
+                    ChatsAndMessagessDict.Add(chat, msgCollection);
+                }
+
+                if (ChatsAndMessagessDict == null || ChatsAndMessagessDict.Count == 0)
+                    NoChats = true;
             }
-
-            if (ChatsAndMessagessDict == null || ChatsAndMessagessDict.Count == 0)
-                NoChats = true;
 
             _isInitialized = true;
         }

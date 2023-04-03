@@ -13,7 +13,8 @@ namespace CrossPlatformChat.Database.Entities
     public class MessageEntity : INotifyPropertyChanged
     {
         int _ID, _ChatID, _SenderID;
-        string _Content;
+        string _message;
+        byte[] _EncryptedMessage, _InitialVector;
         DateTime _SentDate;
         MessageStatus _Status;
 
@@ -39,11 +40,25 @@ namespace CrossPlatformChat.Database.Entities
             set { _ChatID = value; OnPropertyChanged(); }
         }
 
-        [Column("content")]
-        public string Content
+        [Column("message")]
+        public string Message
         {
-            get { return _Content; }
-            set { _Content = value; OnPropertyChanged(); }
+            get { return _message; }
+            set { _message = value; OnPropertyChanged(); }
+        }
+
+        [Column("ecnryptedMessage")]
+        public byte[] EncryptedMessage
+        {
+            get { return _EncryptedMessage; }
+            set { _EncryptedMessage = value; OnPropertyChanged(); }
+        }
+
+        [Column("initialVector")]
+        public byte[] InitialVector
+        {
+            get { return _InitialVector; }
+            set { _InitialVector = value; OnPropertyChanged(); }
         }
 
         [Column("sentDate")]
