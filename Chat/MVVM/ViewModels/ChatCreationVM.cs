@@ -43,15 +43,14 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     users = JsonConvert.SerializeObject(default);
                 }
 
-                var (Hash, Salt) = CryptoManager.CreateHash(KeyWordInput);
+                ;
                 ChatEntity chat = new()
                 {
                     ID = GenerateChatID(),
                     CreatedDate = DateTime.Now,
                     MissedMessagesCount = 0,
                     Name = ChatNameInput,
-                    HashedKeyword = Hash,
-                    StoredSalt = Salt,
+                    StoredSalt = CryptoManager.CreateSalt(KeyWordInput),
                     GeneralUsersID_JSON = users,
                     LogoSource = "dotnet_bot.svg"
                 };

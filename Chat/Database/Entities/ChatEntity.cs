@@ -8,7 +8,6 @@ namespace CrossPlatformChat.Database.Entities
         int _ID, _MissedMessagesCount = 0;
         string _Name, _GeneralUsersID_JSON, _LogoSource = "dotnet_bot.svg";
         DateTime _CreatedDate;
-        string _HashedKeyword = string.Empty;
         byte[] _StoredSalt = null!;
 
         [PrimaryKey]
@@ -41,11 +40,6 @@ namespace CrossPlatformChat.Database.Entities
         {
             get { return _CreatedDate; }
             set { _CreatedDate = value; OnPropertyChanged(); }
-        }
-        public string HashedKeyword
-        {
-            get { return _HashedKeyword; }
-            set { _HashedKeyword = value; OnPropertyChanged(); }
         }
         public byte[] StoredSalt
         {

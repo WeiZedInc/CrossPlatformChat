@@ -12,14 +12,14 @@ namespace CrossPlatformChat.Services
         /// </summary>
         public static (string Hash, byte[] Salt) CreateHash(string keyWord)
         {
-            var salt = CreateSalt(ref keyWord);
+            var salt = CreateSalt(keyWord);
 
             string hash = Convert.ToBase64String(salt);
 
             return (hash, salt);
         }
 
-        static byte[] CreateSalt(ref string keyWord)
+        public static byte[] CreateSalt(string keyWord)
         {
             byte[] salt = new byte[32]; // 256-bit
             using (var rng = RandomNumberGenerator.Create()) rng.GetBytes(salt);
