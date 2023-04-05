@@ -22,6 +22,7 @@ namespace CrossPlatformChat.Services
         public static byte[] CreateSalt(string keyWord)
         {
             byte[] salt = new byte[32]; // 256-bit
+
             using (var rng = RandomNumberGenerator.Create()) rng.GetBytes(salt);
 
             return KeyDerivation.Pbkdf2(keyWord, salt, KeyDerivationPrf.HMACSHA256, 10000, 32);

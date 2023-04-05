@@ -37,7 +37,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<ClientHandler>();
 
         builder.Services.AddSingleton<ChatsCollectionVM>();
-        builder.Services.AddSingleton<ChatCreationView>();
         builder.Services.AddSingleton<ChatsCollectionModel>();
 
 
