@@ -45,7 +45,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var response = await ServiceHelper.Get<APIManager>().HttpRequest<AuthenticationResponse>(request, RequestPath.Register, HttpMethod.Post);
                 if (response.StatusCode == 200)
                 {
-                    await db.InsertAsync(new ClientEntity()
+                    var client = new ClientEntity()
                     {
                         HashedPassword = Hash,
                         StoredSalt = Salt,
@@ -57,7 +57,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
                         AvatarSource = "default.png",
                         ID = response.ID,
                         Token = response.Token
-                    });
+                    };
+                    await db.InsertAsync(client);
+                    ClientHandler.LocalClient = client;
                     return true;
                 }
                 else

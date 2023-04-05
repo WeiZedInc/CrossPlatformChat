@@ -6,9 +6,9 @@ namespace CrossPlatformChat.Services
 {
     public class ClientHandler
     {
-        public ClientEntity LocalClient { get; set; }
+        public static ClientEntity LocalClient { get; set; }
 
-        public ClientHandler()
+        static ClientHandler()
         {
             LocalClient = ServiceHelper.Get<ISQLiteService>().FirstOrDefault<ClientEntity>().Result;
         }

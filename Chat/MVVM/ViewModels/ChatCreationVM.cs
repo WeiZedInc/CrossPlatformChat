@@ -19,7 +19,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
             RemoveUserCMD = new Command<GeneralUserEntity>(RemoveUser);
             CreateChatCMD = new Command(CreateChat);
             UsersToAdd = new();
-            _localClient = ServiceHelper.Get<ClientHandler>().LocalClient;
+            _localClient = ClientHandler.LocalClient;
         }
 
         public async void CreateChat()
@@ -88,7 +88,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     await App.Current.MainPage.DisplayAlert("Oops", $"You have already added {UsernameToAdd} to the chat!", "Ok");
                     return;
                 }
-                else if (UsernameToAdd == _localClient.Username)
+                else if (UsernameToAdd == _localClient.Username) // _localClient == null after registration
                 {
                     await App.Current.MainPage.DisplayAlert("Oops", "You are the owner of the chat, and will be there already!", "Ok");
                     return;

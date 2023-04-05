@@ -34,7 +34,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 var request = new BaseRequest
                 {
                     Login = LoginInput,
-                    HashedPassword = ServiceHelper.Get<ClientHandler>().LocalClient.HashedPassword
+                    HashedPassword = ClientHandler.LocalClient.HashedPassword
                 };
                 var response = await ServiceHelper.Get<APIManager>().HttpRequest<AuthenticationResponse>(request, RequestPath.Authenticate, HttpMethod.Post);
 
