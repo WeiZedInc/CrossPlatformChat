@@ -87,15 +87,12 @@ namespace CrossPlatformChat.Utils.Helpers
 
                 lock (_Model.ChatsAndMessagessDict)
                 {
-                    var chat = _Model.ChatsAndMessagessDict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
-                    if (chat == null) return;
+                    var kvp = _Model.ChatsAndMessagessDict.Where(x => x.Key.ID == chatID).FirstOrDefault();
+                    if (kvp.Key == null) return;
 
+                    messageEntity.Message = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, kvp.Key.StoredSalt, messageEntity.InitialVector);
 
-                    string decryptedMsg = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, chat.StoredSalt, messageEntity.InitialVector);
-                    messageEntity.Message = decryptedMsg;
-
-
-                    _Model.ChatsAndMessagessDict[chat].Add(messageEntity);
+                    kvp.Value.Add(messageEntity);
                     ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
                 }
             }

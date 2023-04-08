@@ -1,26 +1,35 @@
-﻿using CrossPlatformChat.MVVM.Models;
+﻿using CrossPlatformChat.Database.Entities;
+using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.Utils.Helpers;
+using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class ChatVM
     {
         public ChatHub ChatHub { get; set; } = new();
-        public ChatsCollectionModel Model { get; set; }
+        public ChatEntity Chat { get; set; }
+        public ObservableCollection<MessageEntity> Messages { get; set; }
 
         public ICommand SendMsgCMD { get; set; }
 
         public ChatVM()
         {
-            Model = ServiceHelper.Get<ChatsCollectionModel>();
+            var kvp = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict.Where(x => x.Key.ID == 0).FirstOrDefault();
+            if (kvp.Key == null)
+                throw new Exception("Err at chatVM cotr");
+
+            Chat = kvp.Key;
+            Messages = kvp.Value;
+
+
             SendMsgCMD = new Command(async () =>
             {
                 bool result = await ChatHub.SendMessageToServer(0, new()
                 {
                     ChatID = 0,
-                    Message = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eget malesuada nisl, vel congue risus. Morbi fringilla viverra libero, eu dictum sem rhoncus vitae. Mauris purus est, molestie vitae scelerisque nec, cursus quis augue. In eget pharetra mauris. Etiam aliquet nisi in arcu vehicula eleifend. Suspendisse id metus eu arcu efficitur euismod. Fusce nisi ipsum, congue sit amet dolor non, porttitor tristique lorem. Cras at diam a neque dignissim pharetra. Donec venenatis risus ex. Suspendisse varius pharetra enim nec congue. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas at dapibus ipsum, sed bibendum dolor. Phasellus vel urna id est varius venenatis. Nam tristique lacinia condimentum."
+                    Message = "Maecenas at dapibus ipsum, sed bibendum dolor. Phasellus vel urna id est varius venenatis. Nam tristique lacinia condimentum."
                 });
-                await App.Current.MainPage.DisplayAlert("Message sent", result.ToString(), "ok");
             });
         }
     }

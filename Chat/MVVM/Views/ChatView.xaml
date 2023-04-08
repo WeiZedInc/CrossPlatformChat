@@ -8,34 +8,52 @@
     <ContentPage.BindingContext>
         <vm:ChatVM/>
     </ContentPage.BindingContext>
-    
-    <VerticalStackLayout VerticalOptions="Center" Margin="40">
-        <ActivityIndicator IsRunning="{Binding ChatHub.IsBusy}" IsVisible="{Binding ChatHub.IsBusy}"
-                           HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-        <StackLayout Padding="10">
-            <HorizontalStackLayout>
-                <Label Text="IsConnected:" TextColor="White" FontSize="25"/>
-                <Label Text="{Binding ChatHub.IsConnected}" TextColor="White" FontSize="25"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout>
-                <Label Text="IsBusy:" TextColor="White" FontSize="25"/>
-                <Label Text="{Binding ChatHub.IsBusy}" TextColor="White" FontSize="25"/>
-            </HorizontalStackLayout>
-            <Button Text="Send test message" Command="{Binding SendMsgCMD}"/>
-        </StackLayout>
-        <ListView ItemsSource="{Binding Model.ChatsAndMessagessDict.Values}">
-            <ListView.ItemTemplate>
+
+    <VerticalStackLayout Margin="20">
+
+        <CollectionView ItemsSource="{Binding Messages}">
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.View>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding User}" FontAttributes="Bold" />
-                                <Label Text="{Binding Message}" />
-                            </StackLayout>
-                        </ViewCell.View>
-                    </ViewCell>
+                    <ScrollView>
+                        <Frame BackgroundColor="Transparent" >
+                            <VerticalStackLayout>
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout HorizontalOptions="Center"  Spacing="10">
+                                    <Label Text="ChatID:" FontAttributes="Bold" TextColor="White"/>
+                                    <Label Text="{Binding ChatID}" FontAttributes="Bold" TextColor="White"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Message}" TextColor="White" VerticalOptions="FillAndExpand"/>
+                                </VerticalStackLayout>
+                                <Label Text="{Binding SentDate}" FontAttributes="Bold" TextColor="White" VerticalOptions="End" HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </ScrollView>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <CollectionView ItemsSource="{Binding Messages}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <ScrollView>
+                        <Frame BackgroundColor="Transparent">
+                            <VerticalStackLayout>
+                                <VerticalStackLayout>
+                                    <HorizontalStackLayout HorizontalOptions="Center"  Spacing="10">
+                                        <Label Text="ChatID:" FontAttributes="Bold" TextColor="White"/>
+                                        <Label Text="{Binding ChatID}" FontAttributes="Bold" TextColor="White"/>
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Message}" TextColor="White" VerticalOptions="FillAndExpand"/>
+                                </VerticalStackLayout>
+                                <Label Text="{Binding SentDate}" FontAttributes="Bold" TextColor="White" VerticalOptions="End" HorizontalOptions="End"/>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </ScrollView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Send test message" Command="{Binding SendMsgCMD}"/>
+
     </VerticalStackLayout>
 </ContentPage>

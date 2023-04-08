@@ -9,19 +9,19 @@ namespace CrossPlatformChat.MVVM.Models
     {
         public readonly ISQLiteService _dbservice;
         public bool NoChats { get; set; } = false;
-        public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> ChatsAndMessagessDict { get; set; }
+        public ObservableDictionary<ChatEntity, ObservableCollection<MessageEntity>> ChatsAndMessagessDict { get; set; } = new();
         static bool _isInitialized = false;
 
         public ChatsCollectionModel()
         {
             _dbservice = ServiceHelper.Get<ISQLiteService>();
-            ChatsAndMessagessDict = new();
+            Test();
+
             ChatsAndMessagessDict.Add
                 (
                 new ChatEntity() { ID = 0, Name = "testChat", StoredSalt = CryptoManager.CreateSalt("testKey") },
-                new ObservableCollection<MessageEntity>()
+                new()
                 );
-
 
             if (!_isInitialized)
                 InitChats();
@@ -37,26 +37,29 @@ namespace CrossPlatformChat.MVVM.Models
 
         void InitChats()
         {
-            //получаем чаты и сообщения с бд
+            //receiveing chats and msgs from bd
             List<ChatEntity> chatsTable = _dbservice.TableToListAsync<ChatEntity>().Result;
             List<MessageEntity> msgTable = _dbservice.TableToListAsync<MessageEntity>().Result;
 
-            //чаты для коллекции
-            ObservableCollection<MessageEntity> msgCollection;
-            lock (ChatsAndMessagessDict)
+            if (chatsTable != null && msgTable != null)
             {
-                foreach (var chat in chatsTable)
+                //messages for inserting to general collection
+                ObservableCollection<MessageEntity> msgCollection;
+
+                lock (ChatsAndMessagessDict)
                 {
-                    //получаем сообщения определенного чата и добавляем 
-                    msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
+                    foreach (var chat in chatsTable)
+                    {
+                        //reciveing msgs for a specific chat
+                        msgCollection = new(msgTable.Where(x => x.ChatID == chat.ID));
 
-                    //добавляем в словарь (чат, сообщения)
+                        //adding to the general collection (chat, msgs)
+                        ChatsAndMessagessDict.Add(chat, msgCollection);
+                    }
 
-                    ChatsAndMessagessDict.Add(chat, msgCollection);
+                    if (ChatsAndMessagessDict == null || ChatsAndMessagessDict.Count == 0)
+                        NoChats = true;
                 }
-
-                if (ChatsAndMessagessDict == null || ChatsAndMessagessDict.Count == 0)
-                    NoChats = true;
             }
 
             _isInitialized = true;
