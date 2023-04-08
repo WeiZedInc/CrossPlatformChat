@@ -40,7 +40,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     for (int i = 0; i < UsersToAdd.Count; i++)
                         UsersID[i] = UsersToAdd[i].ID;
 
-                    users = JsonConvert.SerializeObject(default);
+                    users = JsonConvert.SerializeObject(UsersID);
                 }
 
                 ChatEntity chat = new()

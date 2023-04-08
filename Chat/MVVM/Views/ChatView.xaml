@@ -3,57 +3,98 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CrossPlatformChat.MVVM.Views.ChatView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
-             Background="#1C0A00"
+             xmlns:helper="clr-namespace:CrossPlatformChat.Utils.Helpers"
              Title="Chat">
     <ContentPage.BindingContext>
         <vm:ChatVM/>
     </ContentPage.BindingContext>
 
-    <VerticalStackLayout Margin="20">
+    <RefreshView Margin="10" IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCMD}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition />
+                <RowDefinition Height="40" />
+            </Grid.RowDefinitions>
 
-        <CollectionView ItemsSource="{Binding Messages}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <ScrollView>
-                        <Frame BackgroundColor="Transparent" >
-                            <VerticalStackLayout>
-                                <VerticalStackLayout>
-                                    <HorizontalStackLayout HorizontalOptions="Center"  Spacing="10">
-                                    <Label Text="ChatID:" FontAttributes="Bold" TextColor="White"/>
-                                    <Label Text="{Binding ChatID}" FontAttributes="Bold" TextColor="White"/>
-                                    </HorizontalStackLayout>
-                                    <Label Text="{Binding Message}" TextColor="White" VerticalOptions="FillAndExpand"/>
-                                </VerticalStackLayout>
-                                <Label Text="{Binding SentDate}" FontAttributes="Bold" TextColor="White" VerticalOptions="End" HorizontalOptions="End"/>
-                            </VerticalStackLayout>
-                        </Frame>
-                    </ScrollView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <Grid>
+                <StackLayout Orientation="Horizontal">
+                    <Image
+                        HeightRequest="32"
+                        Source="{Binding User.AvatarSource}"
+                        VerticalOptions="Center"
+                        WidthRequest="32" />
+                    <Label
+                        Margin="10,0,0,0"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        Text="{Binding User.Username}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+            </Grid>
 
-        <CollectionView ItemsSource="{Binding Messages}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <ScrollView>
-                        <Frame BackgroundColor="Transparent">
-                            <VerticalStackLayout>
-                                <VerticalStackLayout>
-                                    <HorizontalStackLayout HorizontalOptions="Center"  Spacing="10">
-                                        <Label Text="ChatID:" FontAttributes="Bold" TextColor="White"/>
-                                        <Label Text="{Binding ChatID}" FontAttributes="Bold" TextColor="White"/>
-                                    </HorizontalStackLayout>
-                                    <Label Text="{Binding Message}" TextColor="White" VerticalOptions="FillAndExpand"/>
-                                </VerticalStackLayout>
-                                <Label Text="{Binding SentDate}" FontAttributes="Bold" TextColor="White" VerticalOptions="End" HorizontalOptions="End"/>
-                            </VerticalStackLayout>
-                        </Frame>
-                    </ScrollView>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView
+                Grid.Row="1"
+                Margin="0,10,0,10"
+                ItemsSource="{Binding Messages}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
 
-        <Button Text="Send test message" Command="{Binding SendMsgCMD}"/>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <Label
+                                Margin="5,0,5,0"
+                                FontSize="11"
+                                HorizontalOptions="{Binding HorizontalOptions, Source={RelativeSource AncestorType={x:Type VerticalStackLayout}}}"
+                                Text="{Binding SentDate, StringFormat='{0:HH:mm}'}" />
 
-    </VerticalStackLayout>
+                            <Frame Padding="10,6,10,6" CornerRadius="10">
+                                <Label
+                                    FontSize="12"
+                                    Text="{Binding Message}"
+                                    TextColor="Black" />
+                            </Frame>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                </Grid.ColumnDefinitions>
+
+                <Frame
+                    Padding="10,0,10,0"
+                    BorderColor="Transparent"
+                    CornerRadius=" 20"
+                    HeightRequest=" 36">
+                    <Entry
+                        Placeholder="Aa"
+                        Text="{Binding MessageToEncrypt}"
+                        TextColor="Black"
+                        VerticalOptions="Center" />
+                </Frame>
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="#152c39"
+                    Command="{Binding SendMsgCMD}"
+                    CornerRadius="45"
+                    HeightRequest="32"
+                    WidthRequest="32">
+                    <Button.ImageSource>
+                        <FontImageSource
+                            FontFamily="Icons"
+                            Glyph="{x:Static helper:FontIconHelper.Send}"
+                            Size="18" />
+                    </Button.ImageSource>
+                </Button>
+            </Grid>
+        </Grid>
+    </RefreshView>
 </ContentPage>
