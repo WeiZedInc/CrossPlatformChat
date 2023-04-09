@@ -36,7 +36,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     ChatID = 0,
                     Message = MessageToEncrypt,
                     SentDate = DateTime.Now,
-                    Status = MessageStatus.SentAndNotRead
+                    IsSent = true
                 });
             });
 

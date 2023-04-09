@@ -2,13 +2,6 @@
 
 namespace CrossPlatformChat.Database.Entities
 {
-    public enum MessageStatus
-    {
-        Read = 0,
-        Received,
-        SentAndNotRead
-    }
-
     [Table("messages")]
     public class MessageEntity : INotifyPropertyChanged
     {
@@ -16,7 +9,7 @@ namespace CrossPlatformChat.Database.Entities
         string _message;
         byte[] _EncryptedMessage, _InitialVector;
         DateTime _SentDate;
-        MessageStatus _Status;
+        bool _isSent;
 
         [PrimaryKey, AutoIncrement]
         [Column("id")]
@@ -68,11 +61,11 @@ namespace CrossPlatformChat.Database.Entities
             set { _SentDate = value; OnPropertyChanged(); }
         }
 
-        [Column("status")]
-        public MessageStatus Status
+        [Column("isSent")]
+        public bool IsSent
         {
-            get { return _Status; }
-            set { _Status = value; OnPropertyChanged(); }
+            get { return _isSent; }
+            set { _isSent = value; OnPropertyChanged(); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
