@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 
-namespace Chat.API.SignalR
+namespace Chat.API.Managers
 {
     public class ChatHub : Hub
     {

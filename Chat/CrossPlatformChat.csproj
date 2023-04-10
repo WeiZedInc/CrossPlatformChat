@@ -91,6 +91,9 @@
 	  <Compile Update="MVVM\Views\ChatsCollectionView.xaml.cs">
 	    <DependentUpon>ChatsCollectionView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="MVVM\Views\ChatRoomView.xaml.cs">
+	    <DependentUpon>ChatRoomView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -100,7 +103,7 @@
 	  <MauiXaml Update="MVVM\Views\ChatsCollectionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MVVM\Views\ChatView.xaml">
+	  <MauiXaml Update="MVVM\Views\ChatRoomView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MVVM\Views\LoginView.xaml">

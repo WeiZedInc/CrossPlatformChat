@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    public class ChatVM
+    public class ChatRoomVM
     {
         int _chatID = 0;
         public ChatHub ChatHub { get; set; } = new();
@@ -23,7 +23,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         public ICommand SendMsgCMD { get; set; }
         public ICommand RefreshCMD { get; set; }
 
-        public ChatVM()
+        public ChatRoomVM()
         {
             _db = ServiceHelper.Get<ISQLiteService>();
 

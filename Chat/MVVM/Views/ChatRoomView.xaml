@@ -2,12 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CrossPlatformChat.MVVM.Views.ChatView"
-             xmlns:converters="clr-namespace:CrossPlatformChat.Utils.Helpers.Converters"
+             xmlns:converters="clr-namespace:CrossPlatformChat.Helpers.Converters"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
-             xmlns:helper="clr-namespace:CrossPlatformChat.Utils.Helpers"
+             xmlns:helper="clr-namespace:CrossPlatformChat.Helpers"
              Title="Chat">
     <ContentPage.BindingContext>
-        <vm:ChatVM/>
+        <vm:ChatRoomVM/>
     </ContentPage.BindingContext>
     <Grid RowDefinitions="auto, *, auto">
         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Grid.Row="0">

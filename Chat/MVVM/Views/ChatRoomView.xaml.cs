@@ -4,12 +4,12 @@ namespace CrossPlatformChat.MVVM.Views;
 
 public partial class ChatView : ContentPage
 {
-    ChatVM vm;
+    ChatRoomVM vm;
     public ChatView()
 	{
 		InitializeComponent();
         NavigationPage.SetHasNavigationBar(this, false);
-        vm = new ChatVM();
+        vm = new ChatRoomVM();
     }
 
     protected override async void OnDisappearing()

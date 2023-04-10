@@ -71,13 +71,13 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        public void RemoveUser(GeneralUserEntity user)
+        void RemoveUser(GeneralUserEntity user)
         {
             if (UsersToAdd.Contains(user))
                 UsersToAdd.Remove(user);
         }
 
-        public async void AddUser()
+        async void AddUser()
         {
             try
             {
@@ -112,7 +112,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        public async Task<GeneralUserEntity> GetUserByUsername()
+        async Task<GeneralUserEntity> GetUserByUsername()
         {
             try
             {
@@ -147,7 +147,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        public async Task<int> CreateChatOnAPI(string users, string logo)
+        async Task<int> CreateChatOnAPI(string users, string logo)
         {
             try
             {

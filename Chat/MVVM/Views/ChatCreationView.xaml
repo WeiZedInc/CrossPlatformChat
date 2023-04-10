@@ -4,7 +4,6 @@
              x:Class="CrossPlatformChat.MVVM.Views.ChatCreationView"
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              xmlns:models="clr-namespace:CrossPlatformChat.MVVM.Models"
-             xmlns:controls="clr-namespace:CrossPlatformChat.Controls"
              Background="#1C0A00"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.BindingContext>

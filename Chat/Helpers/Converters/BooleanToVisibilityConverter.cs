@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace CrossPlatformChat.Utils.Helpers.Converters
+namespace CrossPlatformChat.Helpers.Converters
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {
