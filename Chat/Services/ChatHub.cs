@@ -57,7 +57,7 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<int, MessageEntity>("MessageFromServer", ReceiveMessage);
+                _hubConnection.On<MessageEntity>("ReceiveMessage", ReceiveMessage);
 
                 await _hubConnection.StartAsync();
                 await _hubConnection.InvokeAsync("AddToGroup", _currentChat.ID.ToString());
@@ -82,7 +82,7 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        void ReceiveMessage(int chatID, MessageEntity messageEntity)
+        void ReceiveMessage(MessageEntity messageEntity)
         {
             try
             {

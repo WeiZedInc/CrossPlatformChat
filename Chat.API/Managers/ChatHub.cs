@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
-using Chat.API.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Chat.API.Managers
 {
@@ -9,7 +6,7 @@ namespace Chat.API.Managers
     {
         public async Task SendMessageToGroup(string chatID, object messageEntity) // recieve and send back
         {
-            await Clients.Group(chatID).SendAsync("ReceiveMessage", chatID, messageEntity);
+            await Clients.Group(chatID).SendAsync("ReceiveMessage", messageEntity);
         }
 
         public async Task AddToGroup(string chatID)
