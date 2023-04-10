@@ -2,7 +2,7 @@
 
 namespace CrossPlatformChat.Utils.Request_Response.Chat
 {
-    public class ChatInfoRequest : BaseRequest
+    public class ChatInfoRequest
     {
         public string AvatarSource { get; set; } = "avatar.png";
         public string GeneralUsersID_JSON { get; set; } = null!;

@@ -5,7 +5,7 @@ namespace Chat.API.Managers
 {
     public interface IChatManager
     {
-        int CreateNewChat(ChatCreationRequest request);
+        ChatCreationResponse? CreateNewChat(ChatCreationRequest request);
     }
     public class ChatManager : IChatManager
     {
@@ -13,20 +13,23 @@ namespace Chat.API.Managers
         public ChatManager(ChatAppContext context) => db = context ?? throw new ArgumentNullException(nameof(context));
 
 
-        public int CreateNewChat(ChatCreationRequest request)
+        public ChatCreationResponse? CreateNewChat(ChatCreationRequest request)
         {
             try
             {
-                return db.Chats.Add(new Chats()
+                var chat = db.Chats.Add(new Chats()
                 {
                     CreatedDate = request.CreatedDate,
                     GeneralUsersID_JSON = request.GeneralUsersID_JSON,
                     AvatarSource = request.AvatarSource
-                }).Entity.ID;
+                });
+                db.SaveChanges();
+
+                return new ChatCreationResponse() { ID = chat.Entity.ID };
             }
             catch (Exception)
             {
-                return -1;
+                return null;
             }
         }
     }

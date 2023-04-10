@@ -18,7 +18,7 @@ namespace Chat.API.Managers
     {
         ClientResponse? Authenticate(string login, string password);
         (ClientResponse?, RegistrationStatus) Register(string login, string password);
-        ClientResponse? GetUserByID(int ID);
+        GeneralUserResponse? GetUserByID(int ID);
         public GeneralUserResponse? GetGeneralUserByUsername(string username);
     }
 
@@ -115,14 +115,14 @@ namespace Chat.API.Managers
             }
         }
 
-        public ClientResponse? GetUserByID(int ID)
+        public GeneralUserResponse? GetUserByID(int ID)
         {
             try
             {
                 var entity = db.Users.SingleOrDefault(x => x.ID == ID);
                 if (entity == null) return null;
 
-                return Convert.ChangeType(entity, typeof(ClientResponse)) as ClientResponse;
+                return Convert.ChangeType(entity, typeof(GeneralUserResponse)) as GeneralUserResponse;
             }
             catch (Exception)
             {

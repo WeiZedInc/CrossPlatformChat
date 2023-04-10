@@ -15,7 +15,7 @@ namespace CrossPlatformChat.Services
 
     public class APIManager
     {
-        public async Task<T> HttpRequest<T>(BaseRequest request, RequestPath pathEnum, HttpMethod method) where T : BaseResponse, new()
+        public async Task<T> HttpRequest<T>(object request, RequestPath pathEnum, HttpMethod method) where T : BaseResponse, new()
         {
             if (request == null) return null;
             var devHTTPS = new DevHttpsConnectionHelper(7233);
