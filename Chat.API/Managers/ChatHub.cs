@@ -1,17 +1,25 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using Chat.API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chat.API.Managers
 {
     public class ChatHub : Hub
     {
-        private readonly ChatAppContext db;
-        public ChatHub(ChatAppContext context) => db = context ?? throw new ArgumentNullException(nameof(context));
-
-        public async Task MessageFromClient(int chatID, object messageEntity) // recieve and send back
+        public async Task SendMessageToGroup(string chatID, object messageEntity) // recieve and send back
         {
-            //int[]? users = JsonConvert.DeserializeObject<int[]>(db.Chats.Find(chatID).GeneralUsersID_JSON);
-            await Clients.Others.SendAsync("MessageFromServer", chatID, messageEntity);
+            await Clients.Group(chatID).SendAsync("ReceiveMessage", chatID, messageEntity);
+        }
+
+        public async Task AddToGroup(string chatID)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, chatID);
+        }
+
+        public async Task RemoveFromGroup(string chatID)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatID);
         }
     }
 }
