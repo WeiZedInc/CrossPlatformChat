@@ -57,10 +57,10 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<int, MessageEntity>("MessageFromServer", MessageFromServer);
+                _hubConnection.On<int, MessageEntity>("MessageFromServer", ReceiveMessage);
 
                 await _hubConnection.StartAsync();
-
+                await _hubConnection.InvokeAsync("AddToGroup", _currentChat.ID.ToString());
                 IsConnected = true;
             }
             catch (Exception ex)
@@ -76,10 +76,13 @@ namespace CrossPlatformChat.Utils.Helpers
         public async Task Disconnect()
         {
             if (IsConnected && _hubConnection != null)
+            {
+                await _hubConnection.InvokeAsync("RemoveFromGroup", _currentChat.ID.ToString());
                 await _hubConnection.StopAsync();
+            }
         }
 
-        void MessageFromServer(int chatID, MessageEntity messageEntity)
+        void ReceiveMessage(int chatID, MessageEntity messageEntity)
         {
             try
             {
@@ -115,7 +118,7 @@ namespace CrossPlatformChat.Utils.Helpers
                     messageEntity.EncryptedMessage = encryptedMessage;
                     messageEntity.InitialVector = initialVector;
 
-                    await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { _currentChat.ID, messageEntity, _hubConnection.ConnectionId });
+                    await _hubConnection.InvokeAsync("SendMessageToGroup", new object[] { _currentChat.ID.ToString(), messageEntity});
                     return true;
                 }
                 else
