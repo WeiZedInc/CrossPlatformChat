@@ -1,6 +1,6 @@
 ﻿using System.Collections.Specialized;
 
-namespace CrossPlatformChat.Utils.Helpers
+namespace CrossPlatformChat.Helpers
 {
     public class ObservableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, INotifyCollectionChanged
     {
@@ -17,7 +17,7 @@ namespace CrossPlatformChat.Utils.Helpers
             bool removed = base.Remove(key);
             if (removed)
             {
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, default(TValue))));
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, default)));
             }
             return removed;
         }

@@ -1,6 +1,5 @@
-using Chat.API.Entities;
-using Chat.API.Functions.User;
-using Chat.API.Managers.Chat;
+using Chat.API;
+using Chat.API.Managers;
 using Chat.API.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;

@@ -1,5 +1,4 @@
-﻿using Chat.API.Functions.User;
-using Chat.API.Managers;
+﻿using Chat.API.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat.API.Controllers

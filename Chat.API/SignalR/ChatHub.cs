@@ -1,5 +1,4 @@
-﻿using Chat.API.Entities;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 
 namespace Chat.API.SignalR

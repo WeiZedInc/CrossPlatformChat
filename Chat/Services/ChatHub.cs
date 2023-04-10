@@ -1,8 +1,8 @@
 ﻿using CrossPlatformChat.Database;
 using CrossPlatformChat.Database.Entities;
+using CrossPlatformChat.Helpers;
 using CrossPlatformChat.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
-using System;
 
 namespace CrossPlatformChat.Utils.Helpers
 {

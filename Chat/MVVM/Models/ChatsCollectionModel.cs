@@ -1,6 +1,6 @@
 ﻿using CrossPlatformChat.Database;
 using CrossPlatformChat.Database.Entities;
-using CrossPlatformChat.Utils.Helpers;
+using CrossPlatformChat.Helpers;
 using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.Models

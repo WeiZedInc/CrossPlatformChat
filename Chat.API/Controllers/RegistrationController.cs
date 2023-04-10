@@ -1,5 +1,4 @@
-﻿using Chat.API.Functions.User;
-using Chat.API.Managers;
+﻿using Chat.API.Managers;
 using Chat.API.Managers.User.Data;
 using Microsoft.AspNetCore.Mvc;
 

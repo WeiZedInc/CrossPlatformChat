@@ -1,7 +1,7 @@
 ﻿using Chat.API.Entities;
 using Chat.API.Managers.Chat.Utils;
 
-namespace Chat.API.Managers.Chat
+namespace Chat.API.Managers
 {
     public interface IChatManager
     {

@@ -1,6 +1,6 @@
 ﻿using System.Net.Security;
 
-namespace CrossPlatformChat.Utils.Helpers
+namespace CrossPlatformChat.Helpers
 {
     public class DevHttpsConnectionHelper
     {

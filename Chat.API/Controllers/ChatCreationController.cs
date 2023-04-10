@@ -1,4 +1,4 @@
-﻿using Chat.API.Managers.Chat;
+﻿using Chat.API.Managers;
 using Chat.API.Managers.Chat.Utils;
 using Microsoft.AspNetCore.Mvc;
 

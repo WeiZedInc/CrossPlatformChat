@@ -5,7 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Chat.API.Functions.User
+namespace Chat.API.Managers
 {
     public enum RegistrationStatus
     {
@@ -59,11 +59,11 @@ namespace Chat.API.Functions.User
                 Users? entity = db.Users.SingleOrDefault(x => x.Username == username);
                 if (entity == null) return null;
 
-                return new GeneralUserResponse 
-                { 
+                return new GeneralUserResponse
+                {
                     ID = entity.ID,
                     Username = entity.Username,
-                    IsOnline = entity.IsOnline, 
+                    IsOnline = entity.IsOnline,
                     LastLoginTime = entity.LastLoginTime,
                     AvatarSource = entity.AvatarSource
                 };
@@ -79,7 +79,7 @@ namespace Chat.API.Functions.User
             try
             {
                 var entity = db.Users.SingleOrDefault(x => x.Login == login);
-                if (entity != null) 
+                if (entity != null)
                     return (null, RegistrationStatus.LoginOccupied);
 
                 if (login.Length < 3)

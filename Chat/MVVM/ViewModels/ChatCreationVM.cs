@@ -1,9 +1,9 @@
 ﻿using CrossPlatformChat.Database;
 using CrossPlatformChat.Database.Entities;
+using CrossPlatformChat.Helpers;
 using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.Views;
 using CrossPlatformChat.Services.Base;
-using CrossPlatformChat.Utils.Helpers;
 using CrossPlatformChat.Utils.Request_Response.Chat;
 using Newtonsoft.Json;
 
@@ -70,12 +70,6 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 await App.Current.MainPage.DisplayAlert("Oops", ex.Message + ex.StackTrace, "Ok");
             }
         }
-
-        //int GenerateChatID()
-        //{
-        //    Random rnd = new Random();
-        //    return Math.Abs(_localClient.Username.Length + rnd.Next() / (DateTime.Now.Second + 1));
-        //}
 
         public void RemoveUser(GeneralUserEntity user)
         {
