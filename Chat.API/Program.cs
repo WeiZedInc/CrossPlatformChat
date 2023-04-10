@@ -1,5 +1,6 @@
 using Chat.API.Entities;
 using Chat.API.Functions.User;
+using Chat.API.Managers.Chat;
 using Chat.API.SignalR;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -23,8 +24,8 @@ builder.Services.AddDbContext<ChatAppContext> (context =>
 builder.Services.AddTransient(connection => new MySqlConnection(ChatAppContext.connectionString));
 
 
-//user settings
 builder.Services.AddTransient<IUserManager, UserManager>();
+builder.Services.AddTransient<IChatManager, ChatManager>();
 
 //signalR
 builder.Services.AddSignalR();

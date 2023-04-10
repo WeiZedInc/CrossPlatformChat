@@ -53,11 +53,11 @@
                                        HasShadow="True"
                                        Margin="0"
                                        HorizontalOptions="Start"
-                                       BackgroundColor="Gray"
+                                       BackgroundColor="LightGray"
                                        Padding="5">
                                     <Label Text="{Binding Message}"
                                            Margin="10"
-                                           TextColor="Yellow"
+                                           TextColor="Gray"
                                            LineBreakMode="WordWrap"/>
                                 </Frame>
                             </Grid>

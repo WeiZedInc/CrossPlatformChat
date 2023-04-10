@@ -1,4 +1,4 @@
-﻿namespace Chat.API.Controlls
+﻿namespace Chat.API.Managers
 {
     public class BaseRequest
     {

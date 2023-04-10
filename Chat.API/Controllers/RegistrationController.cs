@@ -1,7 +1,9 @@
 ﻿using Chat.API.Functions.User;
+using Chat.API.Managers;
+using Chat.API.Managers.User.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Chat.API.Controlls.Register
+namespace Chat.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -15,7 +17,7 @@ namespace Chat.API.Controlls.Register
         {
             var response = _userManager.Register(request.Login, request.HashedPassword);
             RegistrationStatus status = response.Item2;
-            User? user = response.Item1;
+            Client? user = response.Item1;
 
             if (user != null && status == RegistrationStatus.Success)
                 return Ok(user);

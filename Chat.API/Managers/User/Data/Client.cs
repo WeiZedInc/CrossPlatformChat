@@ -1,8 +1,6 @@
-﻿using Chat.API.Managers.User;
-
-namespace Chat.API.Functions.User
+﻿namespace Chat.API.Managers.User.Data
 {
-    public class User : GeneralUser
+    public class Client : GeneralUser
     {
         public int ID { get; set; }
         public string Login { get; set; } = null!;

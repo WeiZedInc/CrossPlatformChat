@@ -1,5 +1,5 @@
 ﻿using Chat.API.Entities;
-using Chat.API.Managers.User;
+using Chat.API.Managers.User.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,9 +16,9 @@ namespace Chat.API.Functions.User
     }
     public interface IUserManager
     {
-        User? Authenticate(string login, string password);
-        (User?, RegistrationStatus) Register(string login, string password);
-        User? GetUserByID(int ID);
+        Client? Authenticate(string login, string password);
+        (Client?, RegistrationStatus) Register(string login, string password);
+        Client? GetUserByID(int ID);
         public GeneralUser? GetGeneralUserByUsername(string username);
     }
 
@@ -29,7 +29,7 @@ namespace Chat.API.Functions.User
         readonly string securityKey = "1234567890123456";
         readonly DateTime tokenExpireTime = DateTime.Now.AddDays(1);
 
-        public User? Authenticate(string login, string password)
+        public Client? Authenticate(string login, string password)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Chat.API.Functions.User
                 var isPasswordsMatches = VerifyPassword(password, entity.HashedPassword);
                 if (isPasswordsMatches == false) return null;
 
-                return new User
+                return new Client
                 {
                     ID = entity.ID,
                     Username = entity.Username,
@@ -74,7 +74,7 @@ namespace Chat.API.Functions.User
             }
         }
 
-        public (User?, RegistrationStatus) Register(string login, string password)
+        public (Client?, RegistrationStatus) Register(string login, string password)
         {
             try
             {
@@ -100,7 +100,7 @@ namespace Chat.API.Functions.User
                 db.SaveChanges();
 
                 var Token = GenerateJWTToken(newUserToDB);
-                return (new User
+                return (new Client
                 {
                     Login = login,
                     Username = login.ToUpper(),
@@ -115,14 +115,14 @@ namespace Chat.API.Functions.User
             }
         }
 
-        public User? GetUserByID(int ID)
+        public Client? GetUserByID(int ID)
         {
             try
             {
                 var entity = db.Users.SingleOrDefault(x => x.ID == ID);
                 if (entity == null) return null;
 
-                return Convert.ChangeType(entity, typeof(User)) as User;
+                return Convert.ChangeType(entity, typeof(Client)) as Client;
             }
             catch (Exception)
             {

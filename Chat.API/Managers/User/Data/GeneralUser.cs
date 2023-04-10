@@ -1,4 +1,4 @@
-﻿namespace Chat.API.Managers.User
+﻿namespace Chat.API.Managers.User.Data
 {
     public class GeneralUser
     {

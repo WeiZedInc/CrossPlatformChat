@@ -32,7 +32,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     return;
                 }
 
-
+                string logo = "dotnet_bot.svg";
                 string users = string.Empty;
                 if (UsersToAdd.Count != 0)
                 {
@@ -43,15 +43,22 @@ namespace CrossPlatformChat.MVVM.ViewModels
                     users = JsonConvert.SerializeObject(UsersID);
                 }
 
+                int ID = await CreateChatOnAPI(users, logo);
+                if (ID == -1)
+                {
+                    await App.Current.MainPage.DisplayAlert("Oops", "Error on requesting chat ID from API", "Ok");
+                    return;
+                }
+
                 ChatEntity chat = new()
                 {
-                    ID = GenerateChatID(),
+                    ID = ID,
                     CreatedDate = DateTime.Now,
                     MissedMessagesCount = 0,
                     Name = ChatNameInput,
                     StoredSalt = CryptoManager.CreateSalt(KeyWordInput),
                     GeneralUsersID_JSON = users,
-                    LogoSource = "dotnet_bot.svg"
+                    LogoSource = logo
                 };
 
                 await ServiceHelper.Get<ISQLiteService>().InsertAsync(chat);
@@ -64,11 +71,11 @@ namespace CrossPlatformChat.MVVM.ViewModels
             }
         }
 
-        int GenerateChatID()
-        {
-            Random rnd = new Random();
-            return Math.Abs(_localClient.Username.Length + rnd.Next() / (DateTime.Now.Second + 1));
-        }
+        //int GenerateChatID()
+        //{
+        //    Random rnd = new Random();
+        //    return Math.Abs(_localClient.Username.Length + rnd.Next() / (DateTime.Now.Second + 1));
+        //}
 
         public void RemoveUser(GeneralUserEntity user)
         {
@@ -143,6 +150,29 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert("ChatCreationVM: GetUserByUsername", ex.Message, "Ok");
                 return null;
+            }
+        }
+
+        public async Task<int> CreateChatOnAPI(string users, string logo)
+        {
+            try
+            {
+                ChatInfoRequest chatInfoRequest = new() 
+                {
+                    AvatarSource = logo,
+                    GeneralUsersID_JSON = users
+                };
+
+                var response = await ServiceHelper.Get<APIManager>().HttpRequest<ChatInfoResponse>(chatInfoRequest, RequestPath.CreateChat, HttpMethod.Post);
+                if (response.StatusCode == 200)
+                    return response.ID;
+                else
+                    return -1;
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Oops", ex.Message + ex.StackTrace, "Ok");
+                return -1;
             }
         }
     }

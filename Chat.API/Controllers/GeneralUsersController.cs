@@ -1,8 +1,9 @@
 ﻿using Chat.API.Functions.User;
-using Chat.API.Managers.User;
+using Chat.API.Managers;
+using Chat.API.Managers.User.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Chat.API.Controlls.GeneralUsers
+namespace Chat.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

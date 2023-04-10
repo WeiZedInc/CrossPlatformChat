@@ -1,7 +1,8 @@
 ﻿using Chat.API.Functions.User;
+using Chat.API.Managers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Chat.API.Controlls.Authenticate
+namespace Chat.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
