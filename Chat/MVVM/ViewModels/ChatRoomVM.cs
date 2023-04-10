@@ -10,8 +10,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class ChatRoomVM
     {
-        int _chatID = 0;
-        public ChatHub ChatHub { get; set; } = new();
+        int _chatID = 0; // here goes the choosed chat from chatCollectionViews
+        public ChatHub ChatHub { get; set; }
         public ChatEntity Chat { get; set; }
         public GeneralUserEntity User { get; set; }
         public ClientEntity Client { get; set; }
@@ -32,7 +32,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
             SendMsgCMD = new Command(async () =>
             {
-                bool result = await ChatHub.SendMessageToServer(0, new()
+                bool result = await ChatHub.SendMessageToServer(new()
                 {
                     ChatID = 0,
                     Message = MessageToEncrypt,
@@ -49,16 +49,17 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         void InitChatUsersData()
         {
-            #region Testing
-            _db.InsertAsync(new GeneralUserEntity()
-            {
-                ID = 0,
-                AvatarSource = "dotnet_bot.svg",
-                IsOnline = true,
-                LastLoginTime = DateTime.Now.Subtract(new TimeSpan(15, 0, 0, 0)),
-                Username = "TestUsername..."
-            });
-            #endregion
+            //#region Testing
+            //_db.InsertAsync(new GeneralUserEntity()
+            //{
+            //    ID = 0,
+            //    AvatarSource = "dotnet_bot.svg",
+            //    IsOnline = true,
+            //    LastLoginTime = DateTime.Now.Subtract(new TimeSpan(15, 0, 0, 0)),
+            //    Username = "TestUsername..."
+            //});
+            //#endregion
+
             Client = ClientHandler.LocalClient;
             int[] usersID = JsonConvert.DeserializeObject<int[]>(Chat.GeneralUsersID_JSON);
             if (usersID == null && usersID.Length == 0) return;
@@ -73,12 +74,15 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         void InitChat()
         {
-            var kvp = ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict.Where(x => x.Key.ID == _chatID).FirstOrDefault();
+            var model = ServiceHelper.Get<ChatsCollectionModel>();
+            var kvp = model.ChatsAndMessagessDict.Where(x => x.Key.ID == _chatID).FirstOrDefault();
             if (kvp.Key == null)
                 throw new Exception("Err at chatVM cotr");
 
             Chat = kvp.Key;
             Messages = kvp.Value;
+
+            ChatHub = new(Chat, model);
         }
     }
 }

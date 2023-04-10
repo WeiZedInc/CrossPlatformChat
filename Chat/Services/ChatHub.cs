@@ -12,6 +12,7 @@ namespace CrossPlatformChat.Utils.Helpers
         bool _isBusy = false, _isConnected = false;
         readonly string _connectionPath;
         ChatsCollectionModel _Model;
+        ChatEntity _currentChat;
 
         public bool IsBusy
         {
@@ -24,25 +25,27 @@ namespace CrossPlatformChat.Utils.Helpers
             set { _isConnected = value; OnPropertyChanged(nameof(_isConnected)); }
         }
 
-        public ChatHub()
+        public ChatHub(ChatEntity currentChat, ChatsCollectionModel model)
         {
+            _Model = model;
+            _currentChat = currentChat;
+
             if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                 _connectionPath = "http://10.0.2.2:5066/ChatHub";
             else
                 _connectionPath = "http://localhost:5066/ChatHub";
 
             Application.Current.Dispatcher.Dispatch(async () => await Connect());
-
-            _Model = ServiceHelper.Get<ChatsCollectionModel>();
         }
 
         public async Task Connect()
         {
             if (IsConnected || IsBusy)
                 return;
-            IsBusy = true;
             try
             {
+                IsBusy = true;
+
                 _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_connectionPath)
                     .Build();
@@ -54,45 +57,40 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<int, MessageEntity>("MessageFromServer", OnMessageRecieved);
+                _hubConnection.On<int, MessageEntity>("MessageFromServer", MessageFromServer);
 
                 await _hubConnection.StartAsync();
+
                 IsConnected = true;
-                IsBusy = false;
             }
             catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Error at Hub Connect", ex.Message, "ok");
             }
-        }
-        public async Task Disconnect()
-        {
-            if (!IsConnected || _hubConnection is null)
-                return;
-            try
+            finally
             {
-                await _hubConnection.StopAsync();
-            }
-            catch (Exception ex)
-            {
-                await App.Current.MainPage.DisplayAlert("Error at Hub Disconnect", ex.Message, "ok");
+                IsBusy = false;
             }
         }
 
-        void OnMessageRecieved(int chatID, MessageEntity messageEntity)
+        public async Task Disconnect()
+        {
+            if (IsConnected && _hubConnection != null)
+                await _hubConnection.StopAsync();
+        }
+
+        void MessageFromServer(int chatID, MessageEntity messageEntity)
         {
             try
             {
-                if (_Model.ChatsAndMessagessDict == null) return;
+                if (_Model == null || _currentChat == null)
+                    throw new("Model || Chat == null");
 
                 lock (_Model.ChatsAndMessagessDict)
                 {
-                    var kvp = _Model.ChatsAndMessagessDict.Where(x => x.Key.ID == chatID).FirstOrDefault();
-                    if (kvp.Key == null) return;
+                    messageEntity.Message = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, _currentChat.StoredSalt, messageEntity.InitialVector);
 
-                    messageEntity.Message = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, kvp.Key.StoredSalt, messageEntity.InitialVector);
-
-                    kvp.Value.Add(messageEntity);
+                    _Model.ChatsAndMessagessDict[_currentChat].Add(messageEntity);
                     ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
                 }
             }
@@ -102,24 +100,32 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        public async Task<bool> SendMessageToServer(int chatID, MessageEntity messageEntity)
+        public async Task<bool> SendMessageToServer(MessageEntity messageEntity)
         {
-            if (IsConnected && messageEntity != null)
+            try
             {
-                var chat = _Model.ChatsAndMessagessDict.Keys.Where(x => x.ID == chatID).FirstOrDefault();
-                if (chat == null) return false;
+                if (_Model == null || _currentChat == null)
+                    throw new("Model || Chat == null");
 
-                var (encryptedMessage, initialVector) = CryptoManager.EncryptMessage(chat.StoredSalt, messageEntity.Message);
+                if (IsConnected && messageEntity != null)
+                {
+                    var (encryptedMessage, initialVector) = CryptoManager.EncryptMessage(_currentChat.StoredSalt, messageEntity.Message);
 
-                messageEntity.Message = null;
-                messageEntity.EncryptedMessage = encryptedMessage;
-                messageEntity.InitialVector = initialVector;
+                    messageEntity.Message = null;
+                    messageEntity.EncryptedMessage = encryptedMessage;
+                    messageEntity.InitialVector = initialVector;
 
-                await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { chatID, messageEntity});
-                return true;
+                    await _hubConnection.InvokeCoreAsync("MessageFromClient", new object[] { _currentChat.ID, messageEntity, _hubConnection.ConnectionId });
+                    return true;
+                }
+                else
+                    return false;
             }
-            else
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok");
                 return false;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
