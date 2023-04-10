@@ -1,10 +1,11 @@
 ﻿using Chat.API.Entities;
+using Chat.API.Managers.Chat.Utils;
 
 namespace Chat.API.Managers.Chat
 {
     public interface IChatManager
     {
-        int CreateNewChat(ChatInfoRequest request);
+        int CreateNewChat(ChatCreationRequest request);
     }
     public class ChatManager : IChatManager
     {
@@ -12,7 +13,7 @@ namespace Chat.API.Managers.Chat
         public ChatManager(ChatAppContext context) => db = context ?? throw new ArgumentNullException(nameof(context));
 
 
-        public int CreateNewChat(ChatInfoRequest request)
+        public int CreateNewChat(ChatCreationRequest request)
         {
             try
             {

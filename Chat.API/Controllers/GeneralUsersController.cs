@@ -15,7 +15,7 @@ namespace Chat.API.Controllers
         [HttpPost("GetByUsername")]
         public IActionResult GetByUsername(BaseRequest request)
         {
-            GeneralUser? user = _userManager.GetGeneralUserByUsername(request.Login);
+            GeneralUserResponse? user = _userManager.GetGeneralUserByUsername(request.Login);
 
             if (user != null)
                 return Ok(user);

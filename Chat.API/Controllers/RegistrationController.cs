@@ -17,7 +17,7 @@ namespace Chat.API.Controllers
         {
             var response = _userManager.Register(request.Login, request.HashedPassword);
             RegistrationStatus status = response.Item2;
-            Client? user = response.Item1;
+            ClientResponse? user = response.Item1;
 
             if (user != null && status == RegistrationStatus.Success)
                 return Ok(user);

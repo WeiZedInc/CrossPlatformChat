@@ -1,6 +1,6 @@
 ﻿namespace Chat.API.Managers.User.Data
 {
-    public class GeneralUser
+    public class GeneralUserResponse
     {
         public int ID { get; set; }
         public string Username { get; set; }
