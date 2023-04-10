@@ -154,7 +154,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 ChatInfoRequest chatInfoRequest = new() 
                 {
                     AvatarSource = logo,
-                    GeneralUsersID_JSON = users
+                    GeneralUsersID_JSON = users,
+                    CreatedDate = DateTime.Now
                 };
 
                 var response = await ServiceHelper.Get<APIManager>().HttpRequest<ChatInfoResponse>(chatInfoRequest, RequestPath.CreateChat, HttpMethod.Post);

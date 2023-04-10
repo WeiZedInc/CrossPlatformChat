@@ -14,11 +14,11 @@ namespace Chat.API.Controllers
         [HttpPost("CreateNewChat")]
         public IActionResult CreateNewChat(ChatCreationRequest request)
         {
-            var id = _chatManager.CreateNewChat(request);
-            if (id == -1)
+            var response = _chatManager.CreateNewChat(request);
+            if (response == null)
                 return BadRequest(new { message = "Error on creating new chat on API" });
 
-            return Ok(id);
+            return Ok(response);
         }
     }
 }
