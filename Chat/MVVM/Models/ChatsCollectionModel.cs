@@ -16,15 +16,15 @@ namespace CrossPlatformChat.MVVM.Models
         {
             _dbservice = ServiceHelper.Get<ISQLiteService>();
 
-            #region Testing
-            Test();
+            //#region Testing
+            ////Test();
 
-            ChatsAndMessagessDict.Add
-                (
-                new ChatEntity() { ID = 0, Name = "testChat", StoredSalt = CryptoManager.CreateSalt("testKey"), GeneralUsersID_JSON = "[0]", CreatedDate = DateTime.Now },
-                new()
-                );
-            #endregion
+            ////ChatsAndMessagessDict.Add
+            ////    (
+            ////    new ChatEntity() { ID = 0, Name = "testChat", StoredSalt = CryptoManager.CreateSalt("testKey"), GeneralUsersID_JSON = "[0]", CreatedDate = DateTime.Now },
+            ////    new()
+            ////    );
+            //#endregion
 
             if (!_isInitialized)
                 InitChats();

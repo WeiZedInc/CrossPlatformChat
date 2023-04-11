@@ -2,14 +2,15 @@ using CrossPlatformChat.MVVM.ViewModels;
 
 namespace CrossPlatformChat.MVVM.Views;
 
-public partial class ChatView : ContentPage
+public partial class ChatRoomView : ContentPage
 {
     ChatRoomVM vm;
-    public ChatView()
-	{
-		InitializeComponent();
+    public ChatRoomView(int id)
+    {
+        InitializeComponent();
         NavigationPage.SetHasNavigationBar(this, false);
         vm = new ChatRoomVM();
+        vm.InitChat(id);
     }
 
     protected override async void OnDisappearing()

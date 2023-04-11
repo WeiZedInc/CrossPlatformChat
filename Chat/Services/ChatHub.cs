@@ -99,7 +99,7 @@ namespace CrossPlatformChat.Utils.Helpers
             }
             catch (Exception ex)
             {
-                App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok").Wait();
+                App.Current.MainPage.DisplayAlert("Error at ReceiveMessage", ex.Message, "ok").Wait();
             }
         }
 
@@ -118,7 +118,7 @@ namespace CrossPlatformChat.Utils.Helpers
                     messageEntity.EncryptedMessage = encryptedMessage;
                     messageEntity.InitialVector = initialVector;
 
-                    await _hubConnection.InvokeAsync("SendMessageToGroup", new object[] { _currentChat.ID.ToString(), messageEntity});
+                    await _hubConnection.InvokeAsync("SendMessageToGroup", _currentChat.ID.ToString(), messageEntity);
                     return true;
                 }
                 else
@@ -126,7 +126,7 @@ namespace CrossPlatformChat.Utils.Helpers
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("Error at OnMessageRecieved", ex.Message, "ok");
+                await App.Current.MainPage.DisplayAlert("Error at SendMessageToServer", ex.Message, "ok");
                 return false;
             }
         }
