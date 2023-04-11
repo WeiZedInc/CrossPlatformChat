@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using System.Drawing;
 
 namespace Chat.API.Managers
 {

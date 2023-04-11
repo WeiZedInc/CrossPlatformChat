@@ -11,6 +11,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
     public class ChatRoomVM
     {
         ChatEntity _chat;
+        bool _isSending = false;
         public ChatHub ChatHub { get; set; }
         public GeneralUserEntity User { get; set; }
         public ObservableCollection<MessageEntity> Messages { get; set; }
@@ -25,7 +26,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
         {
             _db = ServiceHelper.Get<ISQLiteService>();
 
-            SendMsgCMD = SendMsg;
+            SendMsgCMD = new Command(SendMsg);
 
             RefreshCMD = new Command(() =>
             {
@@ -33,8 +34,13 @@ namespace CrossPlatformChat.MVVM.ViewModels
             });
         }
 
-        async Command SendMsg()
+        async void SendMsg()
         {
+            if (_isSending || string.IsNullOrWhiteSpace(MessageToEncrypt)) 
+                return;
+
+            _isSending = true;
+
             MessageEntity message = new();
             message.ChatID = _chat.ID; // _chat is null
             message.Message = MessageToEncrypt;
@@ -42,11 +48,10 @@ namespace CrossPlatformChat.MVVM.ViewModels
             message.IsSent = true;
 
             Messages.Add(message); // Messages is null
-            _db.InsertAsync(message).Wait();
+            await _db.InsertAsync(message);
 
-            await ChatHub.SendMessageToServer(message);
-
-            return Task.CompletedTask;
+            if (await ChatHub.SendMessageToServer(message))
+                _isSending = false;
         }
 
         public void InitChat(int id)
