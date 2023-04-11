@@ -4,24 +4,11 @@ using CrossPlatformChat.Helpers;
 using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.Utils.Helpers;
 using Newtonsoft.Json;
-using System.Collections.ObjectModel;
 
 namespace CrossPlatformChat.MVVM.ViewModels
 {
-    public class ChatRoomVM
+    public class ChatRoomVM : ChatRoomModel
     {
-        ChatEntity _chat;
-        bool _isSending = false;
-        public ChatHub ChatHub { get; set; }
-        public GeneralUserEntity User { get; set; }
-        public ObservableCollection<MessageEntity> Messages { get; set; }
-        public string MessageToEncrypt { get; set; }
-        public bool IsRefreshing { get; set; }
-        ISQLiteService _db;
-
-        public ICommand SendMsgCMD { get; set; }
-        public ICommand RefreshCMD { get; set; }
-
         public ChatRoomVM()
         {
             _db = ServiceHelper.Get<ISQLiteService>();
@@ -42,12 +29,12 @@ namespace CrossPlatformChat.MVVM.ViewModels
             _isSending = true;
 
             MessageEntity message = new();
-            message.ChatID = _chat.ID; // _chat is null
+            message.ChatID = Chat.ID;
             message.Message = MessageToEncrypt;
             message.SentDate = DateTime.Now;
             message.IsSent = true;
 
-            Messages.Add(message); // Messages is null
+            Messages.Add(message);
             await _db.InsertAsync(message);
 
             if (await ChatHub.SendMessageToServer(message))
@@ -61,17 +48,17 @@ namespace CrossPlatformChat.MVVM.ViewModels
             if (kvp.Key == null)
                 throw new Exception("Err at chatVM cotr");
 
-            _chat = kvp.Key;
+            Chat = kvp.Key;
             Messages = kvp.Value;
 
-            ChatHub = new(_chat, model);
+            ChatHub = new(Chat, model);
 
             InitChatUsersData();
         }
 
         void InitChatUsersData()
         {
-            int[] usersID = JsonConvert.DeserializeObject<int[]>(_chat.GeneralUsersID_JSON);
+            int[] usersID = JsonConvert.DeserializeObject<int[]>(Chat.GeneralUsersID_JSON);
             if (usersID == null && usersID.Length == 0) return;
 
             if (usersID.Length == 1)

@@ -9,7 +9,7 @@ public partial class ChatRoomView : ContentPage
     {
         InitializeComponent();
         NavigationPage.SetHasNavigationBar(this, false);
-        vm = new ChatRoomVM();
+        vm = BindingContext as ChatRoomVM;
         vm.InitChat(id);
     }
 

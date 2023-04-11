@@ -1,6 +1,7 @@
 ﻿using CrossPlatformChat.Database;
 using CrossPlatformChat.MVVM.Models;
 using CrossPlatformChat.MVVM.ViewModels;
+using CrossPlatformChat.MVVM.Views;
 using Microsoft.Extensions.Logging;
 
 namespace CrossPlatformChat;
@@ -36,7 +37,6 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ChatsCollectionVM>();
         builder.Services.AddSingleton<ChatsCollectionModel>();
-
 
         return builder.Build();
     }

@@ -20,7 +20,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
             EnterChatCMD = new Command<int>(async (id) =>
             {
-                await App.Current.MainPage.Navigation.PushAsync(new ChatRoomView(id), true);
+                await App.Current.MainPage.Navigation.PushAsync(new ChatRoomView(id));
             });
         }
     }
