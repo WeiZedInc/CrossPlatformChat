@@ -23,16 +23,18 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         async void SendMsg()
         {
-            if (_isSending || string.IsNullOrWhiteSpace(MessageToEncrypt)) 
+            if (_isSending || string.IsNullOrWhiteSpace(MessageToEncrypt))
                 return;
 
             _isSending = true;
 
-            MessageEntity message = new();
-            message.ChatID = Chat.ID;
-            message.Message = MessageToEncrypt;
-            message.SentDate = DateTime.Now;
-            message.IsSent = true;
+            MessageEntity message = new()
+            {
+                ChatID = Chat.ID,
+                Message = MessageToEncrypt,
+                SentDate = DateTime.Now,
+                IsSent = true,
+            };
 
             Messages.Add(message);
             await _db.InsertAsync(message);
