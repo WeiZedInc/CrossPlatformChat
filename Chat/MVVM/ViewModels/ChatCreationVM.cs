@@ -34,7 +34,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
                 string logo = "dotnet_bot.svg";
                 string users = string.Empty;
-                if (UsersToAdd.Count != 0)
+                bool isUsersExists = UsersToAdd.Count != 0;
+                if (isUsersExists)
                 {
                     int[] UsersID = new int[UsersToAdd.Count];
                     for (int i = 0; i < UsersToAdd.Count; i++)
@@ -63,6 +64,15 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
                 await ServiceHelper.Get<ISQLiteService>().InsertAsync(chat);
                 ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict.Add(chat, new());
+                if (isUsersExists)
+                {
+                    foreach (var item in UsersToAdd)
+                    {
+                        await ServiceHelper.Get<ClientHub>().SendChat(item.ID.ToString(), chat);
+                    }
+                }
+
+
                 App.Current.MainPage = new NavigationPage(new ChatsCollectionView());
             }
             catch (Exception ex)

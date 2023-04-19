@@ -1,5 +1,6 @@
 ﻿using Chat.API.Entities;
 using Chat.API.Managers.Chat.Utils;
+using Newtonsoft.Json;
 
 namespace Chat.API.Managers
 {

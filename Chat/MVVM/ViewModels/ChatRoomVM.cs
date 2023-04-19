@@ -34,6 +34,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 Message = MessageToEncrypt,
                 SentDate = DateTime.Now,
                 IsSent = true,
+                SenderID = ClientHandler.LocalClient.ID
             };
 
             Messages.Add(message);

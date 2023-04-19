@@ -4,15 +4,14 @@ using CrossPlatformChat.Helpers;
 using CrossPlatformChat.MVVM.Models;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace CrossPlatformChat.Utils.Helpers
+namespace CrossPlatformChat.Services
 {
-    public class ChatHub : INotifyPropertyChanged
+    class ClientHub : INotifyPropertyChanged
     {
         HubConnection _hubConnection;
         bool _isBusy = false, _isConnected = false;
         readonly string _connectionPath;
         ChatsCollectionModel _Model;
-        ChatEntity _currentChat;
 
         public bool IsBusy
         {
@@ -25,10 +24,9 @@ namespace CrossPlatformChat.Utils.Helpers
             set { _isConnected = value; OnPropertyChanged(nameof(_isConnected)); }
         }
 
-        public ChatHub(ChatEntity currentChat, ChatsCollectionModel model)
+        public ClientHub(ChatEntity currentChat, ChatsCollectionModel model)
         {
-            _Model = model;
-            _currentChat = currentChat;
+            _Model = ServiceHelper.Get<ChatsCollectionModel>();
 
             if (DeviceInfo.Current.Platform == DevicePlatform.Android)
                 _connectionPath = "http://10.0.2.2:5066/ChatHub";
@@ -57,10 +55,10 @@ namespace CrossPlatformChat.Utils.Helpers
                     await Connect();
                 };
 
-                _hubConnection.On<MessageEntity>("ReceiveMessage", ReceiveMessage);
+                _hubConnection.On<ChatEntity>("ReceiveChat", ReceiveChat);
 
                 await _hubConnection.StartAsync();
-                await _hubConnection.InvokeAsync("AddToGroup", _currentChat.ID.ToString());
+                await _hubConnection.InvokeAsync("AddToClientsGroup", ClientHandler.LocalClient.ID.ToString());
                 IsConnected = true;
             }
             catch (Exception ex)
@@ -77,24 +75,25 @@ namespace CrossPlatformChat.Utils.Helpers
         {
             if (IsConnected && _hubConnection != null)
             {
-                await _hubConnection.InvokeAsync("RemoveFromGroup", _currentChat.ID.ToString());
+                await _hubConnection.InvokeAsync("RemoveFromClientsGroup", ClientHandler.LocalClient.ID.ToString());
                 await _hubConnection.StopAsync();
             }
         }
 
-        void ReceiveMessage(MessageEntity messageEntity)
+        void ReceiveChat(ChatEntity chat)
         {
             try
             {
-                if (_Model == null || _currentChat == null)
+                if (_Model == null || chat == null)
                     throw new("Model || Chat == null");
 
                 lock (_Model.ChatsAndMessagessDict)
                 {
-                    messageEntity.Message = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, _currentChat.StoredSalt, messageEntity.InitialVector);
+                    if (_Model.ChatsAndMessagessDict.ContainsKey(chat)) 
+                        return;
 
-                    _Model.ChatsAndMessagessDict[_currentChat].Add(messageEntity);
-                    ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
+                    _Model.ChatsAndMessagessDict.Add(chat, new());
+                    ServiceHelper.Get<ISQLiteService>().InsertAsync(chat).Wait();
                 }
             }
             catch (Exception ex)
@@ -103,22 +102,16 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        public async Task<bool> SendMessageToServer(MessageEntity messageEntity)
+        public async Task<bool> SendChat(string receiverID, ChatEntity chat)
         {
             try
             {
-                if (_Model == null || _currentChat == null)
-                    throw new("Model || Chat == null");
+                if (chat == null)
+                    throw new("Chat == null");
 
-                if (IsConnected && messageEntity != null)
+                if (IsConnected)
                 {
-                    var (encryptedMessage, initialVector) = CryptoManager.EncryptMessage(_currentChat.StoredSalt, messageEntity.Message);
-
-                    messageEntity.Message = null;
-                    messageEntity.EncryptedMessage = encryptedMessage;
-                    messageEntity.InitialVector = initialVector;
-
-                    await _hubConnection.InvokeAsync("SendMessageToGroup", _currentChat.ID.ToString(), messageEntity);
+                    await _hubConnection.InvokeAsync("SendChatToClient", receiverID, chat);
                     return true;
                 }
                 else
@@ -131,7 +124,7 @@ namespace CrossPlatformChat.Utils.Helpers
             }
         }
 
-        ~ChatHub()
+        ~ClientHub()
         {
             Disconnect().Wait();
         }
