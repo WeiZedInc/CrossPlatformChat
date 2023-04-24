@@ -28,7 +28,6 @@ namespace Chat.API.Managers
             await Console.Out.WriteLineAsync($"User {Context.ConnectionId} added to chat[{chatID}]");
             Console.ResetColor();
         }
-
         public async Task RemoveFromGroup(string chatID)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, chatID);
@@ -44,7 +43,6 @@ namespace Chat.API.Managers
             await Console.Out.WriteLineAsync($"User {Context.ConnectionId} added to clients group[{clientID}]");
             Console.ResetColor();
         }
-
         public async Task RemoveFromClientsGroup(string clientID)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, clientID);

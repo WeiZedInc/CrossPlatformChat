@@ -96,12 +96,13 @@ namespace Chat.API.Managers
                     RegistrationTime = DateTime.UtcNow,
                 };
 
-                db.Users.Add(newUserToDB);// remade for async
+                var entry = db.Users.Add(newUserToDB);// remade for async
                 db.SaveChanges();
 
                 var Token = GenerateJWTToken(newUserToDB);
                 return (new ClientResponse
                 {
+                    ID = entry.Entity.ID,
                     Login = login,
                     Username = login.ToUpper(),
                     HashedPassword = password,

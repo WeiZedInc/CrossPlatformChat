@@ -6,25 +6,14 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace CrossPlatformChat.Services
 {
-    class ClientHub : INotifyPropertyChanged
+    class ClientHub
     {
         HubConnection _hubConnection;
-        bool _isBusy = false, _isConnected = false;
+        bool _IsBusy = false, _IsConnected = false;
         readonly string _connectionPath;
         ChatsCollectionModel _Model;
 
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set { _isBusy = value; OnPropertyChanged(nameof(IsBusy)); }
-        }
-        public bool IsConnected
-        {
-            get { return _isConnected; }
-            set { _isConnected = value; OnPropertyChanged(nameof(_isConnected)); }
-        }
-
-        public ClientHub(ChatEntity currentChat, ChatsCollectionModel model)
+        public ClientHub()
         {
             _Model = ServiceHelper.Get<ChatsCollectionModel>();
 
@@ -38,11 +27,11 @@ namespace CrossPlatformChat.Services
 
         public async Task Connect()
         {
-            if (IsConnected || IsBusy)
+            if (_IsConnected || _IsBusy)
                 return;
             try
             {
-                IsBusy = true;
+                _IsBusy = true;
 
                 _hubConnection = new HubConnectionBuilder()
                     .WithUrl(_connectionPath)
@@ -51,7 +40,7 @@ namespace CrossPlatformChat.Services
                 _hubConnection.Closed += async (error) =>
                 {
                     await App.Current.MainPage.DisplayAlert("Warning", "Hub connection closed", "ok");
-                    IsConnected = false;
+                    _IsConnected = false;
                     await Connect();
                 };
 
@@ -59,7 +48,7 @@ namespace CrossPlatformChat.Services
 
                 await _hubConnection.StartAsync();
                 await _hubConnection.InvokeAsync("AddToClientsGroup", ClientHandler.LocalClient.ID.ToString());
-                IsConnected = true;
+                _IsConnected = true;
             }
             catch (Exception ex)
             {
@@ -67,13 +56,13 @@ namespace CrossPlatformChat.Services
             }
             finally
             {
-                IsBusy = false;
+                _IsBusy = false;
             }
         }
 
         public async Task Disconnect()
         {
-            if (IsConnected && _hubConnection != null)
+            if (_IsConnected && _hubConnection != null)
             {
                 await _hubConnection.InvokeAsync("RemoveFromClientsGroup", ClientHandler.LocalClient.ID.ToString());
                 await _hubConnection.StopAsync();
@@ -109,7 +98,7 @@ namespace CrossPlatformChat.Services
                 if (chat == null)
                     throw new("Chat == null");
 
-                if (IsConnected)
+                if (_IsConnected)
                 {
                     await _hubConnection.InvokeAsync("SendChatToClient", receiverID, chat);
                     return true;
@@ -128,9 +117,5 @@ namespace CrossPlatformChat.Services
         {
             Disconnect().Wait();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

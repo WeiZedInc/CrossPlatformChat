@@ -12,7 +12,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
 
         public ChatsCollectionVM()
         {
+            ServiceHelper.Get<ClientHub>();
             Model = ServiceHelper.Get<ChatsCollectionModel>();
+
             NewChatCMD = new Command(async () =>
             {
                 await App.Current.MainPage.Navigation.PushAsync(new ChatCreationView());

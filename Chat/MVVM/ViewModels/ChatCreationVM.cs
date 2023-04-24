@@ -66,9 +66,9 @@ namespace CrossPlatformChat.MVVM.ViewModels
                 ServiceHelper.Get<ChatsCollectionModel>().ChatsAndMessagessDict.Add(chat, new());
                 if (isUsersExists)
                 {
-                    foreach (var item in UsersToAdd)
+                    foreach (var genUser in UsersToAdd)
                     {
-                        await ServiceHelper.Get<ClientHub>().SendChat(item.ID.ToString(), chat);
+                        await ServiceHelper.Get<ClientHub>().SendChat(genUser.ID.ToString(), chat);
                     }
                 }
 
