@@ -6,9 +6,6 @@
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              xmlns:helper="clr-namespace:CrossPlatformChat.Helpers"
              Title="Chat">
-    <ContentPage.BindingContext>
-        <vm:ChatRoomVM/>
-    </ContentPage.BindingContext>
     <Grid RowDefinitions="auto, *, auto">
         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Grid.Row="0">
             <Image

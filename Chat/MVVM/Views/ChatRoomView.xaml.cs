@@ -5,12 +5,12 @@ namespace CrossPlatformChat.MVVM.Views;
 public partial class ChatRoomView : ContentPage
 {
     ChatRoomVM vm;
-    public ChatRoomView(int id)
+    public ChatRoomView(ChatRoomVM vm)
     {
         InitializeComponent();
         NavigationPage.SetHasNavigationBar(this, false);
-        vm = BindingContext as ChatRoomVM;
-        vm.InitChat(id);
+        this.vm = vm;
+        BindingContext = vm;
     }
 
     protected override async void OnDisappearing()

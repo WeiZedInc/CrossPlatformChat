@@ -9,7 +9,7 @@ namespace CrossPlatformChat.MVVM.ViewModels
 {
     public class ChatRoomVM : ChatRoomModel
     {
-        public ChatRoomVM()
+        public ChatRoomVM(int id)
         {
             _db = ServiceHelper.Get<ISQLiteService>();
 
@@ -19,6 +19,8 @@ namespace CrossPlatformChat.MVVM.ViewModels
             {
                 // todo
             });
+
+            InitChat(id);
         }
 
         async void SendMsg()
