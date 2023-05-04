@@ -6,6 +6,11 @@
              xmlns:vm="clr-namespace:CrossPlatformChat.MVVM.ViewModels"
              xmlns:helper="clr-namespace:CrossPlatformChat.Helpers"
              Title="Chat">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <Grid RowDefinitions="auto, *, auto">
         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Grid.Row="0">
             <Image
@@ -27,35 +32,33 @@
                     <ScrollView Margin="5">
                         <Grid RowDefinitions="auto, auto">
                             <Grid ColumnDefinitions="40, *" IsVisible="{Binding IsSent}">
-                                <Label Text="{Binding UserName}"/>
-                                <Frame CornerRadius="30"
-                                       Grid.Column="1"
-                                       HorizontalOptions="End"
-                                       HasShadow="True"
-                                       Margin="0"
-                                       BackgroundColor="Gray"
-                                       Padding="5"
-                                       MinimumWidthRequest="20">
-                                    <Label Text="{Binding Message}"
-                                           Margin="10"
-                                           TextColor="Black"
-                                           LineBreakMode="WordWrap"/>
+                                <Frame IsVisible="{Binding IsSent}"
+                               CornerRadius="30"
+                               Grid.Column="1"
+                               HorizontalOptions="End"
+                               HasShadow="True"
+                               Margin="0"
+                               BackgroundColor="Gray"
+                               Padding="5"
+                               MinimumWidthRequest="20">
+                                    <Label IsVisible="{Binding IsSent}" Text="{Binding Message}"
+                                   Margin="10"
+                                   TextColor="Black"
+                                   LineBreakMode="WordWrap"/>
                                 </Frame>
                             </Grid>
-                            <Grid ColumnDefinitions="*, 40"
-                                  Grid.Row="1"
-                                  IsVisible="{Binding IsSent, Converter={StaticResource converters:BooleanToVisibilityConverter}, ConverterParameter=Inverse}">
-                                <Label Text="{Binding UserName}"/>
-                                <Frame CornerRadius="30"
-                                       HasShadow="True"
-                                       Margin="0"
-                                       HorizontalOptions="Start"
-                                       BackgroundColor="LightGray"
-                                       Padding="5">
-                                    <Label Text="{Binding Message}"
-                                           Margin="10"
-                                           TextColor="Gray"
-                                           LineBreakMode="WordWrap"/>
+                            <Grid ColumnDefinitions="*, 40" Grid.Row="1" IsVisible="{Binding IsSent, Converter={StaticResource InverseBooleanConverter}}">
+                                <Frame IsVisible="{Binding IsSent, Converter={StaticResource InverseBooleanConverter}}"
+                               CornerRadius="30"
+                               HasShadow="True"
+                               Margin="0"
+                               HorizontalOptions="Start"
+                               BackgroundColor="LightGray"
+                               Padding="5">
+                                    <Label IsVisible="{Binding IsSent, Converter={StaticResource InverseBooleanConverter}}" Text="{Binding Message}"
+                                   Margin="10"
+                                   TextColor="Gray"
+                                   LineBreakMode="WordWrap"/>
                                 </Frame>
                             </Grid>
                         </Grid>

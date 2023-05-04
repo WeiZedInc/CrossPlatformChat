@@ -92,6 +92,7 @@ namespace CrossPlatformChat.Utils.Helpers
                 lock (_Model.ChatsAndMessagessDict)
                 {
                     messageEntity.Message = CryptoManager.DecryptMessage(messageEntity.EncryptedMessage, _currentChat.StoredSalt, messageEntity.InitialVector);
+                    messageEntity.IsSent = false;
 
                     _Model.ChatsAndMessagessDict[_currentChat].Add(messageEntity);
                     ServiceHelper.Get<ISQLiteService>().InsertAsync(messageEntity).Wait();
@@ -114,11 +115,18 @@ namespace CrossPlatformChat.Utils.Helpers
                 {
                     var (encryptedMessage, initialVector) = CryptoManager.EncryptMessage(_currentChat.StoredSalt, messageEntity.Message);
 
-                    messageEntity.Message = null;
-                    messageEntity.EncryptedMessage = encryptedMessage;
-                    messageEntity.InitialVector = initialVector;
-
-                    await _hubConnection.InvokeAsync("SendMessageToGroup", _currentChat.ID.ToString(), messageEntity);
+                    MessageEntity msgToBeSent = new()
+                    {
+                        ID = messageEntity.ID,
+                        ChatID = messageEntity.ChatID,
+                        EncryptedMessage = encryptedMessage,
+                        InitialVector = initialVector,
+                        IsSent = messageEntity.IsSent,
+                        Message = "Encrypted",
+                        SenderID = messageEntity.SenderID,
+                        SentDate = DateTime.Now,
+                    };
+                    await _hubConnection.InvokeAsync("SendMessageToGroup", _currentChat.ID.ToString(), msgToBeSent);
                     return true;
                 }
                 else

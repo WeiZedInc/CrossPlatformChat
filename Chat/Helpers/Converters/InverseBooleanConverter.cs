@@ -2,18 +2,15 @@
 
 namespace CrossPlatformChat.Helpers.Converters
 {
-    public class BooleanToVisibilityConverter : IValueConverter
+    public class InverseBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var param = parameter as string;
-            if (param == "Inverse")
+            if (value is bool boolValue)
             {
-                return !(bool)value;
+                return !boolValue;
             }
-
-            return (bool)value;
-
+            throw new ArgumentException("Value must be a boolean", nameof(value));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
